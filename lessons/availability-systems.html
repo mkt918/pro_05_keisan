@@ -57,6 +57,41 @@
             </p>
         </div>
 
+        <!-- PDF 閲覧セクション (先頭へ移動) -->
+        <section id="pdf-viewer" class="mb-20 scroll-mt-24">
+            <div class="flex items-center justify-between mb-8">
+                <div class="flex items-center gap-3">
+                    <span
+                        class="w-8 h-8 rounded-lg bg-red-600 text-white flex items-center justify-center font-mono font-bold text-sm">PDF</span>
+                    <h2 class="text-2xl font-black text-slate-900">資料で学習のポイントを確認</h2>
+                </div>
+                <div class="flex gap-2">
+                    <button id="btn-fullscreen"
+                        class="inline-flex items-center gap-2 px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-lg transition-all active:scale-95 shadow-sm">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4M20 4l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+                        </svg>
+                        全画面表示
+                    </button>
+                    <a href="pdf/直列・並列システムの稼働率.pdf" target="_blank"
+                        class="inline-flex items-center gap-2 px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-lg transition-all active:scale-95 shadow-sm">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                        </svg>
+                        別タブで開く
+                    </a>
+                </div>
+            </div>
+
+            <div id="pdf-container"
+                class="relative w-full aspect-[4/3] rounded-3xl border border-slate-200 overflow-hidden shadow-xl bg-slate-100 group">
+                <iframe src="pdf/直列・並列システムの稼働率.pdf#view=FitH"
+                    class="absolute inset-0 w-full h-full border-none"></iframe>
+            </div>
+        </section>
+
         <!-- セクション1: 直列システム -->
         <section id="series" class="mb-24 scroll-mt-24">
             <div class="flex items-center gap-3 mb-8">
@@ -178,6 +213,7 @@
             </div>
         </section>
 
+
         <!-- まとめ -->
         <div class="bg-indigo-600 rounded-3xl p-10 text-center text-white relative overflow-hidden group">
             <div class="absolute inset-0 bg-gradient-to-br from-indigo-500 to-indigo-700"></div>
@@ -214,6 +250,20 @@
             </div>
         </a>
     </div>
+
+    <script>
+        // 全画面表示ボタンの制御
+        document.getElementById('btn-fullscreen').addEventListener('click', () => {
+            const container = document.getElementById('pdf-container');
+            if (container.requestFullscreen) {
+                container.requestFullscreen();
+            } else if (container.webkitRequestFullscreen) { /* Safari */
+                container.webkitRequestFullscreen();
+            } else if (container.msRequestFullscreen) { /* IE11 */
+                container.msRequestFullscreen();
+            }
+        });
+    </script>
 
 </body>
 
