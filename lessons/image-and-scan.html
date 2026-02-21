@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>デジタル画像とスキャン変換の計算 | IT基礎学習</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="../js/tailwind.config.js"></script>
+</head>
+
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen pb-20">
+
+    <!-- ヘッダー -->
+    <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
+        <div class="max-w-3xl mx-auto px-4 py-4 flex items-center justify-between">
+            <a href="../index.html" class="flex items-center gap-3 group">
+                <div
+                    class="w-9 h-9 rounded-lg bg-gradient-to-br from-indigo-500 to-indigo-600 flex items-center justify-center text-white font-mono font-bold text-sm shadow-sm group-hover:scale-110 transition-transform">
+                    IT</div>
+                <span class="font-bold text-slate-900">IT基礎学習</span>
+            </a>
+            <div class="flex items-center gap-4 text-sm font-medium text-slate-500 text-[10px] sm:text-sm">
+                <a href="#pixels" class="hover:text-indigo-600">色の仕組み</a>
+                <a href="#dpi" class="hover:text-indigo-600">DPIの正体</a>
+                <a href="#scan" class="hover:text-indigo-600">スキャン計算</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-3xl mx-auto px-4 py-12">
+        <!-- パンくず -->
+        <nav class="breadcrumb mb-8 leading-none">
+            <a href="../index.html">ホーム</a>
+            <svg class="w-3 h-3 text-slate-300 mx-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+            <span class="text-slate-400 font-medium">画像とスキャンの計算</span>
+        </nav>
+
+        <!-- タイトル -->
+        <div class="mb-16 text-center">
+            <div
+                class="inline-block px-4 py-1 bg-indigo-50 text-indigo-600 text-xs font-black rounded-full border border-indigo-100 mb-4 uppercase tracking-widest leading-none">
+                Unit 06b</div>
+            <h1 class="text-3xl md:text-4xl font-black text-slate-950 mb-6 tracking-tight">デジタル画像とスキャン変換のナゾ</h1>
+            <p class="text-lg text-slate-600 leading-relaxed font-medium">
+                スマホで見ている写真。実は「小さな光の点」がぎっしり詰まってできています。<br>
+                色の作り方から、スキャナで読み取る時の計算まで、楽しく紐解いていきましょう！
+            </p>
+        </div>
+
+        <!-- セクション1: ピクセルと色 -->
+        <section id="pixels" class="mb-24 scroll-mt-24">
+            <div class="flex items-center gap-3 mb-8">
+                <div class="w-12 h-12 rounded-2xl bg-indigo-600 flex items-center justify-center text-white shadow-lg">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+                    </svg>
+                </div>
+                <h2 class="text-2xl font-black text-slate-900">1つの点は「3つの電球」でできている？</h2>
+            </div>
+
+            <p class="text-slate-600 leading-relaxed mb-10">
+                デジタル画像を虫眼鏡で思いっきり拡大すると、正方形の「点（ピクセル/画素）」が見えてきます。この1点の中には、**光の3原色（赤・緑・青）**の小さな電球が隠れています。
+            </p>
+
+            <div class="grid md:grid-cols-2 gap-8 mb-12">
+                <div class="bg-white p-8 rounded-3xl border-2 border-slate-100 shadow-sm relative overflow-hidden">
+                    <h3 class="font-black text-xl text-slate-900 mb-6 flex items-center gap-2">
+                        <span class="w-2 h-6 bg-rose-500 rounded-full"></span>
+                        RGB 24ビットカラーの正体
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-4">
+                            <div class="w-10 h-10 rounded-full bg-rose-500 shadow-lg shadow-rose-200"></div>
+                            <div class="flex-1">
+                                <div class="text-xs text-slate-400 font-bold uppercase">Red (赤)</div>
+                                <div class="font-black text-slate-700">8bit (256段階)</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="w-10 h-10 rounded-full bg-emerald-500 shadow-lg shadow-emerald-200"></div>
+                            <div class="flex-1">
+                                <div class="text-xs text-slate-400 font-bold uppercase">Green (緑)</div>
+                                <div class="font-black text-slate-700">8bit (256段階)</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="w-10 h-10 rounded-full bg-blue-500 shadow-lg shadow-blue-200"></div>
+                            <div class="flex-1">
+                                <div class="text-xs text-slate-400 font-bold uppercase">Blue (青)</div>
+                                <div class="font-black text-slate-700">8bit (256段階)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div
+                    class="bg-slate-900 p-8 rounded-3xl text-white flex flex-col justify-center items-center text-center">
+                    <div class="text-xs text-indigo-400 font-black mb-4 uppercase tracking-widest">Mixed Colors</div>
+                    <div class="text-4xl font-black mb-4">約 1677万色</div>
+                    <p class="text-sm text-slate-400 leading-relaxed">
+                        8ビット × 3種 ＝ **24ビット**。<br>
+                        赤・緑・青をそれぞれ256段階の明るさで混ぜ合わせることで、人間が自然に見えるフルカラーを作り出しています。
+                    </p>
+                    <div class="mt-6 p-2 bg-indigo-500/20 border border-indigo-500/30 rounded-xl font-mono text-xs">
+                        1 pixel = 24 bit = 3 Byte
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- セクション2: DPIの正体 -->
+        <section id="dpi" class="mb-24 scroll-mt-24">
+            <div class="flex items-center gap-3 mb-8">
+                <div class="w-12 h-12 rounded-2xl bg-amber-500 flex items-center justify-center text-white shadow-lg">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                    </svg>
+                </div>
+                <h2 class="text-2xl font-black text-slate-900">DPIは「情報の濃さ」を表す数字</h2>
+            </div>
+
+            <p class="text-slate-600 leading-relaxed mb-10">
+                **DPI（Dots Per Inch）**は、1インチ（約2.5cm）の中に「ドットが何個詰まっているか」を表します。
+            </p>
+
+            <div class="grid md:grid-cols-2 gap-8 items-start mb-12">
+                <div class="bg-white p-6 rounded-3xl border border-slate-200">
+                    <h4 class="font-black text-slate-800 mb-4 flex items-center gap-2">
+                        <span class="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center">📏</span>
+                        方眼紙でイメージしよう
+                    </h4>
+                    <div class="space-y-6">
+                        <div class="flex items-start gap-4">
+                            <div
+                                class="w-12 h-12 rounded border-2 border-slate-200 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:6px_6px] shrink-0">
+                            </div>
+                            <div>
+                                <b class="text-slate-900 block">72 dpi (低い)</b>
+                                <p class="text-xs text-slate-500 leading-relaxed">点はまばら。Webサイトなどの画面表示に向いています。</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <div
+                                class="w-12 h-12 rounded border-2 border-amber-400 bg-[radial-gradient(#fbbf24_1px,transparent_1px)] [background-size:2px_2px] shrink-0">
+                            </div>
+                            <div>
+                                <b class="text-amber-600 block">300 dpi (高い)</b>
+                                <p class="text-xs text-slate-500 leading-relaxed">点はぎっしり。印刷しても「つぶつぶ」が目立たず綺麗です。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-amber-50 p-6 rounded-3xl border-2 border-amber-100 h-full flex flex-col justify-center">
+                    <div class="text-center font-black text-amber-900 mb-4">「情報の密度」を掛ける！</div>
+                    <p class="text-sm text-amber-800 leading-relaxed mb-6">
+                        実寸（インチ）にDPIを掛けると、「つぶつぶが全部で何個か」が計算できます。<br>
+                        この「橋渡し」が、スキャナ計算の最大のポイントです。
+                    </p>
+                    <div
+                        class="bg-white p-4 rounded-2xl border border-amber-200 text-center font-mono font-bold text-amber-600">
+                        長さ(inch) × DPI ＝ ドット数
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- セクション3: スキャン計算 -->
+        <section id="scan" class="mb-24 scroll-mt-24">
+            <div class="flex items-center gap-3 mb-8">
+                <div class="w-12 h-12 rounded-2xl bg-teal-600 flex items-center justify-center text-white shadow-lg">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+                    </svg>
+                </div>
+                <h2 class="text-2xl font-black text-slate-900">スキャナ計算の「完璧なステップ」</h2>
+            </div>
+
+            <div class="bg-white p-8 rounded-3xl border-2 border-slate-100 shadow-sm mb-12">
+                <div class="flex flex-col sm:flex-row gap-4 items-center mb-10 overflow-x-auto pb-4 sm:pb-0">
+                    <div
+                        class="px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-[10px] font-black shrink-0">
+                        ① cm → インチ</div>
+                    <span class="text-slate-300">▶</span>
+                    <div
+                        class="px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-[10px] font-black shrink-0">
+                        ② インチ × DPI</div>
+                    <span class="text-slate-300">▶</span>
+                    <div
+                        class="px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-[10px] font-black shrink-0">
+                        ③ ドット数 × 3バイト</div>
+                    <span class="text-slate-300">▶</span>
+                    <div class="px-4 py-3 bg-teal-500 text-white rounded-xl text-[10px] font-black shrink-0 shadow-lg">④
+                        完成！</div>
+                </div>
+
+                <div class="relative p-8 bg-slate-900 rounded-2xl text-white overflow-hidden shadow-2xl">
+                    <div class="flex items-center gap-2 mb-6 text-teal-400 font-bold tracking-widest text-xs uppercase">
+                        Challenge Problem
+                    </div>
+                    <p class="text-lg font-bold mb-8 leading-relaxed">
+                        3cm × 4cm のカラー写真を、解像度 600dpi のスキャナで24ビットカラーで取り込んだ時の記憶容量(MB)を求めよ。
+                        <span class="text-xs text-slate-400 block mt-2">※ 1インチ = 2.5cm, 1MB = 10⁶B とする。圧縮は行わない。</span>
+                    </p>
+
+                    <div class="space-y-6 font-mono text-sm border-t border-slate-800 pt-8">
+                        <div>
+                            <span class="text-teal-500 mr-2">Step 1:</span>
+                            横 3 ÷ 2.5 = 1.2インチ、縦 4 ÷ 2.5 = 1.6インチ
+                        </div>
+                        <div>
+                            <span class="text-teal-500 mr-2">Step 2:</span>
+                            (1.2 × 600) × (1.6 × 600) = 720 × 960 = 691,200 ドット
+                        </div>
+                        <div>
+                            <span class="text-teal-500 mr-2">Step 3:</span>
+                            691,200 × 3バイト = 2,073,600 バイト
+                        </div>
+                        <div class="text-2xl font-black pt-4 border-t border-slate-800 flex items-baseline gap-3">
+                            <span class="text-teal-400 text-xs tracking-widest">RESULT</span>
+                            約 2.1 <span class="text-sm">MB</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- セクション4: 圧縮のヒミツ -->
+        <section class="mb-24">
+            <div class="flex items-center gap-3 mb-8">
+                <div class="w-12 h-12 rounded-2xl bg-slate-900 flex items-center justify-center text-white shadow-lg">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                    </svg>
+                </div>
+                <h2 class="text-2xl font-black text-slate-900">さらなる深み：なぜ「圧縮」するの？</h2>
+            </div>
+
+            <p class="text-slate-600 leading-relaxed mb-10">
+                最近の高画質な写真は、1枚で数千万ピクセルもあります。圧縮せずに保存しようとすると、SDカードなんて一瞬でパンパンになってしまいます。
+            </p>
+
+            <div
+                class="bg-rose-50 p-8 rounded-3xl border-2 border-rose-100 flex flex-col md:flex-row gap-8 items-center">
+                <div class="flex-1">
+                    <h4 class="font-black text-rose-900 mb-4">衝撃のデータ量</h4>
+                    <p class="text-sm text-slate-600 leading-relaxed mb-4">
+                        もし現代のスマホ写真を「一切圧縮せず」に保存しようとすると...<br>
+                        たった1枚で、**昔の家庭用ゲームソフト数千本分**の容量になってしまいます！
+                    </p>
+                    <div
+                        class="inline-block px-4 py-2 bg-rose-500 text-white rounded-xl font-bold text-sm shadow-lg shadow-rose-200">
+                        だからギュッと縮める「JPEG」などの技術が大切なんです。
+                    </div>
+                </div>
+                <div
+                    class="w-full md:w-48 text-center bg-white p-6 rounded-3xl border border-rose-200 shadow-sm shrink-0">
+                    <span class="text-4xl block mb-2">📦💨</span>
+                    <span class="text-xs text-rose-400 font-black">COMPRESSION</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- まとめチャット -->
+        <div class="bg-white p-10 rounded-3xl border border-slate-200 shadow-xl relative mt-20">
+            <div class="flex gap-4 items-start mb-8">
+                <div
+                    class="w-10 h-10 rounded-full bg-indigo-500 flex items-center justify-center text-white font-black text-xs shrink-0 shadow-md">
+                    講師</div>
+                <div class="bg-slate-50 p-4 rounded-2xl rounded-tl-none text-sm text-slate-700 leading-relaxed">
+                    画像の容量計算、どうでしたか？<br>
+                    点を数える「解像度」、色を塗る「ビット」、密度を決める「DPI」。<br>
+                    この3つが合わさって、私たちが普段見ているデジタル画像ができあがっているんですね！
+                </div>
+            </div>
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="../practice/image-capacity.html"
+                    class="w-full sm:w-auto px-10 py-5 bg-gradient-to-r from-indigo-500 to-indigo-600 text-white font-black rounded-2xl shadow-xl shadow-indigo-500/20 hover:-translate-y-1 transition-all active:scale-95 text-lg flex items-center justify-center gap-2">
+                    練習問題で試してみる
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
+                            d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                    </svg>
+                </a>
+                <a href="../index.html"
+                    class="text-slate-400 hover:text-slate-900 font-bold transition-colors">ホームに戻る</a>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="mt-32 pt-12 pb-24 bg-slate-100 border-t border-slate-200 text-center">
+        <p class="text-slate-400 text-xs font-bold uppercase tracking-[0.2em] mb-4">Foundation of IT Learning</p>
+        <div class="flex items-center justify-center gap-3 grayscale opacity-30">
+            <div class="w-6 h-6 rounded bg-slate-400"></div>
+            <div class="w-6 h-6 rounded bg-slate-400"></div>
+            <div class="w-6 h-6 rounded bg-slate-400"></div>
+        </div>
+    </footer>
+</body>
+
+</html>
