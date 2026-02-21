@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ja">
 
 <head>
@@ -10,27 +10,14 @@
         href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="../css/style.css">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        slate: { 50: '#F8FAFC', 100: '#F1F5F9', 200: '#E2E8F0', 300: '#CBD5E1', 400: '#94A3B8', 500: '#64748B', 600: '#475569', 800: '#1E293B', 900: '#0F172A', 950: '#020617' },
-                        teal: { 50: '#F0FDFA', 100: '#CCFBF1', 200: '#99F6E4', 500: '#14B8A6', 600: '#0D9488' },
-                        orange: { 50: '#FFF7ED', 200: '#FED7AA', 400: '#FB923C', 500: '#F97316', 600: '#EA580C' },
-                    },
-                    fontFamily: { sans: ['"Noto Sans JP"', 'sans-serif'], mono: ['"JetBrains Mono"', 'monospace'] },
-                }
-            }
-        }
-    </script>
+    <script src="../js/tailwind.config.js"></script>
 </head>
 
-<body class="bg-slate-50 text-slate-800 font-sans min-h-screen pb-20">
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen">
 
     <!-- ヘッダー -->
     <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
-        <div class="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
+        <div class="max-w-3xl mx-auto px-4 py-4 flex items-center justify-between">
             <a href="../index.html" class="flex items-center gap-3 group">
                 <div
                     class="w-9 h-9 rounded-lg bg-gradient-to-br from-teal-500 to-teal-600 flex items-center justify-center text-white font-mono font-bold text-sm shadow-sm group-hover:scale-110 transition-transform">
@@ -44,286 +31,347 @@
         </div>
     </header>
 
-    <main class="max-w-4xl mx-auto px-4 py-8">
+    <main class="max-w-3xl mx-auto px-4 py-8">
         <!-- パンくず -->
-        <nav class="breadcrumb mb-8">
+        <nav class="breadcrumb">
             <a href="../index.html">ホーム</a>
-            <svg class="w-3 h-3 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
             </svg>
-            <span class="text-slate-400 font-medium">基数変換の応用問題</span>
+            <span class="text-slate-400">応用問題</span>
         </nav>
 
-        <div class="mb-10 text-center">
-            <div
-                class="inline-block px-4 py-1.5 bg-orange-50 text-orange-600 text-sm font-black rounded-full border border-orange-100 mb-4 shadow-sm">
-                Advanced Challenge</div>
-            <h1 class="text-3xl md:text-4xl font-black text-slate-950 mb-4 tracking-tight">基数変換と計算（応用）</h1>
-            <p class="text-slate-500 max-w-2xl mx-auto font-medium">二進数と十進数が混ざった計算に挑戦しましょう。答えは指定された進数で入力してください。</p>
+        <div class="flex items-center gap-3 mb-2 pt-4">
+            <span
+                class="px-3 py-1 bg-orange-50 text-orange-600 text-xs font-medium rounded-full border border-orange-100 uppercase font-black">Advanced</span>
+            <h1 class="text-2xl font-black text-slate-950">基数変換と計算（応用）</h1>
+        </div>
+        <p class="text-slate-500 text-sm mb-8 font-medium">二進数と十進数が混ざった計算問題。10問チャレンジ！</p>
+
+        <!-- 進捗 -->
+        <div class="mb-8">
+            <div class="flex justify-between text-sm text-slate-400 mb-2 font-medium">
+                <span>問題 <span id="current-num" class="text-slate-900 font-black">1</span> / 10</span>
+                <span>正解数 <span id="correct-count" class="text-orange-600 font-black">0</span></span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-bar__fill" id="progress-fill"
+                    style="width: 0%; background: linear-gradient(90deg,#F97316,#FB923C);"></div>
+            </div>
         </div>
 
-        <!-- 問題リスト -->
-        <div class="space-y-6" id="problem-container">
-            <!-- 各問題は JS で生成、または静的に記述 -->
+        <!-- クイズエリア -->
+        <div id="quiz-area">
+            <div class="quiz-card animate-fade-in shadow-sm border-slate-100" id="question-card">
+                <!-- 問題 -->
+                <div class="mb-8 p-6 bg-slate-50 rounded-2xl border border-slate-100">
+                    <div class="text-slate-400 text-xs mb-3 font-bold tracking-widest uppercase">ADVANCED QUESTION</div>
+                    <div class="text-slate-800 font-bold leading-relaxed text-lg" id="question-text">--</div>
+                    <div id="base-hint" class="mt-3 text-xs text-orange-500 font-bold"></div>
+                </div>
+
+                <!-- 入力エリア -->
+                <div class="flex flex-col items-center gap-6">
+                    <div class="flex items-center gap-4">
+                        <input type="text" id="answer-input" class="answer-input w-48 text-center" placeholder="回答を入力"
+                            autocomplete="off">
+                        <span id="unit-label" class="text-slate-400 font-black text-xl">(10)</span>
+                    </div>
+
+                    <!-- フィードバック -->
+                    <div id="feedback" class="min-h-[40px] flex items-center justify-center"></div>
+
+                    <!-- 解説（不正解時） -->
+                    <div id="explanation"
+                        class="hidden w-full bg-slate-50 border border-slate-200 rounded-2xl p-6 shadow-inner animate-fade-in">
+                    </div>
+
+                    <!-- ボタン -->
+                    <div class="flex gap-3 mt-4" id="btn-area">
+                        <button id="submit-btn" onclick="submitAnswer()"
+                            class="px-12 py-4 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-400 hover:to-orange-500 text-white font-black rounded-xl shadow-lg hover:shadow-orange-500/20 transition-all hover:-translate-y-0.5 text-lg">
+                            答える
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
+
+        <!-- 結果エリア -->
+        <div id="result-area" class="hidden quiz-card animate-fade-in shadow-xl"></div>
     </main>
 
-
-    <!-- 全問完了バナー（JS で表示） -->
-    <div id="complete-banner" class="hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-50" style="min-width:320px">
-        <div class="bg-green-600 text-white px-8 py-4 rounded-2xl shadow-2xl flex items-center gap-4 animate-fade-in">
-            <span class="text-3xl">🎉</span>
-            <div>
-                <div class="font-black text-lg">全問正解！</div>
-                <div class="text-green-100 text-sm">おめでとうございます！</div>
-            </div>
-            <a href="../index.html"
-                class="ml-auto bg-white/20 hover:bg-white/30 text-white font-bold px-4 py-2 rounded-xl transition-all">ホームへ</a>
-        </div>
-    </div>
-
+    <script src="../js/quiz.js"></script>
     <script>
-        const problems = [
-            {
-                id: 1,
-                question: "2進数 10111 と 2進数 1101 の和を表す 10進数",
-                targetBase: 10,
-                answer: 36, // 10111(2)=23, 1101(2)=13 -> 23+13=36
-                explanationHtml: `
-                    <div class="space-y-4">
-                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
-                            <p class="font-bold text-teal-600 mb-2">① それぞれを10進数に変換</p>
-                            <ul class="space-y-1 font-mono text-sm leading-relaxed">
-                                <li>10111<sub>(2)</sub> = 16 + 4 + 2 + 1 = <strong class="text-slate-900">23</strong><sub>(10)</sub></li>
-                                <li>1101<sub>(2)</sub> = 8 + 4 + 1 = <strong class="text-slate-900">13</strong><sub>(10)</sub></li>
-                            </ul>
-                        </div>
-                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
-                            <p class="font-bold text-teal-600 mb-2">② 10進数で足し算</p>
-                            <p class="font-mono text-lg">23 + 13 = <strong class="text-orange-600 font-black text-2xl">36</strong></p>
-                        </div>
-                    </div>
-                `
-            },
-            {
-                id: 2,
-                question: "2進数 110100 と 2進数 11101 の差を表す 2進数",
-                targetBase: 2,
-                answer: "10111", // 110100(2)=52, 11101(2)=29 -> 52-29=23 -> 10111(2)
-                explanationHtml: `
-                    <div class="space-y-4">
-                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
-                            <p class="font-bold text-teal-600 mb-2">① それぞれを10進数に変換</p>
-                            <ul class="space-y-1 font-mono text-sm">
-                                <li>110100<sub>(2)</sub> = 32 + 16 + 4 = <strong class="text-slate-900">52</strong><sub>(10)</sub></li>
-                                <li>11101<sub>(2)</sub> = 16 + 8 + 4 + 1 = <strong class="text-slate-900">29</strong><sub>(10)</sub></li>
-                            </ul>
-                        </div>
-                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
-                            <p class="font-bold text-teal-600 mb-2">② 10進数で引き算</p>
-                            <p class="font-mono text-lg">52 - 29 = <strong class="text-slate-900">23</strong><sub>(10)</sub></p>
-                        </div>
-                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
-                            <p class="font-bold text-teal-600 mb-2">③ 答えを2進数に変換</p>
-                            <p class="font-mono text-lg">23 / 2 = 11 余 1</p>
-                            <p class="font-mono text-lg">11 / 2 = 5 余 1</p>
-                            <p class="font-mono text-lg">5 / 2 = 2 余 1</p>
-                            <p class="font-mono text-lg">2 / 2 = 1 余 0</p>
-                            <p class="font-mono text-lg text-orange-600 font-black">10111<sub>(2)</sub></p>
-                        </div>
-                    </div>
-                `
-            },
-            {
-                id: 3,
-                question: "2進数 10111 と 2進数 1110 の積を表す 10進数",
-                targetBase: 10,
-                answer: 322, // 10111(2)=23, 1110(2)=14 -> 23*14=322
-                explanationHtml: `
-                    <div class="space-y-4">
-                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
-                            <p class="font-bold text-teal-600 mb-2">① それぞれを10進数に変換</p>
-                            <ul class="space-y-1 font-mono text-sm leading-relaxed">
-                                <li>10111<sub>(2)</sub> = 16 + 4 + 2 + 1 = <strong class="text-slate-900">23</strong><sub>(10)</sub></li>
-                                <li>1110<sub>(2)</sub> = 8 + 4 + 2 = <strong class="text-slate-900">14</strong><sub>(10)</sub></li>
-                            </ul>
-                        </div>
-                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
-                            <p class="font-bold text-teal-600 mb-2">② 10進数で掛け算</p>
-                            <p class="font-mono text-lg">23 × 14 = <strong class="text-orange-600 font-black text-2xl">322</strong></p>
-                        </div>
-                    </div>
-                `
-            },
-            {
-                id: 4,
-                question: "10進数 9 と 2進数 11011 の和を表す 2進数",
-                targetBase: 2,
-                answer: "100100", // 9 + 11011(2)=27 -> 9+27=36 -> 100100(2)
-                explanationHtml: `
-                    <div class="space-y-4">
-                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
-                            <p class="font-bold text-teal-600 mb-2">① すべてを10進数に揃える</p>
-                            <ul class="space-y-1 font-mono text-sm">
-                                <li>11011<sub>(2)</sub> = 16 + 8 + 2 + 1 = <strong class="text-slate-900">27</strong><sub>(10)</sub></li>
-                                <li>10進数の 9 はそのまま</li>
-                            </ul>
-                        </div>
-                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
-                            <p class="font-bold text-teal-600 mb-2">② 10進数で足し算</p>
-                            <p class="font-mono text-lg">9 + 27 = <strong class="text-slate-900">36</strong><sub>(10)</sub></p>
-                        </div>
-                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
-                            <p class="font-bold text-teal-600 mb-2">③ 答えを2進数に変換</p>
-                            <p class="font-mono text-sm">32(2⁵) + 4(2²) = 36</p>
-                            <p class="font-mono text-lg text-orange-600 font-black">100100<sub>(2)</sub></p>
-                        </div>
-                    </div>
-                `
-            },
-            {
-                id: 5,
-                question: "10進数 85 と 2進数 101100 の差を表す 10進数",
-                targetBase: 10,
-                answer: 41, // 85 - 101100(2)=44 -> 85-44=41
-                explanationHtml: `
-                    <div class="space-y-4">
-                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
-                            <p class="font-bold text-teal-600 mb-2">① すべてを10進数に揃える</p>
-                            <ul class="space-y-1 font-mono text-sm">
-                                <li>101100<sub>(2)</sub> = 32 + 8 + 4 = <strong class="text-slate-900">44</strong><sub>(10)</sub></li>
-                                <li>10進数の 85 はそのまま</li>
-                            </ul>
-                        </div>
-                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
-                            <p class="font-bold text-teal-600 mb-2">② 10進数で引き算</p>
-                            <p class="font-mono text-lg">85 - 44 = <strong class="text-orange-600 font-black text-2xl">41</strong></p>
-                        </div>
-                    </div>
-                `
-            },
-            {
-                id: 6,
-                question: "10進数 7 と 2進数 1010 の積を表す 2進数",
-                targetBase: 2,
-                answer: "1000110", // 7 * 1010(2)=10 -> 7*10=70 -> 64+4+2 -> 1000110(2)
-                explanationHtml: `
-                    <div class="space-y-4">
-                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
-                            <p class="font-bold text-teal-600 mb-2">① すべてを10進数に揃える</p>
-                            <ul class="space-y-1 font-mono text-sm">
-                                <li>10進数の 7 はそのまま</li>
-                                <li>1010<sub>(2)</sub> = 8 + 2 = <strong class="text-slate-900">10</strong><sub>(10)</sub></li>
-                            </ul>
-                        </div>
-                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
-                            <p class="font-bold text-teal-600 mb-2">② 10進数で掛け算</p>
-                            <p class="font-mono text-lg">7 × 10 = <strong class="text-slate-900">70</strong><sub>(10)</sub></p>
-                        </div>
-                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
-                            <p class="font-bold text-teal-600 mb-2">③ 答えを2進数に変換</p>
-                            <p class="font-mono text-sm leading-relaxed">70 = 64(2⁶) + 4(2²) + 2(2¹)</p>
-                            <p class="font-mono text-lg text-orange-600 font-black">1000110<sub>(2)</sub></p>
-                        </div>
-                    </div>
-                `
-            }
-        ];
-
-        function init() {
-            const container = document.getElementById('problem-container');
-            problems.forEach((p, index) => {
-                const card = document.createElement('div');
-                card.className = "quiz-card shadow-sm border border-slate-100 transition-all hover:shadow-md";
-                card.innerHTML = `
-                    <div class="flex items-start gap-4">
-                        <div class="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center text-slate-500 font-mono font-bold flex-shrink-0 mt-1">
-                            ${p.id}
-                        </div>
-                        <div class="flex-1">
-                            <h3 class="text-lg font-bold text-slate-800 mb-4 leading-relaxed">${p.question}</h3>
-                            <div class="flex flex-wrap items-center gap-4">
-                                <div class="relative group">
-                                    <input type="text" id="input-${p.id}" placeholder="回答を入力" 
-                                        class="px-5 py-3 bg-slate-50 border-2 border-slate-100 rounded-xl focus:outline-none focus:border-teal-500 transition-all font-mono font-bold w-48 appearance-none">
-                                    <span class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-300 font-mono text-sm">(${p.targetBase})</span>
-                                </div>
-                                <button onclick="checkAnswer(${p.id})" 
-                                    class="px-6 py-3 bg-teal-600 hover:bg-teal-700 text-white font-black rounded-xl transition-all shadow-sm active:scale-95">判定</button>
-                                <button onclick="toggleExplanation(${p.id})" 
-                                    class="text-teal-600 text-sm font-bold hover:underline">解き方を見る</button>
-                            </div>
-                            <div id="explanation-${p.id}" class="hidden mt-6 pt-6 border-t border-slate-100 animate-fade-in-up">
-                                ${p.explanationHtml}
-                            </div>
-                            <div id="status-${p.id}" class="mt-4 hidden font-bold text-sm"></div>
-                        </div>
-                    </div>
-                `;
-                container.appendChild(card);
-            });
-        }
-
-        function checkAnswer(id) {
-            const problem = problems.find(p => p.id === id);
-            const input = document.getElementById(`input-${id}`);
-            const status = document.getElementById(`status-${id}`);
-            const userVal = input.value.trim();
-
-            if (!userVal) {
-                input.focus();
-                return;
+        // ===== 問題バンク =====
+        class AppliedQuestionGenerator {
+            constructor() {
+                this.templates = [
+                    this.genAdd10,
+                    this.genAdd2,
+                    this.genSub10,
+                    this.genSub2,
+                    this.genMul10,
+                    this.genMul2,
+                ];
             }
 
-            const isCorrect = userVal === String(problem.answer);
+            generate() {
+                const fn = this.templates[Math.floor(Math.random() * this.templates.length)];
+                return fn.call(this);
+            }
 
-            if (isCorrect) {
-                input.classList.add('border-green-500', 'bg-green-50');
-                input.classList.remove('border-red-500', 'bg-red-50');
-                status.innerHTML = `<span class="text-green-600 flex items-center gap-1">✅ 正解です！</span>`;
-                status.classList.remove('hidden');
+            // ランダムな2進数を生成（桁数指定）
+            randBin(bits) {
+                let n = 0;
+                while (n === 0) n = Math.floor(Math.random() * (Math.pow(2, bits) - 1)) + 1;
+                return n;
+            }
 
-                // 全問正解チェック
-                const allCorrect = problems.every(p => {
-                    const inp = document.getElementById(`input-${p.id}`);
-                    return inp && inp.classList.contains('border-green-500');
-                });
-                if (allCorrect) {
-                    document.getElementById('complete-banner').classList.remove('hidden');
+            // 10進数表記で説明文を生成
+            binExpand(n) {
+                const b = n.toString(2);
+                const parts = [];
+                for (let i = 0; i < b.length; i++) {
+                    if (b[i] === '1') parts.push(`2<sup>${b.length - 1 - i}</sup>`);
                 }
-            } else {
-                input.classList.add('border-red-500', 'bg-red-50');
-                input.classList.remove('border-green-500', 'bg-green-50');
-                status.innerHTML = `<span class="text-red-500 flex items-center gap-1">❌ 違います。もう一度考えてみよう！</span>`;
-                status.classList.remove('hidden');
+                return parts.join(' + ') + ` = ${n}`;
+            }
+
+            // ① 2進+2進 → 10進
+            genAdd10() {
+                const a = this.randBin(4), b = this.randBin(4);
+                const ans = a + b;
+                return {
+                    question: `2進数 ${a.toString(2)} と 2進数 ${b.toString(2)} の和を 10進数 で表せ`,
+                    targetBase: 10,
+                    answer: String(ans),
+                    unit: '(10)',
+                    explanation: `
+                        <div class="space-y-3">
+                            <p class="font-bold text-teal-600">① それぞれを10進数に変換</p>
+                            <p class="font-mono text-sm">${a.toString(2)}<sub>(2)</sub> = ${this.binExpand(a)}</p>
+                            <p class="font-mono text-sm">${b.toString(2)}<sub>(2)</sub> = ${this.binExpand(b)}</p>
+                            <p class="font-bold text-teal-600">② 10進数で加算</p>
+                            <p class="font-mono text-lg">${a} + ${b} = <strong class="text-orange-600 text-2xl font-black">${ans}</strong></p>
+                        </div>`
+                };
+            }
+
+            // ② 2進+2進 → 2進
+            genAdd2() {
+                const a = this.randBin(4), b = this.randBin(4);
+                const ans = (a + b).toString(2);
+                return {
+                    question: `2進数 ${a.toString(2)} と 2進数 ${b.toString(2)} の和を 2進数 で表せ`,
+                    targetBase: 2,
+                    answer: ans,
+                    unit: '(2)',
+                    explanation: `
+                        <div class="space-y-3">
+                            <p class="font-bold text-teal-600">① 2進数→10進数</p>
+                            <p class="font-mono text-sm">${a.toString(2)} = ${a}, &nbsp; ${b.toString(2)} = ${b}</p>
+                            <p class="font-bold text-teal-600">② 10進数で加算</p>
+                            <p class="font-mono text-sm">${a} + ${b} = ${a + b}<sub>(10)</sub></p>
+                            <p class="font-bold text-teal-600">③ 2進数に変換</p>
+                            <p class="font-mono text-lg text-orange-600 font-black">${ans}<sub>(2)</sub></p>
+                        </div>`
+                };
+            }
+
+            // ③ 10進-2進 → 10進
+            genSub10() {
+                const b = this.randBin(4);
+                const a = b + Math.floor(Math.random() * 20) + 1; // a > b を保証
+                const ans = a - b;
+                return {
+                    question: `10進数 ${a} と 2進数 ${b.toString(2)} の差を 10進数 で表せ (10進 - 2進)`,
+                    targetBase: 10,
+                    answer: String(ans),
+                    unit: '(10)',
+                    explanation: `
+                        <div class="space-y-3">
+                            <p class="font-bold text-teal-600">① 2進数を10進数に変換</p>
+                            <p class="font-mono text-sm">${b.toString(2)}<sub>(2)</sub> = ${this.binExpand(b)}</p>
+                            <p class="font-bold text-teal-600">② 10進数で減算</p>
+                            <p class="font-mono text-lg">${a} − ${b} = <strong class="text-orange-600 text-2xl font-black">${ans}</strong></p>
+                        </div>`
+                };
+            }
+
+            // ④ 2進-2進 → 2進
+            genSub2() {
+                const b = this.randBin(4);
+                const a = b + Math.floor(Math.random() * 10) + 1;
+                const ans = (a - b).toString(2);
+                return {
+                    question: `2進数 ${a.toString(2)} から 2進数 ${b.toString(2)} を引いた差を 2進数 で表せ`,
+                    targetBase: 2,
+                    answer: ans,
+                    unit: '(2)',
+                    explanation: `
+                        <div class="space-y-3">
+                            <p class="font-bold text-teal-600">① 2進数→10進数</p>
+                            <p class="font-mono text-sm">${a.toString(2)} = ${a}, &nbsp; ${b.toString(2)} = ${b}</p>
+                            <p class="font-bold text-teal-600">② 10進数で減算</p>
+                            <p class="font-mono text-sm">${a} − ${b} = ${a - b}<sub>(10)</sub></p>
+                            <p class="font-bold text-teal-600">③ 2進数に変換</p>
+                            <p class="font-mono text-lg text-orange-600 font-black">${ans}<sub>(2)</sub></p>
+                        </div>`
+                };
+            }
+
+            // ⑤ 2進×10進 → 10進
+            genMul10() {
+                const a = this.randBin(4);
+                const b = Math.floor(Math.random() * 9) + 2; // 2〜10
+                const ans = a * b;
+                return {
+                    question: `2進数 ${a.toString(2)} と 10進数 ${b} の積を 10進数 で表せ`,
+                    targetBase: 10,
+                    answer: String(ans),
+                    unit: '(10)',
+                    explanation: `
+                        <div class="space-y-3">
+                            <p class="font-bold text-teal-600">① 2進数を10進数に変換</p>
+                            <p class="font-mono text-sm">${a.toString(2)}<sub>(2)</sub> = ${this.binExpand(a)}</p>
+                            <p class="font-bold text-teal-600">② 10進数で乗算</p>
+                            <p class="font-mono text-lg">${a} × ${b} = <strong class="text-orange-600 text-2xl font-black">${ans}</strong></p>
+                        </div>`
+                };
+            }
+
+            // ⑥ 2進×10進 → 2進
+            genMul2() {
+                const a = this.randBin(4);
+                const b = Math.floor(Math.random() * 5) + 2; // 2〜6
+                const ans = (a * b).toString(2);
+                return {
+                    question: `2進数 ${a.toString(2)} と 10進数 ${b} の積を 2進数 で表せ`,
+                    targetBase: 2,
+                    answer: ans,
+                    unit: '(2)',
+                    explanation: `
+                        <div class="space-y-3">
+                            <p class="font-bold text-teal-600">① 2進数を10進数に変換</p>
+                            <p class="font-mono text-sm">${a.toString(2)} = ${a}</p>
+                            <p class="font-bold text-teal-600">② 10進数で乗算</p>
+                            <p class="font-mono text-sm">${a} × ${b} = ${a * b}<sub>(10)</sub></p>
+                            <p class="font-bold text-teal-600">③ 2進数に変換</p>
+                            <p class="font-mono text-lg text-orange-600 font-black">${ans}<sub>(2)</sub></p>
+                        </div>`
+                };
             }
         }
 
-        function toggleExplanation(id) {
-            const el = document.getElementById(`explanation-${id}`);
-            el.classList.toggle('hidden');
+        let session = new QuizSession(10);
+        const generator = new AppliedQuestionGenerator();
+        let currentQ = null;
+        let answered = false;
+
+        function startQuiz() {
+            session = new QuizSession(10);
+            answered = false;
+            document.getElementById('quiz-area').classList.remove('hidden');
+            document.getElementById('result-area').classList.add('hidden');
+            document.getElementById('correct-count').textContent = '0';
+            setupNextQuestion();
         }
 
-        init();
+        function setupNextQuestion() {
+            answered = false;
+            currentQ = generator.generate();
+
+            document.getElementById('current-num').textContent = session.current + 1;
+            document.getElementById('progress-fill').style.width = `${(session.current / session.total) * 100}%`;
+            document.getElementById('question-text').textContent = currentQ.question;
+            document.getElementById('unit-label').textContent = currentQ.unit;
+            document.getElementById('base-hint').textContent =
+                currentQ.targetBase === 2 ? '※ 2進数で入力 (例: 1011)' : '※ 10進数で入力 (例: 23)';
+
+            const input = document.getElementById('answer-input');
+            input.value = '';
+            input.className = 'answer-input w-48 text-center';
+            input.disabled = false;
+            input.focus();
+
+            document.getElementById('feedback').innerHTML = '';
+            document.getElementById('explanation').classList.add('hidden');
+            document.getElementById('btn-area').innerHTML = `
+                <button onclick="submitAnswer()"
+                    class="px-12 py-4 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-400 hover:to-orange-500 text-white font-black rounded-xl shadow-lg hover:shadow-orange-500/20 transition-all hover:-translate-y-0.5 text-lg">
+                    答える
+                </button>`;
+
+            const card = document.getElementById('question-card');
+            card.classList.remove('animate-fade-in');
+            void card.offsetWidth;
+            card.classList.add('animate-fade-in');
+        }
+
+        function submitAnswer() {
+            if (answered) return;
+            const input = document.getElementById('answer-input');
+            const userVal = input.value.trim().replace(/\s/g, '');
+            if (!userVal) { input.focus(); return; }
+
+            const isCorrect = userVal === currentQ.answer;
+            answered = true;
+
+            session.submit(
+                currentQ.question.substring(0, 35) + '…',
+                `${currentQ.answer}${currentQ.unit}`,
+                `${userVal}${currentQ.unit}`,
+                isCorrect
+            );
+
+            input.disabled = true;
+            if (isCorrect) {
+                input.classList.add('correct');
+                document.getElementById('correct-count').textContent = session.correct;
+                document.getElementById('feedback').innerHTML =
+                    `<div class="feedback-badge correct font-black">✅ 正解！ ${currentQ.answer}${currentQ.unit}</div>`;
+            } else {
+                input.classList.add('incorrect');
+                document.getElementById('feedback').innerHTML =
+                    `<div class="feedback-badge incorrect font-black">❌ 不正解 — 正解は ${currentQ.answer}${currentQ.unit}</div>`;
+                showExplanation();
+            }
+
+            setTimeout(() => {
+                document.getElementById('btn-area').innerHTML = session.isComplete
+                    ? `<button onclick="showResult()" class="px-12 py-4 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-black rounded-xl shadow-lg transition-all hover:-translate-y-0.5 text-lg">🏆 結果を見る</button>`
+                    : `<button onclick="setupNextQuestion()" class="px-12 py-4 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-black rounded-xl shadow-lg transition-all hover:-translate-y-0.5 text-lg">次の問題 →</button>`;
+            }, isCorrect ? 800 : 1800);
+        }
+
+        function showExplanation() {
+            const expEl = document.getElementById('explanation');
+            expEl.classList.remove('hidden');
+            expEl.innerHTML = `
+                <div class="text-slate-400 font-bold mb-4 flex items-center gap-2 tracking-widest uppercase text-xs">
+                    <span class="w-1.5 h-1.5 rounded-full bg-slate-300"></span>
+                    Solution
+                </div>
+                ${currentQ.explanation}
+            `;
+        }
+
+        function showResult() {
+            document.getElementById('quiz-area').classList.add('hidden');
+            const resultEl = document.getElementById('result-area');
+            resultEl.classList.remove('hidden');
+            renderResult(session, 'result-area', 'startQuiz', null, null);
+        }
+
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Enter' && !answered) submitAnswer();
+            else if (e.key === 'Enter' && answered && !session.isComplete) setupNextQuestion();
+        });
+
+        startQuiz();
     </script>
 
-    <style>
-        .animate-fade-in-up {
-            animation: fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-    </style>
 </body>
 
 </html>
