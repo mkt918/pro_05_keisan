@@ -230,65 +230,190 @@
                 </div>
                 <p class="text-xs text-slate-500 mt-4 text-center">※ 1 GB = 1,000,000,000 B (10⁹ B) として計算</p>
             </div>
-        </section>
-
-        <!-- セクション3: 特殊計算 -->
-        <section class="mb-24 scroll-mt-24">
-            <div class="flex items-center gap-3 mb-8">
-                <div class="w-12 h-12 rounded-2xl bg-indigo-500 flex items-center justify-center text-white shadow-lg">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M13 10V3L4 14h7v7l9-11h-7z" />
-                    </svg>
-                </div>
-                <h2 class="text-2xl font-black text-slate-900">もっと詳しく：場所で部屋数が違う？</h2>
-            </div>
-            <p class="text-slate-600 leading-relaxed mb-8">
-                最近のHDDは、効率を良くするために**「外側の広い廊下には、部屋をたくさん作る」**という工夫をしています。これを「ゾーンビット記録」と呼びます。
-            </p>
-            <div
-                class="bg-indigo-50 p-8 rounded-3xl border-2 border-indigo-100 flex flex-col md:flex-row gap-8 items-center">
-                <div class="flex-1">
-                    <h4 class="font-black text-indigo-900 mb-4">場所によって分けて計算するだけ！</h4>
-                    <p class="text-sm text-slate-600 leading-relaxed">
-                        「内側の廊下は部屋が100個」「外側の廊下は部屋が200個」という風に、エリアごとに計算して最後に足し合わせればOKです。
-                    </p>
-                </div>
-                <div
-                    class="w-full md:w-48 h-48 bg-white rounded-full border-4 border-indigo-200 flex items-center justify-center relative shadow-inner overflow-hidden">
+            <!-- セクション4: デジタル画像の容量 -->
+            <section id="digital-data" class="mb-24 scroll-mt-24">
+                <div class="flex items-center gap-3 mb-8">
                     <div
-                        class="absolute inset-4 rounded-full border-4 border-indigo-100 flex items-center justify-center">
-                        <div class="bg-indigo-400 w-4 h-4 rounded-full shadow-lg"></div>
+                        class="w-12 h-12 rounded-2xl bg-indigo-600 flex items-center justify-center text-white shadow-lg">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h14a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
                     </div>
-                    <div class="text-[10px] font-black text-indigo-400 mt-24">外側の方が広い！</div>
+                    <h2 class="text-2xl font-black text-slate-900">デジタル画像の容量</h2>
                 </div>
-            </div>
-        </section>
 
-        <!-- まとめチャット -->
-        <div class="bg-white p-10 rounded-3xl border border-slate-200 shadow-xl relative mt-20">
-            <div class="flex gap-4 items-start mb-8">
+                <p class="text-slate-600 leading-relaxed mb-8">
+                    写真を拡大すると「小さな点（画素）」が集まってできているのがわかります。この点の数と、1つの点が持っている色のデータ量をかけ合わせると、画像の重さがわかります。
+                </p>
+
+                <div class="bg-indigo-50 p-8 rounded-3xl border-2 border-indigo-100 mb-12">
+                    <h3 class="text-indigo-800 font-black mb-6 flex items-center gap-2">
+                        <span class="w-2 h-6 bg-indigo-400 rounded-full"></span>
+                        画像の重さを決める3要素
+                    </h3>
+                    <div class="grid sm:grid-cols-3 gap-4 mb-8">
+                        <div class="bg-white p-4 rounded-xl border border-indigo-200">
+                            <div class="text-xs text-slate-400 font-bold mb-1 uppercase">① 解像度</div>
+                            <div class="font-black text-slate-900">つぶつぶの数</div>
+                            <div class="text-[10px] text-slate-500 mt-1">横の点 × 縦の点</div>
+                        </div>
+                        <div class="bg-white p-4 rounded-xl border border-indigo-200">
+                            <div class="text-xs text-slate-400 font-bold mb-1 uppercase">② 色情報</div>
+                            <div class="font-black text-slate-900">色のパレット</div>
+                            <div class="text-[10px] text-slate-500 mt-1">1点のデータ量 (bit)</div>
+                        </div>
+                        <div class="bg-white p-4 rounded-xl border border-indigo-200">
+                            <div class="text-xs text-slate-400 font-bold mb-1 uppercase">③ 圧縮率</div>
+                            <div class="font-black text-slate-900">ギュッと縮める</div>
+                            <div class="text-[10px] text-slate-500 mt-1">何％に減らすか</div>
+                        </div>
+                    </div>
+
+                    <!-- 例題 -->
+                    <div class="bg-white p-6 rounded-2xl border border-indigo-200 shadow-sm">
+                        <div class="text-xs font-black text-indigo-500 mb-4 tracking-widest leading-none">例題：写真10枚の容量
+                        </div>
+                        <div class="p-4 bg-slate-50 rounded-xl mb-6 text-sm leading-relaxed text-slate-700">
+                            解像度 2,000 × 3,000 ピクセル、1ピクセルにつき 24 ビット（= 3バイト）の色。60% に圧縮したときの画像 10 枚の記憶容量は何 MB か。
+                        </div>
+                        <div class="font-mono text-sm space-y-4">
+                            <div class="flex gap-2 items-center">
+                                <span
+                                    class="w-5 h-5 bg-indigo-100 text-indigo-600 rounded flex items-center justify-center text-[10px] font-black italic">STEP1</span>
+                                <span>1枚の容量を計算</span>
+                            </div>
+                            <div class="pl-7 text-slate-500">
+                                2,000 × 3,000 × 3バイト × 0.6 = 10,800,000 (B)
+                            </div>
+                            <div class="flex gap-2 items-center">
+                                <span
+                                    class="w-5 h-5 bg-indigo-100 text-indigo-600 rounded flex items-center justify-center text-[10px] font-black italic">STEP2</span>
+                                <span>10枚分にして MB に直す</span>
+                            </div>
+                            <div class="pl-7 text-slate-500">
+                                10,800,000 × 10 ÷ 1,000,000 = <strong class="text-indigo-600 text-xl">108 MB</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- セクション5: スキャナ変換 -->
+            <section id="scanning" class="mb-24 scroll-mt-24">
+                <div class="flex items-center gap-3 mb-8">
+                    <div
+                        class="w-12 h-12 rounded-2xl bg-teal-600 flex items-center justify-center text-white shadow-lg">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" />
+                        </svg>
+                    </div>
+                    <h2 class="text-2xl font-black text-slate-900">スキャナでデジタル化！</h2>
+                </div>
+
+                <p class="text-slate-600 leading-relaxed mb-8">
+                    手元にある写真（cm）をスキャナで読み取ると、これもデジタルの「つぶつぶ（ドット）」に変わります。単位の橋渡しを覚えましょう！
+                </p>
+
+                <div class="bg-teal-50 p-8 rounded-3xl border-2 border-teal-100 mb-12">
+                    <div class="flex flex-col md:flex-row gap-6 items-stretch mb-8 text-center">
+                        <div class="flex-1 p-4 bg-white rounded-2xl shadow-sm border border-teal-200">
+                            <div class="text-[10px] text-slate-400 font-bold mb-2 uppercase">橋渡し 1</div>
+                            <div class="font-black text-slate-900 mb-1">cm を インチ に直す</div>
+                            <div class="text-xs text-teal-600 font-bold">1インチ = 2.5 cm</div>
+                        </div>
+                        <div class="flex items-center justify-center text-teal-300">▶</div>
+                        <div class="flex-1 p-4 bg-white rounded-2xl shadow-sm border border-teal-200">
+                            <div class="text-[10px] text-slate-400 font-bold mb-2 uppercase">橋渡し 2</div>
+                            <div class="font-black text-slate-900 mb-1">インチ×解像度(dpi)</div>
+                            <div class="text-xs text-teal-600 font-bold">ドット数が出る！</div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-2xl border border-teal-200 shadow-sm">
+                        <div class="text-xs font-black text-teal-500 mb-4 tracking-widest leading-none">例題：3cm × 4cm
+                            の写真をスキャン</div>
+                        <div class="p-4 bg-slate-50 rounded-xl mb-6 text-sm leading-relaxed text-slate-700">
+                            カラー写真を 解像度 600dpi で読み込む。1ピクセルあたり 24ビットカラー。記憶容量は何 MB になる？（1インチ=2.5cm）
+                        </div>
+                        <div class="space-y-4 font-mono text-sm">
+                            <div>
+                                <p class="text-[10px] text-slate-400 mb-1">① インチに直すと？</p>
+                                <p class="pl-4">横: 3 ÷ 2.5 = 1.2インチ / 縦: 4 ÷ 2.5 = 1.6インチ</p>
+                            </div>
+                            <div>
+                                <p class="text-[10px] text-slate-400 mb-1">② 全体のドット数は？ (dpiを掛ける)</p>
+                                <p class="pl-4 text-xs">(1.2 × 600) × (1.6 × 600) = 720 × 960 = 691,200 ドット</p>
+                            </div>
+                            <div>
+                                <p class="text-[10px] text-slate-400 mb-1">③ 合計の重さは？</p>
+                                <p class="pl-4">691,200 × 3バイト ÷ 1,000,000 = <strong class="text-teal-600 text-xl">約 2.1
+                                        MB</strong></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- セクション3: 特殊計算 -->
+            <section class="mb-24 scroll-mt-24">
+                <div class="flex items-center gap-3 mb-8">
+                    <div
+                        class="w-12 h-12 rounded-2xl bg-indigo-500 flex items-center justify-center text-white shadow-lg">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                    </div>
+                    <h2 class="text-2xl font-black text-slate-900">もっと詳しく：場所で部屋数が違う？</h2>
+                </div>
+                <p class="text-slate-600 leading-relaxed mb-8">
+                    最近のHDDは、効率を良くするために**「外側の広い廊下には、部屋をたくさん作る」**という工夫をしています。これを「ゾーンビット記録」と呼びます。
+                </p>
                 <div
-                    class="w-10 h-10 rounded-full bg-amber-500 flex items-center justify-center text-white font-black text-xs shrink-0 shadow-md">
-                    講師</div>
-                <div class="bg-slate-50 p-4 rounded-2xl rounded-tl-none text-sm text-slate-700 leading-relaxed">
-                    HDDの計算、イメージできましたか？<br>
-                    「部屋の数を見つける旅」だと思えば、かけ算も楽しくなりますよ！
+                    class="bg-indigo-50 p-8 rounded-3xl border-2 border-indigo-100 flex flex-col md:flex-row gap-8 items-center">
+                    <div class="flex-1">
+                        <h4 class="font-black text-indigo-900 mb-4">場所によって分けて計算するだけ！</h4>
+                        <p class="text-sm text-slate-600 leading-relaxed">
+                            「内側の廊下は部屋が100個」「外側の廊下は部屋が200個」という風に、エリアごとに計算して最後に足し合わせればOKです。
+                        </p>
+                    </div>
+                    <div
+                        class="w-full md:w-48 h-48 bg-white rounded-full border-4 border-indigo-200 flex items-center justify-center relative shadow-inner overflow-hidden">
+                        <div
+                            class="absolute inset-4 rounded-full border-4 border-indigo-100 flex items-center justify-center">
+                            <div class="bg-indigo-400 w-4 h-4 rounded-full shadow-lg"></div>
+                        </div>
+                        <div class="text-[10px] font-black text-indigo-400 mt-24">外側の方が広い！</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- まとめチャット -->
+            <div class="bg-white p-10 rounded-3xl border border-slate-200 shadow-xl relative mt-20">
+                <div class="flex gap-4 items-start mb-8">
+                    <div
+                        class="w-10 h-10 rounded-full bg-amber-500 flex items-center justify-center text-white font-black text-xs shrink-0 shadow-md">
+                        講師</div>
+                    <div class="bg-slate-50 p-4 rounded-2xl rounded-tl-none text-sm text-slate-700 leading-relaxed">
+                        HDDの計算、イメージできましたか？<br>
+                        「部屋の数を見つける旅」だと思えば、かけ算も楽しくなりますよ！
+                    </div>
+                </div>
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <a href="../practice/storage-capacity.html"
+                        class="w-full sm:w-auto px-10 py-5 bg-gradient-to-r from-amber-500 to-amber-600 text-white font-black rounded-2xl shadow-xl shadow-amber-500/20 hover:-translate-y-1 transition-all active:scale-95 text-lg flex items-center justify-center gap-2">
+                        練習問題で試してみる
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
+                                d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                        </svg>
+                    </a>
+                    <a href="../index.html"
+                        class="text-slate-400 hover:text-slate-900 font-bold transition-colors">ホームに戻る</a>
                 </div>
             </div>
-            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <a href="../practice/storage-capacity.html"
-                    class="w-full sm:w-auto px-10 py-5 bg-gradient-to-r from-amber-500 to-amber-600 text-white font-black rounded-2xl shadow-xl shadow-amber-500/20 hover:-translate-y-1 transition-all active:scale-95 text-lg flex items-center justify-center gap-2">
-                    練習問題で試してみる
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
-                            d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                    </svg>
-                </a>
-                <a href="../index.html"
-                    class="text-slate-400 hover:text-slate-900 font-bold transition-colors">ホームに戻る</a>
-            </div>
-        </div>
 
     </main>
 
