@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>記憶容量に関する計算 | IT基礎学習</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        slate: { 50: '#F8FAFC', 100: '#F1F5F9', 200: '#E2E8F0', 300: '#CBD5E1', 400: '#94A3B8', 500: '#64748B', 600: '#475569', 800: '#1E293B', 900: '#0F172A', 950: '#020617' },
+                        amber: { 50: '#FFFBEB', 100: '#FEF3C7', 200: '#FDE68A', 500: '#F59E0B', 600: '#D97706' },
+                    },
+                    fontFamily: { sans: ['"Noto Sans JP"', 'sans-serif'], mono: ['"JetBrains Mono"', 'monospace'] },
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen pb-20">
+
+    <!-- ヘッダー -->
+    <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
+        <div class="max-w-3xl mx-auto px-4 py-4 flex items-center justify-between">
+            <a href="../index.html" class="flex items-center gap-3 group">
+                <div
+                    class="w-9 h-9 rounded-lg bg-gradient-to-br from-amber-500 to-amber-600 flex items-center justify-center text-white font-mono font-bold text-sm shadow-sm group-hover:scale-110 transition-transform">
+                    IT</div>
+                <span class="font-bold text-slate-900">IT基礎学習</span>
+            </a>
+            <div class="flex items-center gap-4 text-sm font-medium text-slate-500">
+                <a href="#hdd" class="hover:text-amber-600">HDD計算</a>
+                <a href="#compression" class="hover:text-amber-600">圧縮</a>
+                <a href="#conversion" class="hover:text-amber-600">変換</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-3xl mx-auto px-4 py-12">
+        <!-- パンくず -->
+        <nav class="breadcrumb mb-8">
+            <a href="../index.html">ホーム</a>
+            <svg class="w-3 h-3 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+            <span class="text-slate-400 font-medium">記憶容量に関する計算</span>
+        </nav>
+
+        <!-- タイトル -->
+        <div class="mb-16">
+            <div
+                class="inline-block px-4 py-1 bg-amber-50 text-amber-600 text-xs font-black rounded-full border border-amber-100 mb-4 uppercase tracking-widest">
+                Unit 06</div>
+            <h1 class="text-4xl font-black text-slate-950 mb-6 tracking-tight">記憶容量に関する計算</h1>
+            <p class="text-lg text-slate-600 leading-relaxed font-medium text-balance">
+                ハードディスクの構造やデジタルデータの性質を理解し、データ容量を正確に算出する方法をマスターしましょう。
+            </p>
+        </div>
+
+        <!-- セクション1: ハードディスクの記憶容量 -->
+        <section id="hdd" class="mb-24 scroll-mt-24">
+            <div class="flex items-center gap-3 mb-8">
+                <span
+                    class="w-8 h-8 rounded-lg bg-slate-950 text-white flex items-center justify-center font-mono font-bold text-sm">01</span>
+                <h2 class="text-2xl font-black text-slate-900">ハードディスクの記憶容量</h2>
+            </div>
+
+            <p class="text-slate-600 leading-relaxed mb-8">
+                磁気ディスク（HDD）の容量は、ディスク上の最小単位である<strong
+                    class="text-slate-950 underline decoration-amber-500 decoration-2 underline-offset-4">セクタ</strong>を積み上げて計算します。
+            </p>
+
+            <div class="bg-amber-950 p-8 rounded-2xl text-white font-mono text-center shadow-lg mb-12">
+                <div class="text-[10px] text-amber-300 font-bold mb-4 uppercase tracking-widest">HDD Calculation Formula
+                </div>
+                <div class="text-sm md:text-base leading-loose font-bold">
+                    記憶容量 = セクタ長 × トラックあたりのセクタ数 <br class="md:hidden"> × シリンダあたりのトラック数 × 総シリンダ数
+                </div>
+            </div>
+
+            <!-- 例題1: 基本 -->
+            <div class="bg-white p-8 rounded-3xl border border-slate-200 mb-12 shadow-sm">
+                <div class="flex items-center gap-2 mb-6 text-amber-600 font-black tracking-tighter uppercase text-sm">
+                    <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+                    例題 1：基本計算
+                </div>
+                <p class="text-slate-700 font-medium mb-6">次の仕様である磁気ディスク装置の記憶容量は何 GB か。ただし、1 GB = 10⁹ B とする。</p>
+
+                <table class="w-full text-sm mb-6 rounded-xl overflow-hidden border border-slate-100 italic">
+                    <tbody class="divide-y divide-slate-100">
+                        <tr class="bg-slate-50/50">
+                            <td class="px-6 py-3 text-slate-500">1セクタあたりの記憶容量</td>
+                            <td class="px-6 py-3 text-right font-mono font-bold">400 B</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-3 text-slate-500">1トラックあたりのセクタ数</td>
+                            <td class="px-6 py-3 text-right font-mono font-bold">250</td>
+                        </tr>
+                        <tr class="bg-slate-50/50">
+                            <td class="px-6 py-3 text-slate-500">1シリンダあたりのトラック数</td>
+                            <td class="px-6 py-3 text-right font-mono font-bold">120</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-3 text-slate-500">総シリンダ数</td>
+                            <td class="px-6 py-3 text-right font-mono font-bold">6,000</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="p-6 bg-slate-50 rounded-2xl border border-slate-100 font-mono text-sm space-y-2">
+                    <p class="text-slate-400 font-black mb-2 uppercase text-[10px]">Calculation</p>
+                    <p>400 × 250 × 120 × 6,000 = 72,000,000,000 (B)</p>
+                    <p>72,000,000,000 ÷ 1,000,000,000 = <strong class="text-amber-600 text-lg">72 (GB)</strong></p>
+                </div>
+            </div>
+
+            <!-- 例題2: ゾーンビット記録 -->
+            <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm">
+                <div class="flex items-center gap-2 mb-6 text-amber-600 font-black tracking-tighter uppercase text-sm">
+                    <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+                    例題 2：トラック位置によるセクタ数の違い
+                </div>
+                <p class="text-slate-700 font-medium mb-6 leading-relaxed">次の仕様である磁気ディスク装置の記憶容量は何 GB
+                    か。トラック番号によってセクタ数が異なる点に注意せよ。</p>
+
+                <div class="grid md:grid-cols-2 gap-4 mb-6">
+                    <div class="space-y-4">
+                        <div class="p-4 bg-slate-50 rounded-xl border border-slate-100 text-xs">
+                            <div class="text-slate-400 mb-1">共通仕様</div>
+                            <p class="flex justify-between"><span>1シリンダあたりのトラック数:</span> <strong>10</strong></p>
+                            <p class="flex justify-between"><span>1面あたりのトラック数:</span> <strong>2,500</strong></p>
+                            <p class="flex justify-between"><span>1セクタあたりの記憶容量:</span> <strong>2,000 B</strong></p>
+                        </div>
+                    </div>
+                    <div>
+                        <table class="w-full text-[10px] border border-slate-100 rounded-lg overflow-hidden">
+                            <thead class="bg-slate-100 text-slate-400 font-black">
+                                <tr>
+                                    <th class="px-4 py-2">トラック番号</th>
+                                    <th class="px-4 py-2">セクタ数</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-center font-mono divide-y divide-slate-100">
+                                <tr>
+                                    <td class="px-4 py-2 text-slate-500">0 〜 1,499</td>
+                                    <td class="px-4 py-2 font-black">300</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-2 text-slate-500">1,500 〜 2,499</td>
+                                    <td class="px-4 py-2 font-black">200</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="p-6 bg-slate-50 rounded-2xl border border-slate-100 font-mono text-sm space-y-3">
+                    <p class="text-slate-400 font-black mb-2 uppercase text-[10px]">Calculation</p>
+                    <div class="space-y-1">
+                        <p class="text-slate-500 italic">① トラックごとの総セクタ数を算出</p>
+                        <p>300 × 1,500 = 450,000</p>
+                        <p>200 × 1,000 = 200,000</p>
+                    </div>
+                    <div class="space-y-1">
+                        <p class="text-slate-500 italic">② 全体容量を算出</p>
+                        <p>10 × (450,000 + 200,000) × 2,000 = 13,000,000,000 (B)</p>
+                        <p>13,000,000,000 ÷ 1,000,000,000 = <strong class="text-amber-600 text-lg">13 (GB)</strong></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- セクション2: その他の記憶容量 -->
+        <section id="compression" class="mb-24 scroll-mt-24">
+            <div class="flex items-center gap-3 mb-8">
+                <span
+                    class="w-8 h-8 rounded-lg bg-slate-900 text-white flex items-center justify-center font-mono font-bold text-sm">02</span>
+                <h2 class="text-2xl font-black text-slate-900">画像データの容量と圧縮</h2>
+            </div>
+
+            <p class="text-slate-600 leading-relaxed mb-8">
+                デジタル画像や動画などは非常にデータ量が大きいため、<strong
+                    class="text-slate-950 underline decoration-amber-500 decoration-2 underline-offset-4">圧縮率</strong>を考慮して計算する必要があります。
+            </p>
+
+            <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm mb-12">
+                <div
+                    class="mb-6 p-4 bg-slate-50 rounded-xl border border-slate-100 font-mono italic text-sm text-center">
+                    記憶容量 = 解像度 × 色情報 × 圧縮率
+                </div>
+
+                <div class="mb-4 text-xs font-black text-amber-600 uppercase tracking-widest leading-none">例題：データの圧縮
+                </div>
+                <div class="p-6 bg-amber-50 rounded-2xl border border-amber-100 mb-6">
+                    <p class="text-slate-700 leading-relaxed font-medium">
+                        解像度 2,000 × 3,000 ピクセル、1ピクセルあたり 24 ビットの色情報を持つ画像 10 枚を、60% に圧縮したときの画像の記憶容量は何 MB か。ただし、1 MB = 10⁶
+                        B とする。
+                    </p>
+                </div>
+
+                <div class="space-y-4">
+                    <div class="flex items-start gap-3">
+                        <div
+                            class="w-6 h-6 rounded-full bg-slate-900 text-white flex items-center justify-center font-black text-[10px] mt-1 shrink-0">
+                            A</div>
+                        <div class="font-mono text-sm leading-relaxed text-slate-600">
+                            1つの画像ファイルの容量 (B):<br>
+                            2,000 × 3,000 × 24 ÷ 8 × 0.6 = <strong class="text-slate-900">10,800,000 B</strong><br>
+                            <span class="text-xs text-slate-400">※ 8ビット = 1バイト なので、ビットからバイトに直すために 8 で割ります。</span>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <div
+                            class="w-6 h-6 rounded-full bg-slate-900 text-white flex items-center justify-center font-black text-[10px] mt-1 shrink-0">
+                            B</div>
+                        <div class="font-mono text-sm leading-relaxed text-slate-600">
+                            単位変換と総和:<br>
+                            10,800,000 ÷ 1,000,000 = 10.8 (MB)<br>
+                            10.8 × 10枚 = <strong class="text-amber-600 font-black text-lg">108 (MB)</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- セクション3: アナログからの変換 -->
+        <section id="conversion" class="mb-24 scroll-mt-24">
+            <div class="flex items-center gap-3 mb-8">
+                <span
+                    class="w-8 h-8 rounded-lg bg-slate-900 text-white flex items-center justify-center font-mono font-bold text-sm">03</span>
+                <h2 class="text-2xl font-black text-slate-900">アナログからデジタルへの変換</h2>
+            </div>
+
+            <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm">
+                <div class="mb-6 text-xs font-black text-amber-600 uppercase tracking-widest leading-none">
+                    例題：スキャンによるデジタル化</div>
+                <div class="p-6 bg-slate-50 rounded-2xl border border-slate-100 mb-8 font-medium">
+                    <p class="text-slate-700 leading-relaxed">
+                        横 3cm、縦 4cm のカラー写真を、解像度 600dpi のスキャナで、24 ビットカラーで取り込んだときの記憶容量 (MB) を求めなさい。ただし、1 インチ = 2.5cm、1 MB
+                        = 10⁶ B とし、圧縮は行わないものとする。
+                    </p>
+                </div>
+
+                <div class="space-y-6">
+                    <div class="flex gap-4">
+                        <div class="w-1.5 h-auto bg-amber-500 rounded-full"></div>
+                        <div>
+                            <p class="text-sm font-black text-slate-900 mb-2">① サイズをインチに直す</p>
+                            <p class="font-mono text-slate-600 text-sm">
+                                横: 3cm ÷ 2.5 = 1.2 インチ<br>
+                                縦: 4cm ÷ 2.5 = 1.6 インチ
+                            </p>
+                        </div>
+                    </div>
+                    <div class="flex gap-4">
+                        <div class="w-1.5 h-auto bg-amber-500 rounded-full"></div>
+                        <div>
+                            <p class="text-sm font-black text-slate-900 mb-2">② 全ドット数を算出する (dpiを掛ける)</p>
+                            <p class="font-mono text-slate-600 text-sm">
+                                (1.2 × 600) × (1.6 × 600) = 720 × 960 = 691,200 ドット
+                            </p>
+                        </div>
+                    </div>
+                    <div class="flex gap-4">
+                        <div class="w-1.5 h-auto bg-amber-500 rounded-full"></div>
+                        <div>
+                            <p class="text-sm font-black text-slate-900 mb-2">③ 容量計算と単位変換</p>
+                            <p class="font-mono text-slate-600 text-sm">
+                                691,200 × 24 ÷ 8 = 2,073,600 (B)<br>
+                                2,073,600 ÷ 1,000,000 ≈ <strong class="text-amber-600 font-black text-xl">約 2.1
+                                    MB</strong>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- まとめ -->
+        <div class="bg-slate-900 rounded-3xl p-10 text-center text-white relative overflow-hidden">
+            <div class="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(245,158,11,0.1),transparent)]">
+            </div>
+            <h3 class="text-2xl font-black mb-4 relative italic tracking-tight">Challenge to Solve!</h3>
+            <p class="text-slate-400 mb-10 max-w-lg mx-auto font-medium relative leading-relaxed">
+                ハードディスク、圧縮、dpi変換。様々なパターンの記憶容量計算に挑戦してみましょう。
+            </p>
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 relative">
+                <a href="../practice/storage-capacity.html"
+                    class="w-full sm:w-auto px-10 py-5 bg-gradient-to-r from-amber-500 to-amber-600 text-white font-black rounded-2xl shadow-xl shadow-amber-500/20 hover:-translate-y-1 transition-all active:scale-95 text-lg">
+                    練習問題を解く
+                </a>
+                <a href="../index.html" class="text-slate-400 hover:text-white font-bold transition-colors">ホームへ戻る</a>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- 固定フッターCTA -->
+    <div class="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 w-[calc(100%-2rem)] max-w-lg">
+        <a href="../practice/storage-capacity.html"
+            class="flex items-center justify-between bg-white/95 backdrop-blur-xl border border-slate-200 p-2 pl-6 rounded-2xl shadow-[0_30px_60px_-12px_rgba(0,0,0,0.25)] group transition-all hover:scale-[1.02] hover:border-amber-200">
+            <div>
+                <div class="text-[10px] text-slate-400 font-black uppercase tracking-widest">Next Phase</div>
+                <div class="font-black text-slate-900">練習問題にトライ</div>
+            </div>
+            <div
+                class="w-12 h-12 rounded-xl bg-amber-500 group-hover:bg-amber-600 flex items-center justify-center text-white transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
+                        d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                </svg>
+            </div>
+        </a>
+    </div>
+
+    <script>
+        // スムーススクロール
+        document.querySelectorAll('header a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const targetId = this.getAttribute('href');
+                if (targetId.startsWith('#')) {
+                    e.preventDefault();
+                    const target = document.querySelector(targetId);
+                    if (target) {
+                        window.scrollTo({
+                            top: target.offsetTop - 100,
+                            behavior: 'smooth'
+                        });
+                    }
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>

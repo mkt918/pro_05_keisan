@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>練習問題：記憶容量の計算 | IT基礎学習</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        slate: { 50: '#F8FAFC', 100: '#F1F5F9', 200: '#E2E8F0', 300: '#CBD5E1', 400: '#94A3B8', 500: '#64748B', 600: '#475569', 800: '#1E293B', 900: '#0F172A', 950: '#020617' },
+                        amber: { 50: '#FFFBEB', 100: '#FEF3C7', 200: '#FDE68A', 500: '#F59E0B', 600: '#D97706' },
+                    },
+                    fontFamily: { sans: ['"Noto Sans JP"', 'sans-serif'], mono: ['"JetBrains Mono"', 'monospace'] },
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen">
+
+    <!-- ヘッダー -->
+    <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
+        <div class="max-w-3xl mx-auto px-4 py-4 flex items-center justify-between">
+            <a href="../index.html" class="flex items-center gap-3 group">
+                <div
+                    class="w-9 h-9 rounded-lg bg-gradient-to-br from-amber-500 to-amber-600 flex items-center justify-center text-white font-mono font-bold text-sm shadow-sm group-hover:scale-110 transition-transform">
+                    IT</div>
+                <span class="font-bold text-slate-900">IT基礎学習</span>
+            </a>
+            <a href="../lessons/storage-capacity.html"
+                class="text-sm text-amber-600 hover:font-bold flex items-center gap-1 transition-all">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13" />
+                </svg>
+                解説を見る
+            </a>
+        </div>
+    </header>
+
+    <main class="max-w-3xl mx-auto px-4 py-8">
+        <!-- パンくず -->
+        <nav class="breadcrumb">
+            <a href="../index.html">ホーム</a>
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+            <a href="../lessons/storage-capacity.html">記憶容量計算 解説</a>
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+            <span class="text-slate-400">練習問題</span>
+        </nav>
+
+        <div class="flex items-center gap-3 mb-2 pt-4">
+            <span
+                class="px-3 py-1 bg-amber-50 text-amber-600 text-xs font-black rounded-full border border-amber-100 uppercase tracking-widest">Unit
+                06</span>
+            <h1 class="text-2xl font-black text-slate-950 tracking-tight">記憶容量に関する計算 練習問題</h1>
+        </div>
+        <p class="text-slate-500 text-sm mb-8 font-medium">HDD、圧縮、デジタル化。実力を試しましょう！全10問。</p>
+
+        <!-- 進捗 -->
+        <div class="mb-8">
+            <div class="flex justify-between text-sm text-slate-400 mb-2 font-medium">
+                <span>問題 <span id="current-num" class="text-slate-900 font-black">1</span> / 10</span>
+                <span>正解数 <span id="correct-count" class="text-amber-600 font-black">0</span></span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-bar__fill" id="progress-fill"
+                    style="width: 0%; background: linear-gradient(90deg,#F59E0B,#FBBF24);"></div>
+            </div>
+        </div>
+
+        <!-- クイズエリア -->
+        <div id="quiz-area">
+            <div class="quiz-card animate-fade-in shadow-sm border-slate-100" id="question-card">
+                <!-- 問題 -->
+                <div class="mb-8 p-6 bg-slate-50 rounded-2xl border border-slate-100">
+                    <div class="text-slate-400 text-xs mb-3 font-bold tracking-widest uppercase text-center">PROBLEM
+                        STATEMENT</div>
+                    <div class="text-slate-800 font-bold leading-relaxed text-lg" id="question-text">
+                        --
+                    </div>
+                </div>
+
+                <!-- 図解エリア（動的生成） -->
+                <div id="diagram-container"
+                    class="mb-8 flex justify-center py-4 bg-white rounded-2xl border border-slate-100 hidden">
+                </div>
+
+                <!-- 入力エリア -->
+                <div class="flex flex-col items-center gap-6">
+                    <div class="flex items-center gap-4">
+                        <input type="text" id="answer-input" class="answer-input w-48 text-center" placeholder="数値"
+                            autocomplete="off">
+                        <span id="unit-label" class="text-slate-500 font-black text-xl"></span>
+                    </div>
+
+                    <div id="condition-hint" class="text-xs text-slate-400 font-medium">
+                        ※ 数値のみを半角で入力してください。
+                    </div>
+
+                    <!-- フィードバック -->
+                    <div id="feedback" class="min-h-[40px] flex items-center justify-center"></div>
+
+                    <!-- 解説（不正解時） -->
+                    <div id="explanation"
+                        class="hidden w-full bg-slate-50 border border-slate-200 rounded-2xl p-6 shadow-inner animate-fade-in-up">
+                    </div>
+
+                    <!-- ボタン -->
+                    <div class="flex gap-3 mt-4" id="btn-area">
+                        <button id="submit-btn" onclick="submitAnswer()"
+                            class="px-12 py-4 bg-gradient-to-r from-slate-800 to-slate-900 text-white font-black rounded-xl shadow-lg transition-all hover:scale-[1.02] hover:shadow-xl active:scale-95 text-lg">
+                            答える
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 結果エリア -->
+        <div id="result-area" class="hidden quiz-card animate-fade-in shadow-xl"></div>
+    </main>
+
+    <script src="../js/quiz.js"></script>
+    <script>
+        class StorageQuestionGenerator {
+            generate() {
+                const types = ['hdd_basic', 'hdd_zonal', 'compression', 'scan'];
+                const type = types[Math.floor(Math.random() * types.length)];
+
+                switch (type) {
+                    case 'hdd_basic': return this.generateHDDBasic();
+                    case 'hdd_zonal': return this.generateHDDZonal();
+                    case 'compression': return this.generateCompression();
+                    case 'scan': return this.generateScan();
+                    default: return this.generateHDDBasic();
+                }
+            }
+
+            // HDD基本計算
+            generateHDDBasic() {
+                const sectorSize = [512, 1024, 2048, 4000][Math.floor(Math.random() * 4)];
+                const sectorsPerTrack = [100, 200, 250][Math.floor(Math.random() * 3)];
+                const tracksPerCylinder = [4, 8, 10, 16][Math.floor(Math.random() * 4)];
+                const cylinders = [1000, 2000, 5000][Math.floor(Math.random() * 3)];
+
+                const totalBytes = sectorSize * sectorsPerTrack * tracksPerCylinder * cylinders;
+                const totalGB = totalBytes / 1000000000;
+
+                return {
+                    question: `ある磁気ディスク装置の仕様は、セクタ長が ${sectorSize} B、トラックあたりのセクタ数が ${sectorsPerTrack}、シリンダあたりのトラック数が ${tracksPerCylinder}、総シリンダ数が ${cylinders.toLocaleString()} である。この装置の総記憶容量は何 GB か。 (1 GB = 10⁹ Bとする)`,
+                    answer: totalGB.toString(),
+                    unit: 'GB',
+                    explanation: `
+                        <div class="space-y-3">
+                            <p class="font-bold text-amber-600">公式に当てはめる</p>
+                            <p class="text-sm font-mono">${sectorSize} × ${sectorsPerTrack} × ${tracksPerCylinder} × ${cylinders} = ${totalBytes.toLocaleString()} B</p>
+                            <p class="text-sm font-mono">${totalBytes.toLocaleString()} ÷ 10⁹ = <strong class="text-amber-600">${totalGB} GB</strong></p>
+                        </div>
+                    `
+                };
+            }
+
+            // ゾーンビット記録
+            generateHDDZonal() {
+                const sectorSize = 1000;
+                const cylinders1 = 1000;
+                const sectors1 = 200;
+                const cylinders2 = 1000;
+                const sectors2 = 100;
+                const tracksPerSurface = 1; // 簡略化
+
+                const totalBytes = (cylinders1 * sectors1 + cylinders2 * sectors2) * sectorSize;
+                const totalMB = totalBytes / 1000000;
+
+                return {
+                    question: `図のようにトラック番号によってセクタ数が異なる磁気ディスクがある。トラック0〜999は1トラックあたり${sectors1}セクタ、トラック1,000〜1,999は1トラックあたり${sectors2}セクタである。1セクタは${sectorSize}Bとするとき、このディスク（1面）の総容量は何 MB か。 (1 MB = 10⁶ Bとする)`,
+                    answer: totalMB.toString(),
+                    unit: 'MB',
+                    explanation: `
+                        <div class="space-y-3">
+                            <p class="font-bold text-amber-600">ゾーンごとにセクタ数を算出</p>
+                            <p class="text-sm font-mono">ゾーン1: 1,000トラック × ${sectors1} = ${cylinders1 * sectors1} セクタ</p>
+                            <p class="text-sm font-mono">ゾーン2: 1,000トラック × ${sectors2} = ${cylinders2 * sectors2} セクタ</p>
+                            <p class="font-bold text-amber-600">合計容量を算出</p>
+                            <p class="text-sm font-mono">(${cylinders1 * sectors1} + ${cylinders2 * sectors2}) × ${sectorSize} = ${totalBytes.toLocaleString()} B</p>
+                            <p class="text-sm font-mono">${totalBytes.toLocaleString()} ÷ 10⁶ = <strong class="text-amber-600">${totalMB} MB</strong></p>
+                        </div>
+                    `
+                };
+            }
+
+            // データ圧縮
+            generateCompression() {
+                const resW = [1000, 2000, 3000][Math.floor(Math.random() * 3)];
+                const resH = [1000, 2000, 3000][Math.floor(Math.random() * 3)];
+                const bitDepth = 24;
+                const compression = [0.1, 0.2, 0.5, 0.8][Math.floor(Math.random() * 4)];
+                const count = [1, 5, 10][Math.floor(Math.random() * 3)];
+
+                const rawBytes = (resW * resH * bitDepth) / 8;
+                const compressedBytes = rawBytes * compression;
+                const totalMB = (compressedBytes * count) / 1000000;
+                const ans = parseFloat(totalMB.toFixed(2));
+
+                return {
+                    question: `${resW}×${resH} ピクセル、24ビットカラーの画像を ${count} 枚、圧縮率 ${(compression * 100)}% で保存したときの総データ量は何 MB か。 (1 MB = 10⁶ Bとする)`,
+                    answer: ans.toString(),
+                    unit: 'MB',
+                    explanation: `
+                        <div class="space-y-3">
+                            <p class="font-bold text-amber-600">1枚あたりの非圧縮サイズ (B)</p>
+                            <p class="text-sm font-mono">${resW} × ${resH} × 24 ÷ 8 = ${rawBytes.toLocaleString()} B</p>
+                            <p class="font-bold text-amber-600">圧縮後の総容量 (MB)</p>
+                            <p class="text-sm font-mono">${rawBytes.toLocaleString()} × ${compression} × ${count} = ${(compressedBytes * count).toLocaleString()} B</p>
+                            <p class="text-sm font-mono">${(compressedBytes * count).toLocaleString()} ÷ 10⁶ = <strong class="text-amber-600">${ans} MB</strong></p>
+                        </div>
+                    `
+                };
+            }
+
+            // スキャン変換
+            generateScan() {
+                const cmW = [5, 10, 20][Math.floor(Math.random() * 3)];
+                const cmH = [5, 10, 20][Math.floor(Math.random() * 3)];
+                const dpi = [300, 600][Math.floor(Math.random() * 2)];
+                const bitDepth = 8; // 簡略化のため8
+
+                const inW = cmW / 2.5;
+                const inH = cmH / 2.5;
+                const dotW = inW * dpi;
+                const dotH = inH * dpi;
+                const totalBytes = (dotW * dotH * bitDepth) / 8;
+                const totalKB = totalBytes / 1000;
+                const ans = parseFloat(totalKB.toFixed(1));
+
+                return {
+                    question: `横 ${cmW}cm、縦 ${cmH}cm の写真を解像度 ${dpi}dpi、8ビットカラーでスキャンしたときの容量は何 KB か。 (1インチ = 2.5cm、1 KB = 10³ Bとする)`,
+                    answer: ans.toString(),
+                    unit: 'KB',
+                    explanation: `
+                        <div class="space-y-3">
+                            <p class="font-bold text-amber-600">① インチに変換</p>
+                            <p class="text-sm font-mono">横: ${cmW} ÷ 2.5 = ${inW} インチ, 縦: ${cmH} ÷ 2.5 = ${inH} インチ</p>
+                            <p class="font-bold text-amber-600">② 総ドット数を算出</p>
+                            <p class="text-sm font-mono">(${inW} × ${dpi}) × (${inH} × ${dpi}) = ${dotW} × ${dotH} = ${(dotW * dotH).toLocaleString()} ドット</p>
+                            <p class="font-bold text-amber-600">③ 容量を算出</p>
+                            <p class="text-sm font-mono">${(dotW * dotH).toLocaleString()} × ${bitDepth} ÷ 8 = ${totalBytes.toLocaleString()} B = <strong class="text-amber-600">${ans} KB</strong></p>
+                        </div>
+                    `
+                };
+            }
+        }
+
+        let session = new QuizSession(10);
+        let generator = new StorageQuestionGenerator();
+        let currentQ = null;
+        let answered = false;
+
+        function startQuiz() {
+            session = new QuizSession(10);
+            answered = false;
+            document.getElementById('quiz-area').classList.remove('hidden');
+            document.getElementById('result-area').classList.add('hidden');
+            document.getElementById('correct-count').textContent = '0';
+            setupNextQuestion();
+        }
+
+        function setupNextQuestion() {
+            answered = false;
+            currentQ = generator.generate();
+
+            document.getElementById('current-num').textContent = session.current + 1;
+            document.getElementById('progress-fill').style.width = `${(session.current / session.total) * 100}%`;
+
+            document.getElementById('question-text').textContent = currentQ.question;
+            document.getElementById('unit-label').textContent = currentQ.unit;
+
+            if (currentQ.diagram) {
+                document.getElementById('diagram-container').innerHTML = currentQ.diagram;
+                document.getElementById('diagram-container').classList.remove('hidden');
+            } else {
+                document.getElementById('diagram-container').classList.add('hidden');
+            }
+
+            const input = document.getElementById('answer-input');
+            input.value = '';
+            input.disabled = false;
+            input.className = 'answer-input w-48 text-center';
+            input.focus();
+
+            document.getElementById('feedback').innerHTML = '';
+            document.getElementById('explanation').classList.add('hidden');
+            document.getElementById('btn-area').innerHTML = `
+                <button onclick="submitAnswer()"
+                    class="px-12 py-4 bg-gradient-to-r from-slate-800 to-slate-900 text-white font-black rounded-xl shadow-lg transition-all hover:scale-[1.02] active:scale-95 text-lg">
+                    答える
+                </button>`;
+
+            const card = document.getElementById('question-card');
+            card.classList.remove('animate-fade-in');
+            void card.offsetWidth;
+            card.classList.add('animate-fade-in');
+        }
+
+        function submitAnswer() {
+            if (answered) return;
+            const input = document.getElementById('answer-input');
+            let userVal = input.value.trim().replace(/,/g, '');
+
+            if (!userVal || isNaN(userVal)) {
+                input.focus();
+                return;
+            }
+
+            // 数値比較（丸め誤差考慮）
+            const isCorrect = Math.abs(parseFloat(userVal) - parseFloat(currentQ.answer)) < 0.11;
+            answered = true;
+
+            session.submit(currentQ.question.substring(0, 40) + '...', currentQ.answer, userVal, isCorrect);
+
+            input.disabled = true;
+            if (isCorrect) {
+                input.classList.add('correct');
+                document.getElementById('correct-count').textContent = session.correct;
+                document.getElementById('feedback').innerHTML =
+                    `<div class="feedback-badge correct font-black">✅ 正解！ ${currentQ.answer}${currentQ.unit}</div>`;
+            } else {
+                input.classList.add('incorrect');
+                document.getElementById('feedback').innerHTML =
+                    `<div class="feedback-badge incorrect font-black">❌ 不正解 — 正解は ${currentQ.answer}${currentQ.unit}</div>`;
+                showExplanation();
+            }
+
+            setTimeout(() => {
+                document.getElementById('btn-area').innerHTML = session.isComplete
+                    ? `<button onclick="showResult()" class="px-12 py-4 bg-gradient-to-r from-amber-500 to-amber-600 text-white font-black rounded-xl shadow-lg transition-all hover:scale-[1.02] text-lg">
+                        🏆 結果を見る
+                       </button>`
+                    : `<button onclick="setupNextQuestion()" class="px-12 py-4 bg-gradient-to-r from-slate-800 to-slate-900 text-white font-black rounded-xl shadow-lg transition-all hover:scale-[1.02] text-lg">
+                        次の問題 →
+                       </button>`;
+            }, isCorrect ? 800 : 2000);
+        }
+
+        function showExplanation() {
+            const expEl = document.getElementById('explanation');
+            expEl.classList.remove('hidden');
+            expEl.innerHTML = `
+                <div class="text-slate-400 font-bold mb-4 flex items-center gap-2 tracking-widest uppercase text-xs">
+                    <span class="w-1.5 h-1.5 rounded-full bg-slate-200"></span>
+                    Hint / Solution
+                </div>
+                ${currentQ.explanation}
+            `;
+        }
+
+        function showResult() {
+            document.getElementById('quiz-area').classList.add('hidden');
+            const resultEl = document.getElementById('result-area');
+            resultEl.classList.remove('hidden');
+            renderResult(session, 'result-area', 'startQuiz',
+                '../lessons/storage-capacity.html',
+                null);
+        }
+
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Enter' && !answered) submitAnswer();
+            else if (e.key === 'Enter' && answered && !session.isComplete) setupNextQuestion();
+        });
+
+        startQuiz();
+    </script>
+</body>
+
+</html>
