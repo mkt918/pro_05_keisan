@@ -173,7 +173,7 @@
                 return {
                     type: 'series',
                     values: vals,
-                    question: `下図のように、${count}台の装置 A, B, C が直列に接続されたシステム全体の稼働率を求めなさい。`,
+                    question: `下図のように、${count}台の装置 ${names.slice(0, count).join(', ')} が直列に接続されたシステム全体の稼働率を求めなさい。`,
                     diagram: diag,
                     answer: answer.toString(),
                     explanation: `
@@ -221,7 +221,7 @@
                 return {
                     type: 'parallel',
                     values: vals,
-                    question: `下図のように、${count}台の装置 D, E, F が並列に接続されたシステム全体の稼働率を求めなさい。`,
+                    question: `下図のように、${count}台の装置 ${names.slice(0, count).join(', ')} が並列に接続されたシステム全体の稼働率を求めなさい。`,
                     diagram: diag,
                     answer: answer.toString(),
                     explanation: `
@@ -295,7 +295,7 @@
                 return;
             }
 
-            const isCorrect = Math.abs(parseFloat(userVal) - parseFloat(currentQ.answer)) < 0.0001;
+            const isCorrect = Math.abs(parseFloat(userVal) - parseFloat(currentQ.answer)) < 0.0005;
             answered = true;
 
             session.submit(currentQ.type + ' system', currentQ.answer, userVal, isCorrect);

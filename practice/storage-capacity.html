@@ -149,15 +149,19 @@
                 }
             }
 
-            // 表形式のHDD容量計算
+            // 表形式のHDD容量計算 (ランダム)
             generateHDDTable() {
-                const sectorSize = 400;
-                const sectorsPerTrack = 200;
-                const tracksPerCylinder = 100;
-                const cylinders = 2000;
+                const params = [
+                    { sectorSize: 400, sectorsPerTrack: 200, tracksPerCylinder: 100, cylinders: 2000 },
+                    { sectorSize: 512, sectorsPerTrack: 150, tracksPerCylinder: 80, cylinders: 3000 },
+                    { sectorSize: 1000, sectorsPerTrack: 100, tracksPerCylinder: 50, cylinders: 5000 },
+                    { sectorSize: 2000, sectorsPerTrack: 50, tracksPerCylinder: 40, cylinders: 1000 },
+                ];
+                const p = params[Math.floor(Math.random() * params.length)];
+                const { sectorSize, sectorsPerTrack, tracksPerCylinder, cylinders } = p;
 
                 const totalBytes = sectorSize * sectorsPerTrack * tracksPerCylinder * cylinders;
-                const totalGB = totalBytes / 1000000000;
+                const totalGB = parseFloat((totalBytes / 1000000000).toFixed(4));
 
                 let diag = `
                     <div class="overflow-hidden rounded-xl border border-slate-200 shadow-sm">
@@ -205,33 +209,35 @@
 
             // ゾーンビット（表形式・範囲指定）
             generateHDDZonalTable() {
-                const sectorSize = 2000;
-                const sectors1 = 300;
-                const sectors2 = 200;
-                const tracks1 = 1000; // 0~999
-                const tracks2 = 500;  // 1000~1499
-                const tracksPerCylinder = 20;
+                // ランダムパラメータ
+                const paramSets = [
+                    { sectorSize: 2000, sectors1: 300, sectors2: 200, tracks1: 1000, tracks2: 500, surfaces: 20 },
+                    { sectorSize: 1000, sectors1: 250, sectors2: 150, tracks1: 800, tracks2: 400, surfaces: 10 },
+                    { sectorSize: 500, sectors1: 400, sectors2: 300, tracks1: 500, tracks2: 500, surfaces: 16 },
+                ];
+                const { sectorSize, sectors1, sectors2, tracks1, tracks2, surfaces } =
+                    paramSets[Math.floor(Math.random() * paramSets.length)];
 
+                const totalTracks = tracks1 + tracks2;
                 const totalSectorsPerSurface = (tracks1 * sectors1) + (tracks2 * sectors2);
-                const totalBytesPerSurface = totalSectorsPerSurface * sectorSize;
-                const totalBytes = totalBytesPerSurface * tracksPerCylinder; // 面数=シリンダあたりトラック数
-                const totalGB = parseFloat((totalBytes / 1000000000).toFixed(2));
+                const totalBytes = totalSectorsPerSurface * sectorSize * surfaces;
+                const totalGB = parseFloat((totalBytes / 1000000000).toFixed(3));
 
                 let diag = `
                     <div class="space-y-3 w-full">
                         <div class="rounded-xl border border-slate-200 overflow-hidden shadow-sm">
                             <table class="w-full text-xs">
                                 <tr class="bg-amber-50">
-                                    <td class="px-4 py-2 border-b border-amber-100 font-medium text-amber-900">1シリンダあたりのトラック数</td>
-                                    <td class="px-4 py-2 border-b border-amber-100 font-mono font-black">${tracksPerCylinder}</td>
+                                    <td class="px-4 py-2 border-b border-amber-100 font-medium text-amber-900">磁気面（プラッタ）数</td>
+                                    <td class="px-4 py-2 border-b border-amber-100 font-mono font-black">${surfaces} 面</td>
                                 </tr>
                                 <tr class="bg-white">
                                     <td class="px-4 py-2 border-b border-slate-100 font-medium">1面あたりのトラック数</td>
-                                    <td class="px-4 py-2 border-b border-slate-100 font-mono font-black">1,500</td>
+                                    <td class="px-4 py-2 border-b border-slate-100 font-mono font-black">${totalTracks.toLocaleString()}</td>
                                 </tr>
                                 <tr class="bg-slate-50">
                                     <td class="px-4 py-2 font-medium">1セクタあたりの記憶容量</td>
-                                    <td class="px-4 py-2 font-mono font-black">2,000 B</td>
+                                    <td class="px-4 py-2 font-mono font-black">${sectorSize.toLocaleString()} B</td>
                                 </tr>
                             </table>
                         </div>
@@ -242,11 +248,11 @@
                                     <th class="px-4 py-2 border-b border-slate-200 font-black text-slate-500">1トラックあたりのセクタ数</th>
                                 </tr>
                                 <tr>
-                                    <td class="px-4 py-2 border-b border-slate-100">0 〜 999</td>
+                                    <td class="px-4 py-2 border-b border-slate-100">0 〜 ${tracks1 - 1}</td>
                                     <td class="px-4 py-2 border-b border-slate-100 font-mono font-bold">${sectors1}</td>
                                 </tr>
                                 <tr>
-                                    <td class="px-4 py-2">1,000 〜 1,499</td>
+                                    <td class="px-4 py-2">${tracks1} 〜 ${totalTracks - 1}</td>
                                     <td class="px-4 py-2 font-mono font-bold">${sectors2}</td>
                                 </tr>
                             </table>
@@ -254,17 +260,17 @@
                     </div>`;
 
                 return {
-                    question: `表に示す磁気ディスク装置の総記憶容量は何 GB か。 (1 GB = 10⁹ Bとする)`,
+                    question: `表に示すゾーンビット記録方式の磁気ディスク装置の総記憶容量は何 GB か。 (1 GB = 10⁹ Bとする)`,
                     diagram: diag,
                     answer: totalGB.toString(),
                     unit: 'GB',
                     explanation: `
                         <div class="space-y-3">
-                            <p class="font-bold text-amber-600">1面あたりの総セクタ数</p>
-                            <p class="text-xs font-mono">(${tracks1} tr × ${sectors1}) + (${tracks2} tr × ${sectors2}) = ${totalSectorsPerSurface.toLocaleString()} セクタ</p>
-                            <p class="font-bold text-amber-600">全容量の算出</p>
+                            <p class="font-bold text-amber-600">① 1面あたりの総セクタ数を求める</p>
+                            <p class="text-xs font-mono">(${tracks1} × ${sectors1}) + (${tracks2} × ${sectors2}) = ${totalSectorsPerSurface.toLocaleString()} セクタ</p>
+                            <p class="font-bold text-amber-600">② 全面の容量を算出</p>
                             <div class="p-3 bg-slate-900 rounded-xl text-white font-mono text-xs shadow-xl space-y-1">
-                                <p>${totalSectorsPerSurface.toLocaleString()} × ${sectorSize} B × ${tracksPerCylinder} 面</p>
+                                <p>${totalSectorsPerSurface.toLocaleString()} セクタ × ${sectorSize} B × ${surfaces} 面</p>
                                 <p>= ${totalBytes.toLocaleString()} B = <span class="text-amber-400 font-black">${totalGB} GB</span></p>
                             </div>
                         </div>
@@ -272,12 +278,17 @@
                 };
             }
 
-            // DVD応用問題
+            // DVD応用問題 (ランダム)
             generateCompressionDVD() {
-                const resW = 3000;
-                const resH = 2000;
+                const params = [
+                    { resW: 3000, resH: 2000, compression: 0.8 },
+                    { resW: 2000, resH: 1500, compression: 0.5 },
+                    { resW: 1920, resH: 1080, compression: 0.6 },
+                    { resW: 4000, resH: 3000, compression: 0.8 },
+                ];
+                const p = params[Math.floor(Math.random() * params.length)];
+                const { resW, resH, compression } = p;
                 const bitDepth = 24;
-                const compression = 0.8;
                 const dvdSizeGB = 4.7;
 
                 const rawBytes = (resW * resH * bitDepth) / 8;
@@ -291,22 +302,27 @@
                     unit: '枚',
                     explanation: `
                         <div class="space-y-3">
-                            <p class="font-bold text-amber-600">1枚あたりの圧縮サイズ (B)</p>
+                            <p class="font-bold text-amber-600">① 1枚あたりの圧縮後サイズ</p>
                             <p class="text-xs font-mono">${resW} × ${resH} × 24 ÷ 8 × ${compression} = ${compressedBytes.toLocaleString()} B</p>
-                            <p class="font-bold text-amber-600">最大保存枚数の計算</p>
-                            <p class="text-xs font-mono">${dvdBytes.toLocaleString()} B ÷ ${compressedBytes.toLocaleString()} B = ${(dvdBytes / compressedBytes).toFixed(2)}...</p>
-                            <p class="text-amber-600 font-bold">※ 端数は切り捨てて <strong class="text-lg">${maxCount} 枚</strong></p>
+                            <p class="font-bold text-amber-600">② 最大保存枚数（切り捨て）</p>
+                            <div class="p-3 bg-slate-900 rounded-xl text-white font-mono text-xs shadow-xl">
+                                <p>${dvdBytes.toLocaleString()} B ÷ ${compressedBytes.toLocaleString()} B = ${(dvdBytes / compressedBytes).toFixed(3)}...</p>
+                                <p class="text-amber-400 font-black text-sm">→ 切り捨てて ${maxCount} 枚</p>
+                            </div>
                         </div>
                     `
                 };
             }
 
-            // スキャン変換（四捨五入指定含む）
+            // スキャン変換（四捨五入指定含む・ランダム）
             generateScanStrict() {
-                const cmW = 21;
-                const cmH = 29;
-                const dpi = 600;
-                const bitDepth = 24;
+                const params = [
+                    { cmW: 21, cmH: 29, dpi: 600, bitDepth: 24 }, // A4 フルカラー
+                    { cmW: 15, cmH: 20, dpi: 300, bitDepth: 24 }, // L判 フルカラー
+                    { cmW: 10, cmH: 15, dpi: 600, bitDepth: 16 }, // 小サイズ高解像度
+                    { cmW: 30, cmH: 21, dpi: 300, bitDepth: 24 }, // A4横 フルカラー
+                ];
+                const { cmW, cmH, dpi, bitDepth } = params[Math.floor(Math.random() * params.length)];
 
                 const inW = cmW / 2.5;
                 const inH = cmH / 2.5;
@@ -314,21 +330,21 @@
                 const dotH = inH * dpi;
                 const totalBytes = (dotW * dotH * bitDepth) / 8;
                 const totalMB = totalBytes / 1000000;
-                // サンプル通り四捨五入
                 const ans = Math.round(totalMB);
 
                 return {
-                    question: `横 ${cmW}cm、縦 ${cmH}cm の画像を、解像度 ${dpi}dpi、24ビットカラーでスキャンした時の容量は何 MB か。ただし 1インチ = 2.5cm、1 MB = 10⁶ B とし、MB 未満を四捨五入しなさい。`,
+                    question: `横 ${cmW}cm、縦 ${cmH}cm の画像を、解像度 ${dpi}dpi、${bitDepth}ビットカラーでスキャンした時の容量は何 MB か。ただし 1インチ = 2.5cm、1 MB = 10⁶ B とし、MB 未満を四捨五入しなさい。`,
                     answer: ans.toString(),
                     unit: 'MB',
                     explanation: `
                         <div class="space-y-3">
-                            <p class="font-bold text-amber-600">インチ・ドット換算</p>
-                            <p class="text-[10px] font-mono leading-tight">横: ${cmW}÷2.5×${dpi} = ${dotW}, 縦: ${cmH}÷2.5×${dpi} = ${dotH}</p>
-                            <p class="font-bold text-amber-600">容量算出</p>
+                            <p class="font-bold text-amber-600">① インチ変換・解像度でドット数を計算</p>
+                            <p class="text-xs font-mono">横: ${cmW}÷2.5=${inW}インチ → ${inW}×${dpi}=${dotW}ドット</p>
+                            <p class="text-xs font-mono">縦: ${cmH}÷2.5=${inH}インチ → ${inH}×${dpi}=${dotH}ドット</p>
+                            <p class="font-bold text-amber-600">② 容量算出（四捨五入）</p>
                             <div class="p-3 bg-slate-900 rounded-xl text-white font-mono text-xs shadow-xl">
-                                <p>${dotW}×${dotH}×${bitDepth}÷8 = ${totalBytes.toLocaleString()} B</p>
-                                <p>= ${totalMB.toFixed(2)} MB ≒ <strong class="text-amber-400 font-black">${ans} MB</strong></p>
+                                <p>${dotW} × ${dotH} × ${bitDepth} ÷ 8 = ${totalBytes.toLocaleString()} B</p>
+                                <p>= ${totalMB.toFixed(2)} MB ≒ <span class="text-amber-400 font-black">${ans} MB</span></p>
                             </div>
                         </div>
                     `

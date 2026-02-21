@@ -149,16 +149,19 @@
                 }
             }
 
-            // 1. 転送時間の算出 (サンプル1)
+            // 1. 転送時間の算出
             generateTimeCalc() {
-                const dataSizeMB = 20;
-                const speedMbps = 100;
-                const efficiency = 0.8;
+                const params = [
+                    { dataSizeMB: 20, speedMbps: 100, efficiency: 0.8 },
+                    { dataSizeMB: 50, speedMbps: 200, efficiency: 0.5 },
+                    { dataSizeMB: 150, speedMbps: 300, efficiency: 0.8 },
+                    { dataSizeMB: 30, speedMbps: 100, efficiency: 0.6 },
+                ];
+                const { dataSizeMB, speedMbps, efficiency } = params[Math.floor(Math.random() * params.length)];
 
                 const effectiveSpeedMbps = speedMbps * efficiency;
-                const dataSizeBit = dataSizeMB * 8 * 1000 * 1000;
-                const speedBitPerSec = effectiveSpeedMbps * 1000 * 1000;
-                const time = dataSizeBit / speedBitPerSec;
+                // 全て Mbps 単位で計算 (MB × 8 = Mb, Mb ÷ Mbps = 秒)
+                const time = (dataSizeMB * 8) / effectiveSpeedMbps;
 
                 return {
                     question: `${dataSizeMB} MB のデータを、通信速度 ${speedMbps} Mbps、伝送効率 ${efficiency * 100}% の通信回線を利用して転送するのにかかる時間 (秒) を求めなさい。`,
@@ -167,10 +170,11 @@
                     explanation: `
                         <div class="space-y-3">
                             <p class="font-bold text-sky-600">① 実効速度の算出</p>
-                            <p class="text-xs font-mono">${speedMbps} Mbps × ${efficiency} = ${effectiveSpeedMbps} Mbps</p>
+                            <p class="text-xs font-mono">${speedMbps} Mbps × ${efficiency} = <strong>${effectiveSpeedMbps} Mbps</strong></p>
                             <p class="font-bold text-sky-600">② 転送時間の算出</p>
                             <div class="p-3 bg-slate-900 rounded-xl text-white font-mono text-xs shadow-xl">
-                                <p>時間 = (${dataSizeMB} MB × 8) ÷ ${effectiveSpeedMbps} Mbps</p>
+                                <p>時間 = (データ量 [Mb]) ÷ (実効速度 [Mbps])</p>
+                                <p>= (${dataSizeMB} MB × 8) ÷ ${effectiveSpeedMbps} Mbps</p>
                                 <p>= ${dataSizeMB * 8} Mb ÷ ${effectiveSpeedMbps} Mbps = <span class="text-sky-400 font-black">${time} 秒</span></p>
                             </div>
                         </div>
@@ -178,14 +182,16 @@
                 };
             }
 
-            // 2. 必要速度の算出 (サンプル2)
+            // 2. 必要速度の算出
             generateSpeedCalc() {
-                const dataSizeMB = 90;
-                const timeSec = 8;
-                const efficiency = 0.9;
+                const params = [
+                    { dataSizeMB: 90, timeSec: 8, efficiency: 0.9 },
+                    { dataSizeMB: 60, timeSec: 4, efficiency: 0.8 },
+                    { dataSizeMB: 150, timeSec: 5, efficiency: 0.75 },
+                    { dataSizeMB: 200, timeSec: 10, efficiency: 0.8 },
+                ];
+                const { dataSizeMB, timeSec, efficiency } = params[Math.floor(Math.random() * params.length)];
 
-                // 速度 * 時間 * 効率 = サイズ
-                // 速度 = サイズ / (時間 * 効率)
                 const requiredMbps = (dataSizeMB * 8) / (timeSec * efficiency);
                 const ans = parseFloat(requiredMbps.toFixed(1));
 
@@ -197,7 +203,7 @@
                         <div class="space-y-3">
                             <p class="font-bold text-sky-600">必要速度の算出プロセス</p>
                             <div class="p-3 bg-slate-900 rounded-xl text-white font-mono text-xs shadow-xl space-y-2">
-                                <p>実効速度 = ${dataSizeMB} MB × 8 ÷ ${timeSec} 秒 = ${(dataSizeMB * 8 / timeSec)} Mbps</p>
+                                <p>実効速度 = ${dataSizeMB} × 8 ÷ ${timeSec} = ${(dataSizeMB * 8 / timeSec)} Mbps</p>
                                 <p>理論速度 = 実効速度 ÷ 効率</p>
                                 <p>= ${(dataSizeMB * 8 / timeSec)} ÷ ${efficiency} = <span class="text-sky-400 font-black">${ans} Mbps</span></p>
                             </div>
@@ -206,13 +212,16 @@
                 };
             }
 
-            // 3. 伝送効率の逆算 (サンプル3)
+            // 3. 伝送効率の逆算
             generateEfficiencyCalc() {
-                const dataSizeMB = 45;
-                const speedMbps = 150;
-                const timeSec = 3;
+                const params = [
+                    { dataSizeMB: 45, speedMbps: 150, timeSec: 3 },
+                    { dataSizeMB: 80, speedMbps: 200, timeSec: 4 },
+                    { dataSizeMB: 120, speedMbps: 400, timeSec: 3 },
+                    { dataSizeMB: 25, speedMbps: 100, timeSec: 2 },
+                ];
+                const { dataSizeMB, speedMbps, timeSec } = params[Math.floor(Math.random() * params.length)];
 
-                // 効率 = (サイズ / 時間) / 速度
                 const efficiency = ((dataSizeMB * 8) / timeSec) / speedMbps;
                 const ansPercent = Math.round(efficiency * 100);
 
@@ -222,11 +231,11 @@
                     unit: '%',
                     explanation: `
                         <div class="space-y-3">
-                            <p class="font-bold text-sky-600">実績速度の算出</p>
-                            <p class="text-xs font-mono">${dataSizeMB} MB × 8 ÷ ${timeSec} 秒 = ${(dataSizeMB * 8 / timeSec).toFixed(1)} Mbps</p>
-                            <p class="font-bold text-sky-600">効率の算出</p>
+                            <p class="font-bold text-sky-600">① 実際の実効速度を求める</p>
+                            <p class="text-xs font-mono">${dataSizeMB} MB × 8 ÷ ${timeSec} 秒 = <strong>${(dataSizeMB * 8 / timeSec).toFixed(1)} Mbps</strong></p>
+                            <p class="font-bold text-sky-600">② 効率を算出</p>
                             <div class="p-3 bg-slate-900 rounded-xl text-white font-mono text-xs shadow-xl">
-                                <p>効率 = 実績速度 ÷ 理論速度</p>
+                                <p>効率 = 実効速度 ÷ 理論速度</p>
                                 <p>= ${(dataSizeMB * 8 / timeSec).toFixed(1)} ÷ ${speedMbps} = ${efficiency.toFixed(2)}</p>
                                 <p class="text-sky-400 font-black text-sm">= ${ansPercent} %</p>
                             </div>
@@ -235,26 +244,32 @@
                 };
             }
 
-            // 4. 特定時間の転送量 (サンプル4)
+            // 4. 特定時間の転送量
             generateDataSumCalc() {
-                const speedMbps = 200;
-                const efficiency = 0.9;
-                const timeSec = 60; // 1分間
+                const params = [
+                    { speedMbps: 200, efficiency: 0.9, timeSec: 60 },
+                    { speedMbps: 100, efficiency: 0.8, timeSec: 120 },
+                    { speedMbps: 500, efficiency: 0.75, timeSec: 60 },
+                    { speedMbps: 400, efficiency: 0.5, timeSec: 30 },
+                ];
+                const { speedMbps, efficiency, timeSec } = params[Math.floor(Math.random() * params.length)];
 
                 const effectiveSpeedMbps = speedMbps * efficiency;
                 const totalMb = effectiveSpeedMbps * timeSec;
                 const totalMB = totalMb / 8;
-                const totalGB = totalMB / 1000; // サンプル指定: 1GB = 1000MB
+                const totalGB = parseFloat((totalMB / 1000).toFixed(4));
+
+                const timeStr = timeSec === 60 ? '1分間 (60秒)' : timeSec === 120 ? '2分間 (120秒)' : `${timeSec}秒`;
 
                 return {
-                    question: `通信速度が ${speedMbps} Mbps で、伝送効率が ${efficiency * 100}% の通信回線を用いて、1分間 (60秒) に伝送できるデータ量 (GB) を求めなさい。ただし、1 GB = 10³ MB とする。`,
+                    question: `通信速度が ${speedMbps} Mbps で、伝送効率が ${efficiency * 100}% の通信回線を用いて、${timeStr}に伝送できるデータ量 (GB) を求めなさい。ただし、1 GB = 10³ MB とする。`,
                     answer: totalGB.toString(),
                     unit: 'GB',
                     explanation: `
                         <div class="space-y-3">
-                            <p class="font-bold text-sky-600">1分間のビット量算出</p>
-                            <p class="text-xs font-mono">${speedMbps} Mbps × ${efficiency} × ${timeSec} 秒 = ${totalMb.toLocaleString()} Mb</p>
-                            <p class="font-bold text-sky-600">バイト・GB換算</p>
+                            <p class="font-bold text-sky-600">① 実効速度 × 時間 = ビット数</p>
+                            <p class="text-xs font-mono">${speedMbps} × ${efficiency} × ${timeSec} = <strong>${totalMb.toLocaleString()} Mb</strong></p>
+                            <p class="font-bold text-sky-600">② Mb → MB → GB 変換</p>
                             <div class="p-3 bg-slate-900 rounded-xl text-white font-mono text-xs shadow-xl">
                                 <p>${totalMb.toLocaleString()} Mb ÷ 8 = ${totalMB.toLocaleString()} MB</p>
                                 <p>${totalMB.toLocaleString()} MB ÷ 1000 = <span class="text-sky-400 font-black">${totalGB} GB</span></p>
