@@ -127,7 +127,7 @@
           <div class="text-teal-600 text-sm font-medium mb-1 tracking-widest uppercase">学習単元</div>
           <h2 class="text-3xl font-black text-slate-900">単元一覧</h2>
         </div>
-        <div class="text-slate-500 text-sm">全 <span class="text-slate-900 font-bold">6</span> 単元（随時追加予定）</div>
+        <div class="text-slate-500 text-sm">全 <span class="text-slate-900 font-bold">7</span> 単元（随時追加予定）</div>
       </div>
 
       <!-- カテゴリ: 基数変換 -->
@@ -471,19 +471,61 @@
         </div>
       </div>
 
+      <!-- カテゴリ: ネットワークと通信 -->
+      <div class="mb-10">
+        <div class="flex items-center gap-3 mb-5">
+          <div class="w-1 h-6 bg-sky-500 rounded-full"></div>
+          <h3 class="text-lg font-bold text-slate-700">第5章：ネットワークと通信</h3>
+          <span class="px-2 py-0.5 bg-sky-50 text-sky-600 text-xs rounded-full border border-sky-100">公開中</span>
+        </div>
+
+        <div class="grid md:grid-cols-1 gap-5">
+          <!-- 単元: 通信速度に関する計算 -->
+          <div class="unit-card group" id="unit-network-speed">
+            <div class="unit-card__body">
+              <div class="flex items-start gap-4 mb-5">
+                <div class="unit-icon bg-sky-50 border border-sky-100">
+                  <span class="font-mono font-bold text-sky-600 text-lg">📡</span>
+                </div>
+                <div>
+                  <div class="text-xs text-slate-400 mb-1">Unit 07</div>
+                  <h4 class="font-bold text-slate-900 text-xl leading-tight">通信速度に関する計算</h4>
+                  <p class="text-slate-500 text-sm mt-1">bpsの基礎から、転送時間、伝送効率を考慮した実効速度の算出</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-4 text-xs text-slate-500 mb-5">
+                <span class="flex items-center gap-1">
+                  <span class="difficulty-dot bg-yellow-500"></span>
+                  <span class="difficulty-dot bg-yellow-500"></span>
+                  <span class="difficulty-dot bg-yellow-500"></span>
+                  <span class="difficulty-dot bg-slate-300"></span>
+                  <span class="difficulty-dot bg-slate-300"></span>
+                  難易度：ふつう
+                </span>
+                <span>⏱ 約15分</span>
+              </div>
+              <div class="flex flex-wrap gap-2 mb-6">
+                <span class="tag">bps</span>
+                <span class="tag">転送時間</span>
+                <span class="tag">伝送効率</span>
+              </div>
+            </div>
+            <div class="unit-card__footer">
+              <a href="lessons/network-speed.html" class="btn-lesson">解説を読む</a>
+              <a href="practice/network-speed.html" class="btn-practice">練習問題へ</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- カテゴリ: 近日公開予定 -->
       <div>
         <div class="flex items-center gap-3 mb-5">
           <div class="w-1 h-6 bg-slate-300 rounded-full"></div>
-          <h3 class="text-lg font-bold text-slate-500">第5章以降（準備中）</h3>
+          <h3 class="text-lg font-bold text-slate-500">第6章以降（準備中）</h3>
           <span class="px-2 py-0.5 bg-slate-100 text-slate-500 text-xs rounded-full border border-slate-200">近日公開</span>
         </div>
         <div class="grid md:grid-cols-3 gap-4">
-          <div class="coming-soon-card">
-            <div class="text-2xl mb-2">📡</div>
-            <div class="font-medium text-slate-600">通信速度の計算</div>
-            <div class="text-xs text-slate-400 mt-1">bps・転送時間</div>
-          </div>
           <div class="coming-soon-card">
             <div class="text-2xl mb-2">🔢</div>
             <div class="font-medium text-slate-600">16進数変換</div>
@@ -493,6 +535,11 @@
             <div class="text-2xl mb-2">💎</div>
             <div class="font-medium text-slate-600">論理演算</div>
             <div class="text-xs text-slate-400 mt-1">AND/OR/NOT</div>
+          </div>
+          <div class="coming-soon-card">
+            <div class="text-2xl mb-2">🛡️</div>
+            <div class="font-medium text-slate-600">情報セキュリティ</div>
+            <div class="text-xs text-slate-400 mt-1">暗号化・認証</div>
           </div>
         </div>
       </div>

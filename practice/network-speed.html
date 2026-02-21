@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>練習問題：通信速度の計算 | IT基礎学習</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        slate: { 50: '#F8FAFC', 100: '#F1F5F9', 200: '#E2E8F0', 300: '#CBD5E1', 400: '#94A3B8', 500: '#64748B', 600: '#475569', 800: '#1E293B', 900: '#0F172A', 950: '#020617' },
+                        sky: { 50: '#F0F9FF', 100: '#E0F2FE', 200: '#BAE6FD', 500: '#0EA5E9', 600: '#0284C7' },
+                    },
+                    fontFamily: { sans: ['"Noto Sans JP"', 'sans-serif'], mono: ['"JetBrains Mono"', 'monospace'] },
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen">
+
+    <!-- ヘッダー -->
+    <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
+        <div class="max-w-3xl mx-auto px-4 py-4 flex items-center justify-between">
+            <a href="../index.html" class="flex items-center gap-3 group">
+                <div
+                    class="w-9 h-9 rounded-lg bg-gradient-to-br from-sky-500 to-sky-600 flex items-center justify-center text-white font-mono font-bold text-sm shadow-sm group-hover:scale-110 transition-transform">
+                    IT</div>
+                <span class="font-bold text-slate-900">IT基礎学習</span>
+            </a>
+            <a href="../lessons/network-speed.html"
+                class="text-sm text-sky-600 hover:font-bold flex items-center gap-1 transition-all">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13" />
+                </svg>
+                解説を見る
+            </a>
+        </div>
+    </header>
+
+    <main class="max-w-3xl mx-auto px-4 py-8">
+        <!-- パンくず -->
+        <nav class="breadcrumb">
+            <a href="../index.html">ホーム</a>
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+            <a href="../lessons/network-speed.html">通信速度計算 解説</a>
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+            <span class="text-slate-400">練習問題</span>
+        </nav>
+
+        <div class="flex items-center gap-3 mb-2 pt-4">
+            <span
+                class="px-3 py-1 bg-sky-50 text-sky-600 text-xs font-black rounded-full border border-sky-100 uppercase tracking-widest">Unit
+                07</span>
+            <h1 class="text-2xl font-black text-slate-950 tracking-tight">通信速度に関する計算 練習問題</h1>
+        </div>
+        <p class="text-slate-500 text-sm mb-8 font-medium italic">転送スピード、所要時間、伝送効率。全10問の計算テストです。</p>
+
+        <!-- 進捗 -->
+        <div class="mb-8">
+            <div class="flex justify-between text-sm text-slate-400 mb-2 font-medium">
+                <span>問題 <span id="current-num" class="text-slate-900 font-black">1</span> / 10</span>
+                <span>正解数 <span id="correct-count" class="text-sky-600 font-black">0</span></span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-bar__fill" id="progress-fill"
+                    style="width: 0%; background: linear-gradient(90deg,#0EA5E9,#38BDF8);"></div>
+            </div>
+        </div>
+
+        <!-- クイズエリア -->
+        <div id="quiz-area">
+            <div class="quiz-card animate-fade-in shadow-sm border-slate-100" id="question-card">
+                <!-- 問題 -->
+                <div class="mb-8 p-6 bg-slate-50 rounded-2xl border border-slate-100">
+                    <div class="text-slate-400 text-xs mb-3 font-bold tracking-widest uppercase text-center">NETWORK
+                        PROBLEM</div>
+                    <div class="text-slate-800 font-bold leading-relaxed text-lg" id="question-text">
+                        --
+                    </div>
+                </div>
+
+                <!-- 図解エリア（動的生成） -->
+                <div id="diagram-container"
+                    class="mb-8 flex justify-center py-4 bg-white rounded-2xl border border-slate-100 hidden">
+                </div>
+
+                <!-- 入力エリア -->
+                <div class="flex flex-col items-center gap-6">
+                    <div class="flex items-center gap-4">
+                        <input type="text" id="answer-input" class="answer-input w-48 text-center" placeholder="数値"
+                            autocomplete="off">
+                        <span id="unit-label" class="text-slate-500 font-black text-xl"></span>
+                    </div>
+
+                    <div id="condition-hint" class="text-xs text-slate-400 font-medium">
+                        ※ 数値のみを半角で入力してください（コンマ不要）。
+                    </div>
+
+                    <!-- フィードバック -->
+                    <div id="feedback" class="min-h-[40px] flex items-center justify-center"></div>
+
+                    <!-- 解説（不正解時） -->
+                    <div id="explanation"
+                        class="hidden w-full bg-slate-50 border border-slate-200 rounded-2xl p-6 shadow-inner animate-fade-in-up">
+                    </div>
+
+                    <!-- ボタン -->
+                    <div class="flex gap-3 mt-4" id="btn-area">
+                        <button id="submit-btn" onclick="submitAnswer()"
+                            class="px-12 py-4 bg-gradient-to-r from-slate-800 to-slate-900 text-white font-black rounded-xl shadow-lg transition-all hover:scale-[1.02] active:scale-95 text-lg">
+                            答える
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 結果エリア -->
+        <div id="result-area" class="hidden quiz-card animate-fade-in shadow-xl"></div>
+    </main>
+
+    <script src="../js/quiz.js"></script>
+    <script>
+        class NetworkQuestionGenerator {
+            generate() {
+                const types = ['speed', 'time', 'efficiency', 'combined'];
+                const type = types[Math.floor(Math.random() * types.length)];
+
+                switch (type) {
+                    case 'speed': return this.generateSpeed();
+                    case 'time': return this.generateTime();
+                    case 'efficiency': return this.generateEfficiency();
+                    case 'combined': return this.generateCombined();
+                    default: return this.generateSpeed();
+                }
+            }
+
+            // 速度算出
+            generateSpeed() {
+                const sizeMB = [750, 600, 120, 300][Math.floor(Math.random() * 4)];
+                const timeSec = [40, 30, 10, 25][Math.floor(Math.random() * 4)];
+
+                const sizeMb = sizeMB * 8;
+                const speedMbps = sizeMb / timeSec;
+
+                return {
+                    question: `${sizeMB} MB のファイルを転送するためにかかる時間は ${timeSec} 秒であった。この回線の通信速度は何 Mbps か。ただし伝送効率等は考慮しない。`,
+                    answer: speedMbps.toString(),
+                    unit: 'Mbps',
+                    explanation: `
+                        <div class="space-y-3">
+                            <p class="font-bold text-sky-600">① ファイルをビットに直す</p>
+                            <p class="text-sm font-mono">${sizeMB} MB × 8 = ${sizeMb} Mb</p>
+                            <p class="font-bold text-sky-600">② 時間で割る</p>
+                            <p class="text-sm font-mono">${sizeMb} Mb ÷ ${timeSec} 秒 = <strong class="text-sky-600">${speedMbps} Mbps</strong></p>
+                        </div>
+                    `
+                };
+            }
+
+            // 時間算出
+            generateTime() {
+                const speedMbps = [150, 100, 50, 200][Math.floor(Math.random() * 4)];
+                const sizeMB = [750, 300, 500][Math.floor(Math.random() * 3)];
+
+                const sizeMb = sizeMB * 8;
+                const timeSec = sizeMb / speedMbps;
+
+                return {
+                    question: `通信速度が ${speedMbps} Mbps の回線を利用して、${sizeMB} MB のデータを転送するのに必要な時間は何秒か。`,
+                    answer: timeSec.toString(),
+                    unit: '秒',
+                    explanation: `
+                        <div class="space-y-3">
+                            <p class="font-bold text-sky-600">① データ量をビットに直す</p>
+                            <p class="text-sm font-mono">${sizeMB} MB × 8 = ${sizeMb} Mb</p>
+                            <p class="font-bold text-sky-600">② 速度で割る</p>
+                            <p class="text-sm font-mono">${sizeMb} Mb ÷ ${speedMbps} Mbps = <strong class="text-sky-600">${timeSec} 秒</strong></p>
+                        </div>
+                    `
+                };
+            }
+
+            // 効率算出
+            generateEfficiency() {
+                const theoryMbps = [50, 100, 200][Math.floor(Math.random() * 3)];
+                const sizeMB = [10, 20, 50][Math.floor(Math.random() * 3)];
+                const timeSec = [2, 4, 8][Math.floor(Math.random() * 3)];
+
+                const actualSpeed = (sizeMB * 8) / timeSec;
+                const efficiency = (actualSpeed / theoryMbps) * 100;
+
+                return {
+                    question: `理論上の通信速度が ${theoryMbps} Mbps の回線を利用して、${sizeMB} MB のデータを転送したところ、所要時間は ${timeSec} 秒であった。この回線の伝送効率は何 % か。`,
+                    answer: efficiency.toString(),
+                    unit: '%',
+                    explanation: `
+                        <div class="space-y-3">
+                            <p class="font-bold text-sky-600">① 実際の実効速度を出す</p>
+                            <p class="text-sm font-mono">${sizeMB} MB × 8 = ${sizeMB * 8} Mb</p>
+                            <p class="text-sm font-mono">${sizeMB * 8} Mb ÷ ${timeSec} 秒 = ${actualSpeed} Mbps</p>
+                            <p class="font-bold text-sky-600">② 理論値に対する割合を出す</p>
+                            <p class="text-sm font-mono">${actualSpeed} ÷ ${theoryMbps} = ${actualSpeed / theoryMbps} → <strong class="text-sky-600">${efficiency}%</strong></p>
+                        </div>
+                    `
+                };
+            }
+
+            // 効率考慮した時間
+            generateCombined() {
+                const theoryMbps = [120, 200, 500][Math.floor(Math.random() * 3)];
+                const efficiency = [0.8, 0.5, 0.6][Math.floor(Math.random() * 3)];
+                const sizeMB = [300, 600, 1000][Math.floor(Math.random() * 3)];
+
+                const effectiveSpeed = theoryMbps * efficiency;
+                const sizeMb = sizeMB * 8;
+                const timeSec = parseFloat((sizeMb / effectiveSpeed).toFixed(2));
+
+                return {
+                    question: `理論速度 ${theoryMbps} Mbps、伝送効率 ${(efficiency * 100)}% の回線で、${sizeMB} MB のデータを転送するのにかかる時間は何秒か。`,
+                    answer: timeSec.toString(),
+                    unit: '秒',
+                    explanation: `
+                        <div class="space-y-3">
+                            <p class="font-bold text-sky-600">① 実効速度（実際のスピード）を出す</p>
+                            <p class="text-sm font-mono">${theoryMbps} Mbps × ${efficiency} = ${effectiveSpeed} Mbps</p>
+                            <p class="font-bold text-sky-600">② 転送時間を出す</p>
+                            <p class="text-sm font-mono">${sizeMB} MB × 8 = ${sizeMb} Mb</p>
+                            <p class="text-sm font-mono">${sizeMb} Mb ÷ ${effectiveSpeed} Mbps = <strong class="text-sky-600">${timeSec} 秒</strong></p>
+                        </div>
+                    `
+                };
+            }
+        }
+
+        let session = new QuizSession(10);
+        let generator = new NetworkQuestionGenerator();
+        let currentQ = null;
+        let answered = false;
+
+        function startQuiz() {
+            session = new QuizSession(10);
+            answered = false;
+            document.getElementById('quiz-area').classList.remove('hidden');
+            document.getElementById('result-area').classList.add('hidden');
+            document.getElementById('correct-count').textContent = '0';
+            setupNextQuestion();
+        }
+
+        function setupNextQuestion() {
+            answered = false;
+            currentQ = generator.generate();
+
+            document.getElementById('current-num').textContent = session.current + 1;
+            document.getElementById('progress-fill').style.width = `${(session.current / session.total) * 100}%`;
+
+            document.getElementById('question-text').textContent = currentQ.question;
+            document.getElementById('unit-label').textContent = currentQ.unit;
+
+            const input = document.getElementById('answer-input');
+            input.value = '';
+            input.disabled = false;
+            input.className = 'answer-input w-48 text-center';
+            input.focus();
+
+            document.getElementById('feedback').innerHTML = '';
+            document.getElementById('explanation').classList.add('hidden');
+            document.getElementById('btn-area').innerHTML = `
+                <button onclick="submitAnswer()"
+                    class="px-12 py-4 bg-gradient-to-r from-slate-800 to-slate-900 text-white font-black rounded-xl shadow-lg transition-all hover:scale-[1.02] active:scale-95 text-lg">
+                    答える
+                </button>`;
+
+            const card = document.getElementById('question-card');
+            card.classList.remove('animate-fade-in');
+            void card.offsetWidth;
+            card.classList.add('animate-fade-in');
+        }
+
+        function submitAnswer() {
+            if (answered) return;
+            const input = document.getElementById('answer-input');
+            let userVal = input.value.trim().replace(/,/g, '');
+
+            if (!userVal || isNaN(userVal)) {
+                input.focus();
+                return;
+            }
+
+            const isCorrect = Math.abs(parseFloat(userVal) - parseFloat(currentQ.answer)) < 0.1;
+            answered = true;
+
+            session.submit(currentQ.question.substring(0, 40) + '...', currentQ.answer, userVal, isCorrect);
+
+            input.disabled = true;
+            if (isCorrect) {
+                input.classList.add('correct');
+                document.getElementById('correct-count').textContent = session.correct;
+                document.getElementById('feedback').innerHTML =
+                    `<div class="feedback-badge correct font-black">✅ 正解！ ${currentQ.answer}${currentQ.unit}</div>`;
+            } else {
+                input.classList.add('incorrect');
+                document.getElementById('feedback').innerHTML =
+                    `<div class="feedback-badge incorrect font-black">❌ 不正解 — 正解は ${currentQ.answer}${currentQ.unit}</div>`;
+                showExplanation();
+            }
+
+            setTimeout(() => {
+                document.getElementById('btn-area').innerHTML = session.isComplete
+                    ? `<button onclick="showResult()" class="px-12 py-4 bg-gradient-to-r from-sky-500 to-sky-600 text-white font-black rounded-xl shadow-lg transition-all hover:scale-[1.02] text-lg">
+                        🏆 結果を見る
+                       </button>`
+                    : `<button onclick="setupNextQuestion()" class="px-12 py-4 bg-gradient-to-r from-slate-800 to-slate-900 text-white font-black rounded-xl shadow-lg transition-all hover:scale-[1.02] text-lg">
+                        次の問題 →
+                       </button>`;
+            }, isCorrect ? 800 : 2000);
+        }
+
+        function showExplanation() {
+            const expEl = document.getElementById('explanation');
+            expEl.classList.remove('hidden');
+            expEl.innerHTML = `
+                <div class="text-slate-400 font-bold mb-4 flex items-center gap-2 tracking-widest uppercase text-xs">
+                    <span class="w-1.5 h-1.5 rounded-full bg-slate-200"></span>
+                    Step by Step Solution
+                </div>
+                ${currentQ.explanation}
+            `;
+        }
+
+        function showResult() {
+            document.getElementById('quiz-area').classList.add('hidden');
+            const resultEl = document.getElementById('result-area');
+            resultEl.classList.remove('hidden');
+            renderResult(session, 'result-area', 'startQuiz',
+                '../lessons/network-speed.html',
+                null);
+        }
+
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Enter' && !answered) submitAnswer();
+            else if (e.key === 'Enter' && answered && !session.isComplete) setupNextQuestion();
+        });
+
+        startQuiz();
+    </script>
+</body>
+
+</html>
