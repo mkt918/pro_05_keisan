@@ -1,0 +1,189 @@
+/* 電卓のフローティングアイコン */
+.calc-toggle-btn {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 3.5rem;
+    height: 3.5rem;
+    background: linear-gradient(135deg, #1e293b, #0f172a);
+    color: white;
+    border-radius: 1rem;
+    display: flex;
+    items-center: center;
+    justify-content: center;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    z-index: 1000;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.calc-toggle-btn:hover {
+    transform: translateY(-5px) scale(1.05);
+    background: linear-gradient(135deg, #334155, #1e293b);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4);
+}
+
+.calc-toggle-btn svg {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+/* 電卓本体のモーダル */
+.calc-modal {
+    position: fixed;
+    bottom: 6rem;
+    right: 2rem;
+    width: 280px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 1.5rem;
+    box-shadow: 0 20px 50px -12px rgba(0, 0, 0, 0.25);
+    z-index: 1001;
+    overflow: hidden;
+    display: none;
+    flex-direction: column;
+    animation: calc-slide-up 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes calc-slide-up {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.calc-modal.show {
+    display: flex;
+}
+
+/* 電卓ヘッダー */
+.calc-header {
+    padding: 1rem;
+    background: #1e293b;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    items-center: center;
+}
+
+.calc-header h4 {
+    margin: 0;
+    font-size: 0.75rem;
+    font-weight: 900;
+    letter-spacing: 0.1em;
+}
+
+.calc-close {
+    cursor: pointer;
+    padding: 0.25rem;
+    opacity: 0.6;
+    transition: opacity 0.2s;
+}
+
+.calc-close:hover {
+    opacity: 1;
+}
+
+/* ディスプレイ */
+.calc-display-area {
+    padding: 1.5rem 1rem;
+    background: #fff;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.calc-history {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: #64748b;
+    text-align: right;
+    height: 1rem;
+    margin-bottom: 0.25rem;
+}
+
+#calc-display {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #0f172a;
+    text-align: right;
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+/* ボタンエリア */
+.calc-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: #e2e8f0;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.calc-btn {
+    padding: 1.25rem 0;
+    background: #fff;
+    border: none;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #334155;
+    cursor: pointer;
+    transition: all 0.1s;
+    user-select: none;
+}
+
+.calc-btn:hover {
+    background: #f1f5f9;
+}
+
+.calc-btn:active {
+    background: #e2e8f0;
+}
+
+.calc-btn.op {
+    background: #f8fafc;
+    color: #6366f1;
+    font-weight: 800;
+}
+
+.calc-btn.op:hover {
+    background: #eff6ff;
+}
+
+.calc-btn.eq {
+    background: #6366f1;
+    color: #fff;
+}
+
+.calc-btn.eq:hover {
+    background: #4f46e5;
+}
+
+.calc-btn.ac {
+    color: #ef4444;
+}
+
+/* スマホ対応 */
+@media (max-width: 640px) {
+    .calc-toggle-btn {
+        bottom: 1rem;
+        right: 1rem;
+    }
+
+    .calc-modal {
+        bottom: 5rem;
+        right: 1rem;
+        width: 240px;
+    }
+
+    .calc-btn {
+        padding: 1rem 0;
+    }
+}
