@@ -143,10 +143,16 @@
 
             // MTBF, MTTR から稼働率を直接計算
             generateBasicCalc() {
-                const mtbfBase = [195, 800, 900, 1000][Math.floor(Math.random() * 4)];
-                const mttrBase = [5, 10, 20, 50][Math.floor(Math.random() * 4)];
+                // MTBF + MTTR が切りよく割り切れるペア
+                const pairs = [
+                    { mtbf: 900, mttr: 100 },  // 900/1000 = 0.9
+                    { mtbf: 800, mttr: 200 },  // 800/1000 = 0.8
+                    { mtbf: 480, mttr: 20 },  // 480/500  = 0.96
+                    { mtbf: 190, mttr: 10 },  // 190/200  = 0.95
+                ];
+                const { mtbf: mtbfBase, mttr: mttrBase } = pairs[Math.floor(Math.random() * pairs.length)];
 
-                const availability = parseFloat((mtbfBase / (mtbfBase + mttrBase)).toFixed(3));
+                const availability = parseFloat((mtbfBase / (mtbfBase + mttrBase)).toFixed(2));
 
                 return {
                     question: `あるシステムの平均故障間隔 (MTBF) が ${mtbfBase} 時間、平均修復時間 (MTTR) が ${mttrBase} 時間であるとき、このシステムの稼働率を求めなさい。`,
@@ -156,22 +162,27 @@
                         <div class="space-y-3">
                             <p class="font-bold text-teal-600">公式に当てはめる</p>
                             <p class="font-mono text-sm leading-relaxed">稼働率 = MTBF ÷ (MTBF + MTTR)</p>
-                            <p class="font-mono text-sm leading-relaxed">稼働率 = ${mtbfBase} ÷ (${mtbfBase} + ${mttrBase})</p>
-                            <p class="font-mono text-sm leading-relaxed">稼働率 = ${mtbfBase} ÷ ${mtbfBase + mttrBase}</p>
-                            <p class="font-mono text-lg font-black text-orange-600">≒ ${availability}</p>
+                            <p class="font-mono text-sm leading-relaxed">= ${mtbfBase} ÷ (${mtbfBase} + ${mttrBase}) = ${mtbfBase} ÷ ${mtbfBase + mttrBase}</p>
+                            <p class="font-mono text-lg font-black text-orange-600">= ${availability}</p>
                         </div>
                     `
                 };
             }
 
-            // サンプルに基づいた単位変換パターンの拡充
+            // 単位変換パターン（日→時間）
             generateSampleConversion() {
-                const mtbfDay = [10, 12, 15, 20][Math.floor(Math.random() * 4)];
-                const mttrHour = [10, 12, 18, 24][Math.floor(Math.random() * 4)];
+                // MTBF(日) × 24 + MTTR(時間) が切りよく割り切れるペア
+                const params = [
+                    { mtbfDay: 10, mttrHour: 40 },  // 240/(240+40)  = 240/280  ≒ 0.857
+                    { mtbfDay: 5, mttrHour: 20 },  // 120/(120+20)  = 120/140  ≒ 0.857
+                    { mtbfDay: 20, mttrHour: 40 },  // 480/(480+40)  = 480/520  ≒ 0.923
+                    { mtbfDay: 9, mttrHour: 24 },  // 216/(216+24)  = 216/240  = 0.9
+                ];
+                const { mtbfDay, mttrHour } = params[Math.floor(Math.random() * params.length)];
 
                 // 日を時間に変換
                 const mtbfHour = mtbfDay * 24;
-                const availability = parseFloat((mtbfHour / (mtbfHour + mttrHour)).toFixed(3));
+                const availability = parseFloat((mtbfHour / (mtbfHour + mttrHour)).toFixed(2));
 
                 return {
                     question: `平均故障間隔 (MTBF) が ${mtbfDay} 日間、平均修復時間 (MTTR) が ${mttrHour} 時間のシステムの稼働率を求めなさい。ただし、このシステムは毎日 24 時間稼働しているものとする。`,
@@ -193,14 +204,19 @@
 
             // 稼働合計と修復合計からの算出
             generateUnitConversion() {
-                const day = [10, 20, 30][Math.floor(Math.random() * 3)];
-                const hour = [4, 8, 12][Math.floor(Math.random() * 3)];
-                const failureCount = [1, 2][Math.floor(Math.random() * 2)];
+                // (日 × 24) ÷ 故障数 と 修復 ÷ 故障数 が整数になるペア
+                const params = [
+                    { day: 10, hour: 24, failureCount: 1 },  // MTBF=240, MTTR=24 → 0.91
+                    { day: 5, hour: 20, failureCount: 1 },  // MTBF=120, MTTR=20 → 0.86
+                    { day: 10, hour: 24, failureCount: 2 },  // MTBF=120, MTTR=12 → 0.91
+                    { day: 20, hour: 40, failureCount: 2 },  // MTBF=240, MTTR=20 → 0.92
+                ];
+                const { day, hour, failureCount } = params[Math.floor(Math.random() * params.length)];
 
                 const mtbfHours = (day * 24) / failureCount;
                 const mttrHours = hour / failureCount;
 
-                const availability = parseFloat((mtbfHours / (mtbfHours + mttrHours)).toFixed(3));
+                const availability = parseFloat((mtbfHours / (mtbfHours + mttrHours)).toFixed(2));
 
                 return {
                     question: `あるシステムが ${day} 日稼働し、その間に故障が ${failureCount} 回発生した。その修復に合計で ${hour} 時間かかったとき、このシステムの稼働率を求めなさい。(1日=24時間とする)`,

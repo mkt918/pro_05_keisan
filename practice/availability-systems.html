@@ -148,16 +148,17 @@
 
             // 直列
             generateSeries() {
-                const count = Math.random() > 0.3 ? 3 : 2; // 3台の確率を上げる
+                const count = Math.random() > 0.5 ? 3 : 2;
                 const names = ['A', 'B', 'C'];
+                // 切りの良い値で、積も計算しやすい組み合わせ
                 const vals = [];
                 for (let i = 0; i < count; i++) {
-                    vals.push([0.9, 0.8, 0.95, 0.85][Math.floor(Math.random() * 4)]);
+                    vals.push([0.9, 0.8, 0.7, 0.6][Math.floor(Math.random() * 4)]);
                 }
 
                 let answer = 1;
                 vals.forEach(v => answer *= v);
-                answer = parseFloat(answer.toFixed(4));
+                answer = parseFloat(answer.toFixed(3));
 
                 let diag = `<div class="flex items-center gap-3 py-6 px-10 bg-white rounded-3xl border border-slate-100 shadow-sm">`;
                 vals.forEach((v, i) => {
@@ -190,16 +191,17 @@
 
             // 並列
             generateParallel() {
-                const count = Math.random() > 0.3 ? 3 : 2; // 3台の確率を上げる
+                const count = Math.random() > 0.5 ? 3 : 2;
                 const names = ['D', 'E', 'F'];
+                // 故障率 = 1 - 稼働率 が切りの良い値
                 const vals = [];
                 for (let i = 0; i < count; i++) {
-                    vals.push([0.9, 0.75, 0.8, 0.95][Math.floor(Math.random() * 4)]);
+                    vals.push([0.9, 0.8, 0.7, 0.6][Math.floor(Math.random() * 4)]);
                 }
 
                 let failureProduct = 1;
                 vals.forEach(v => failureProduct *= (1 - v));
-                let answer = parseFloat((1 - failureProduct).toFixed(5));
+                let answer = parseFloat((1 - failureProduct).toFixed(3));
 
                 let diag = `
                     <div class="flex items-center gap-4 py-8 px-12 bg-white rounded-3xl border border-slate-100 shadow-sm relative">

@@ -152,10 +152,11 @@
             // 表形式のHDD容量計算 (ランダム)
             generateHDDTable() {
                 const params = [
-                    { sectorSize: 400, sectorsPerTrack: 200, tracksPerCylinder: 100, cylinders: 2000 },
-                    { sectorSize: 512, sectorsPerTrack: 150, tracksPerCylinder: 80, cylinders: 3000 },
-                    { sectorSize: 1000, sectorsPerTrack: 100, tracksPerCylinder: 50, cylinders: 5000 },
-                    { sectorSize: 2000, sectorsPerTrack: 50, tracksPerCylinder: 40, cylinders: 1000 },
+                    // 答えが切りの良いGBになるペア
+                    { sectorSize: 500, sectorsPerTrack: 100, tracksPerCylinder: 100, cylinders: 2000 }, // 10 GB
+                    { sectorSize: 1000, sectorsPerTrack: 100, tracksPerCylinder: 50, cylinders: 2000 }, // 10 GB
+                    { sectorSize: 500, sectorsPerTrack: 200, tracksPerCylinder: 50, cylinders: 4000 }, // 20 GB
+                    { sectorSize: 1000, sectorsPerTrack: 50, tracksPerCylinder: 100, cylinders: 1000 }, //  5 GB
                 ];
                 const p = params[Math.floor(Math.random() * params.length)];
                 const { sectorSize, sectorsPerTrack, tracksPerCylinder, cylinders } = p;
@@ -209,11 +210,11 @@
 
             // ゾーンビット（表形式・範囲指定）
             generateHDDZonalTable() {
-                // ランダムパラメータ
                 const paramSets = [
-                    { sectorSize: 2000, sectors1: 300, sectors2: 200, tracks1: 1000, tracks2: 500, surfaces: 20 },
-                    { sectorSize: 1000, sectors1: 250, sectors2: 150, tracks1: 800, tracks2: 400, surfaces: 10 },
-                    { sectorSize: 500, sectors1: 400, sectors2: 300, tracks1: 500, tracks2: 500, surfaces: 16 },
+                    // 答えが切りの良いGBになるペア
+                    { sectorSize: 1000, sectors1: 200, sectors2: 100, tracks1: 500, tracks2: 500, surfaces: 10 }, // 1.5 GB
+                    { sectorSize: 2000, sectors1: 100, sectors2: 50, tracks1: 500, tracks2: 500, surfaces: 20 }, //  3 GB
+                    { sectorSize: 500, sectors1: 200, sectors2: 100, tracks1: 500, tracks2: 500, surfaces: 8 }, // 0.6 GB
                 ];
                 const { sectorSize, sectors1, sectors2, tracks1, tracks2, surfaces } =
                     paramSets[Math.floor(Math.random() * paramSets.length)];

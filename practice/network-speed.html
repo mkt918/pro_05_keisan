@@ -151,11 +151,12 @@
 
             // 1. 転送時間の算出
             generateTimeCalc() {
+                // 答えが整数になるペア
                 const params = [
-                    { dataSizeMB: 20, speedMbps: 100, efficiency: 0.8 },
-                    { dataSizeMB: 50, speedMbps: 200, efficiency: 0.5 },
-                    { dataSizeMB: 150, speedMbps: 300, efficiency: 0.8 },
-                    { dataSizeMB: 30, speedMbps: 100, efficiency: 0.6 },
+                    { dataSizeMB: 10, speedMbps: 100, efficiency: 0.8 },  // 80÷80=1秒
+                    { dataSizeMB: 50, speedMbps: 100, efficiency: 0.5 },  // 400÷50=8秒
+                    { dataSizeMB: 60, speedMbps: 200, efficiency: 0.6 },  // 480÷120=4秒
+                    { dataSizeMB: 100, speedMbps: 200, efficiency: 0.5 },  // 800÷100=8秒
                 ];
                 const { dataSizeMB, speedMbps, efficiency } = params[Math.floor(Math.random() * params.length)];
 
@@ -184,11 +185,12 @@
 
             // 2. 必要速度の算出
             generateSpeedCalc() {
+                // 答えが整数(Mbps)になるペア
                 const params = [
-                    { dataSizeMB: 90, timeSec: 8, efficiency: 0.9 },
-                    { dataSizeMB: 60, timeSec: 4, efficiency: 0.8 },
-                    { dataSizeMB: 150, timeSec: 5, efficiency: 0.75 },
-                    { dataSizeMB: 200, timeSec: 10, efficiency: 0.8 },
+                    { dataSizeMB: 100, timeSec: 10, efficiency: 0.8 },   // 100Mbps
+                    { dataSizeMB: 90, timeSec: 6, efficiency: 0.75 },  // 160Mbps
+                    { dataSizeMB: 50, timeSec: 5, efficiency: 0.8 },   // 100Mbps
+                    { dataSizeMB: 60, timeSec: 4, efficiency: 0.75 },  // 160Mbps
                 ];
                 const { dataSizeMB, timeSec, efficiency } = params[Math.floor(Math.random() * params.length)];
 
@@ -214,11 +216,12 @@
 
             // 3. 伝送効率の逆算
             generateEfficiencyCalc() {
+                // 答えが切りの良い%になるペア
                 const params = [
-                    { dataSizeMB: 45, speedMbps: 150, timeSec: 3 },
-                    { dataSizeMB: 80, speedMbps: 200, timeSec: 4 },
-                    { dataSizeMB: 120, speedMbps: 400, timeSec: 3 },
-                    { dataSizeMB: 25, speedMbps: 100, timeSec: 2 },
+                    { dataSizeMB: 100, speedMbps: 200, timeSec: 5 },   // 80%
+                    { dataSizeMB: 60, speedMbps: 200, timeSec: 4 },   // 60%
+                    { dataSizeMB: 50, speedMbps: 100, timeSec: 5 },   // 80%
+                    { dataSizeMB: 75, speedMbps: 300, timeSec: 4 },   // 50%
                 ];
                 const { dataSizeMB, speedMbps, timeSec } = params[Math.floor(Math.random() * params.length)];
 
@@ -246,11 +249,12 @@
 
             // 4. 特定時間の転送量
             generateDataSumCalc() {
+                // 答えが切りの良いGBになるペア
                 const params = [
-                    { speedMbps: 200, efficiency: 0.9, timeSec: 60 },
-                    { speedMbps: 100, efficiency: 0.8, timeSec: 120 },
-                    { speedMbps: 500, efficiency: 0.75, timeSec: 60 },
-                    { speedMbps: 400, efficiency: 0.5, timeSec: 30 },
+                    { speedMbps: 100, efficiency: 0.8, timeSec: 100 },  // 1 GB
+                    { speedMbps: 200, efficiency: 0.5, timeSec: 80 },  // 1 GB
+                    { speedMbps: 200, efficiency: 0.8, timeSec: 100 },  // 2 GB
+                    { speedMbps: 100, efficiency: 0.8, timeSec: 50 },  // 0.5 GB
                 ];
                 const { speedMbps, efficiency, timeSec } = params[Math.floor(Math.random() * params.length)];
 
@@ -259,7 +263,7 @@
                 const totalMB = totalMb / 8;
                 const totalGB = parseFloat((totalMB / 1000).toFixed(4));
 
-                const timeStr = timeSec === 60 ? '1分間 (60秒)' : timeSec === 120 ? '2分間 (120秒)' : `${timeSec}秒`;
+                const timeStr = `${timeSec}秒間`;
 
                 return {
                     question: `通信速度が ${speedMbps} Mbps で、伝送効率が ${efficiency * 100}% の通信回線を用いて、${timeStr}に伝送できるデータ量 (GB) を求めなさい。ただし、1 GB = 10³ MB とする。`,
