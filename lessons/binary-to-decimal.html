@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>二進数 → 十進数の変換 | IT基礎学習</title>
+    <meta name="description" content="二進数を十進数に変換する方法を図解でわかりやすく解説。桁の重みと2の累乗を使った計算手順をステップで学ぼう。">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: { 950: '#060B18', 900: '#0D1426', 800: '#111D38', 700: '#1A2A4A', 600: '#243558' },
+                        teal: { 400: '#2DD4BF', 500: '#14B8A6', 600: '#0D9488' },
+                        orange: { 400: '#FB923C', 500: '#F97316' },
+                    },
+                    fontFamily: { sans: ['"Noto Sans JP"', 'sans-serif'], mono: ['"JetBrains Mono"', 'monospace'] },
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-navy-950 text-gray-100 font-sans min-h-screen pb-28">
+
+    <!-- ヘッダー -->
+    <header class="sticky top-0 z-50 bg-navy-900/90 backdrop-blur-md border-b border-navy-700">
+        <div class="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
+            <a href="../index.html" class="flex items-center gap-3 group">
+                <div
+                    class="w-9 h-9 rounded-lg bg-gradient-to-br from-teal-400 to-teal-600 flex items-center justify-center text-navy-950 font-mono font-bold text-sm shadow-glow group-hover:scale-110 transition-transform">
+                    IT</div>
+                <span class="font-bold text-white">IT基礎学習</span>
+            </a>
+            <span class="hidden md:flex items-center gap-2 text-sm text-teal-400">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                </svg>
+                解説ページ
+            </span>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-4 py-10">
+        <!-- パンくず -->
+        <nav class="breadcrumb">
+            <a href="../index.html">ホーム</a>
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+            <span>第1章：基数変換</span>
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+            <span class="text-gray-300">二進数 → 十進数</span>
+        </nav>
+
+        <!-- タイトル -->
+        <div class="mb-10">
+            <div class="flex items-center gap-3 mb-4">
+                <span
+                    class="px-3 py-1 bg-teal-900/50 text-teal-400 text-xs font-medium rounded-full border border-teal-800">Unit
+                    01</span>
+                <span class="text-gray-500 text-sm">⏱ 約10分</span>
+            </div>
+            <h1 class="text-3xl md:text-4xl font-black text-white mb-3">
+                二進数 <span class="text-teal-400">→</span> 十進数 の変換
+            </h1>
+            <p class="text-gray-400 text-lg">「桁の重み」と「2の累乗」を使って十進数に変換しよう</p>
+        </div>
+
+        <!-- 目次 -->
+        <div class="bg-navy-800/50 border border-navy-600 rounded-xl p-5 mb-10">
+            <div class="text-sm font-medium text-gray-400 mb-3">📋 このページの内容</div>
+            <ol class="space-y-1">
+                <li><a href="#what-is-binary" class="text-teal-400 text-sm hover:underline">01. 二進数とは？</a></li>
+                <li><a href="#place-value" class="text-teal-400 text-sm hover:underline">02. 桁の重みを理解する</a></li>
+                <li><a href="#how-to-convert" class="text-teal-400 text-sm hover:underline">03. 変換の手順（図解）</a></li>
+                <li><a href="#example1" class="text-teal-400 text-sm hover:underline">04. 例題①：1011(2) を変換</a></li>
+                <li><a href="#example2" class="text-teal-400 text-sm hover:underline">05. 例題②：10110100(2) を変換</a></li>
+                <li><a href="#tips" class="text-teal-400 text-sm hover:underline">06. 暗記の近道：2の累乗表</a></li>
+            </ol>
+        </div>
+
+        <!-- 01: 二進数とは？ -->
+        <section id="what-is-binary" class="lesson-step mb-8">
+            <div class="lesson-step__num">01 二進数とは？</div>
+            <h2 class="text-xl font-bold text-white mb-4 mt-2">0と1だけで数を表す仕組み</h2>
+            <p class="text-gray-300 mb-5 leading-relaxed">
+                私たちが普段使う十進数は 0〜9 の 10種類の数字を使います。<br>
+                コンピュータが使う <strong class="text-teal-400">二進数（2進法）</strong> は、<strong class="text-white">0 と 1 の
+                    2種類だけ</strong> で数を表します。
+            </p>
+            <div class="grid md:grid-cols-2 gap-4">
+                <div class="bg-navy-800 rounded-xl p-4">
+                    <div class="text-xs text-gray-500 mb-2 font-medium">十進数（私たちの世界）</div>
+                    <div class="font-mono text-orange-400 text-xl font-bold">0, 1, 2, 3, 4, 5, 6, 7, 8, 9</div>
+                    <div class="text-xs text-gray-500 mt-2">10になったら桁が上がる</div>
+                </div>
+                <div class="bg-navy-800 rounded-xl p-4">
+                    <div class="text-xs text-gray-500 mb-2 font-medium">二進数（コンピュータの世界）</div>
+                    <div class="font-mono text-teal-400 text-xl font-bold">0, 1</div>
+                    <div class="text-xs text-gray-500 mt-2">2になったら桁が上がる</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 02: 桁の重み -->
+        <section id="place-value" class="lesson-step mb-8">
+            <div class="lesson-step__num">02 桁の重みを理解する</div>
+            <h2 class="text-xl font-bold text-white mb-4 mt-2">「桁の重み」が変換のカギ</h2>
+            <p class="text-gray-300 mb-5 leading-relaxed">
+                十進数の「123」は、百の位・十の位・一の位と、各桁に<strong class="text-white">重み</strong>があります。<br>
+                二進数も同じで、各桁の重みは <strong class="text-teal-400">2の累乗</strong> になります。
+            </p>
+            <div class="formula-box">
+                右端（一番小さい桁）= 2⁰ = 1<br>
+                一つ左 = 2¹ = 2<br>
+                さらに左 = 2² = 4 ……
+            </div>
+            <div class="overflow-x-auto mt-4">
+                <table class="calc-table">
+                    <thead>
+                        <tr>
+                            <th>桁の位置（右から）</th>
+                            <th>8桁目</th>
+                            <th>7桁目</th>
+                            <th>6桁目</th>
+                            <th>5桁目</th>
+                            <th>4桁目</th>
+                            <th>3桁目</th>
+                            <th>2桁目</th>
+                            <th>1桁目</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="text-gray-500 text-xs">累乗</td>
+                            <td>2⁷</td>
+                            <td>2⁶</td>
+                            <td>2⁵</td>
+                            <td>2⁴</td>
+                            <td>2³</td>
+                            <td>2²</td>
+                            <td>2¹</td>
+                            <td>2⁰</td>
+                        </tr>
+                        <tr>
+                            <td class="text-gray-500 text-xs">重み（十進数値）</td>
+                            <td class="highlight-val">128</td>
+                            <td class="highlight-val">64</td>
+                            <td class="highlight-val">32</td>
+                            <td class="highlight-val">16</td>
+                            <td class="highlight-val">8</td>
+                            <td class="highlight-val">4</td>
+                            <td class="highlight-val">2</td>
+                            <td class="highlight-val">1</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- 03: 変換手順 -->
+        <section id="how-to-convert" class="lesson-step mb-8">
+            <div class="lesson-step__num">03 変換の手順</div>
+            <h2 class="text-xl font-bold text-white mb-4 mt-2">3ステップで変換できる！</h2>
+            <div class="space-y-4">
+                <div class="flex gap-4 items-start">
+                    <div
+                        class="w-8 h-8 rounded-full bg-teal-500/20 border border-teal-500/40 flex items-center justify-center text-teal-400 font-mono font-bold text-sm flex-shrink-0 mt-0.5">
+                        1</div>
+                    <div>
+                        <div class="font-bold text-white mb-1">各桁に「重み」を割り当てる</div>
+                        <p class="text-gray-400 text-sm">右端を 2⁰=1 として、左に向かって 2¹=2、2²=4… と倍にしていく</p>
+                    </div>
+                </div>
+                <div class="flex gap-4 items-start">
+                    <div
+                        class="w-8 h-8 rounded-full bg-teal-500/20 border border-teal-500/40 flex items-center justify-center text-teal-400 font-mono font-bold text-sm flex-shrink-0 mt-0.5">
+                        2</div>
+                    <div>
+                        <div class="font-bold text-white mb-1">ビットが「1」の桁の重みだけを選ぶ</div>
+                        <p class="text-gray-400 text-sm">0の桁は無視。1の桁の重みだけが計算に使われる</p>
+                    </div>
+                </div>
+                <div class="flex gap-4 items-start">
+                    <div
+                        class="w-8 h-8 rounded-full bg-orange-500/20 border border-orange-500/40 flex items-center justify-center text-orange-400 font-mono font-bold text-sm flex-shrink-0 mt-0.5">
+                        3</div>
+                    <div>
+                        <div class="font-bold text-white mb-1">選んだ重みをすべて足す</div>
+                        <p class="text-gray-400 text-sm">足した合計が求める十進数の答え</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 04: 例題1 -->
+        <section id="example1" class="lesson-step mb-8">
+            <div class="lesson-step__num">04 例題① 1011(2) を変換</div>
+            <h2 class="text-xl font-bold text-white mb-6 mt-2">
+                <span class="font-mono text-orange-400">1011</span><span
+                    class="text-gray-500 text-base align-middle ml-1">(2)</span>
+                <span class="text-gray-400 mx-3">→</span>
+                <span class="text-gray-400">?</span><span class="text-gray-500 text-base align-middle ml-1">(10)</span>
+            </h2>
+
+            <!-- ビジュアル図解 -->
+            <div class="bg-navy-800/60 rounded-xl p-6 mb-6">
+                <div class="flex justify-center gap-3 mb-3" id="ex1-bits">
+                    <div class="ex-bit ex-bit--1" data-weight="8">
+                        <div class="ex-bit__val">1</div>
+                        <div class="ex-bit__weight">2³=<span class="text-orange-400">8</span></div>
+                    </div>
+                    <div class="ex-bit ex-bit--0" data-weight="4">
+                        <div class="ex-bit__val">0</div>
+                        <div class="ex-bit__weight text-gray-600">2²=<span>4</span></div>
+                    </div>
+                    <div class="ex-bit ex-bit--1" data-weight="2">
+                        <div class="ex-bit__val">1</div>
+                        <div class="ex-bit__weight">2¹=<span class="text-orange-400">2</span></div>
+                    </div>
+                    <div class="ex-bit ex-bit--1" data-weight="1">
+                        <div class="ex-bit__val">1</div>
+                        <div class="ex-bit__weight">2⁰=<span class="text-orange-400">1</span></div>
+                    </div>
+                </div>
+                <div class="text-center text-sm text-gray-400 mb-4">↑ 1の桁のみ重みを使う（0の桁は無視）</div>
+                <div class="formula-box text-base">
+                    8 + 0 + 2 + 1 = <span class="text-orange-400 font-bold text-xl">11</span>
+                </div>
+            </div>
+
+            <div class="bg-green-900/20 border border-green-700/40 rounded-xl p-4 text-center">
+                <div class="text-lg font-bold">
+                    <span class="font-mono text-orange-400">1011</span><sub class="text-gray-500">(2)</sub>
+                    <span class="text-gray-400 mx-3">=</span>
+                    <span class="font-mono text-green-400 text-2xl">11</span><sub class="text-gray-500">(10)</sub>
+                </div>
+            </div>
+        </section>
+
+        <!-- 05: 例題2 -->
+        <section id="example2" class="lesson-step mb-8">
+            <div class="lesson-step__num">05 例題② 10110100(2) を変換</div>
+            <h2 class="text-xl font-bold text-white mb-6 mt-2">
+                <span class="font-mono text-orange-400">10110100</span><span
+                    class="text-gray-500 text-base align-middle ml-1">(2)</span>
+                <span class="text-gray-400 mx-3">→</span>
+                <span class="text-gray-400">?</span><span class="text-gray-500 text-base align-middle ml-1">(10)</span>
+            </h2>
+            <div class="overflow-x-auto">
+                <table class="calc-table mb-4">
+                    <thead>
+                        <tr>
+                            <th>ビット</th>
+                            <th>1</th>
+                            <th>0</th>
+                            <th>1</th>
+                            <th>1</th>
+                            <th>0</th>
+                            <th>1</th>
+                            <th>0</th>
+                            <th>0</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="text-gray-500 text-xs">重み</td>
+                            <td>128</td>
+                            <td class="text-gray-600">64</td>
+                            <td>32</td>
+                            <td>16</td>
+                            <td class="text-gray-600">8</td>
+                            <td>4</td>
+                            <td class="text-gray-600">2</td>
+                            <td class="text-gray-600">1</td>
+                        </tr>
+                        <tr>
+                            <td class="text-gray-500 text-xs">使う？</td>
+                            <td class="text-orange-400 font-bold">✓ 128</td>
+                            <td class="text-gray-600">✗</td>
+                            <td class="text-orange-400 font-bold">✓ 32</td>
+                            <td class="text-orange-400 font-bold">✓ 16</td>
+                            <td class="text-gray-600">✗</td>
+                            <td class="text-orange-400 font-bold">✓ 4</td>
+                            <td class="text-gray-600">✗</td>
+                            <td class="text-gray-600">✗</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="formula-box">
+                128 + 32 + 16 + 4 = <span class="text-orange-400 font-bold text-xl">180</span>
+            </div>
+            <div class="bg-green-900/20 border border-green-700/40 rounded-xl p-4 text-center mt-4">
+                <div class="text-lg font-bold">
+                    <span class="font-mono text-orange-400">10110100</span><sub class="text-gray-500">(2)</sub>
+                    <span class="text-gray-400 mx-3">=</span>
+                    <span class="font-mono text-green-400 text-2xl">180</span><sub class="text-gray-500">(10)</sub>
+                </div>
+            </div>
+        </section>
+
+        <!-- 06: 暗記の近道 -->
+        <section id="tips" class="lesson-step mb-8">
+            <div class="lesson-step__num">06 暗記の近道</div>
+            <h2 class="text-xl font-bold text-white mb-4 mt-2">2の累乗表を覚えよう</h2>
+            <p class="text-gray-300 mb-4 text-sm leading-relaxed">
+                試験でよく出る範囲（2⁰〜2⁷）を覚えておくと計算がずっと速くなります。
+            </p>
+            <div class="grid grid-cols-4 md:grid-cols-8 gap-2">
+                <div class="power-card">
+                    <div class="power-card__exp">2⁰</div>
+                    <div class="power-card__val">1</div>
+                </div>
+                <div class="power-card">
+                    <div class="power-card__exp">2¹</div>
+                    <div class="power-card__val">2</div>
+                </div>
+                <div class="power-card">
+                    <div class="power-card__exp">2²</div>
+                    <div class="power-card__val">4</div>
+                </div>
+                <div class="power-card">
+                    <div class="power-card__exp">2³</div>
+                    <div class="power-card__val">8</div>
+                </div>
+                <div class="power-card">
+                    <div class="power-card__exp">2⁴</div>
+                    <div class="power-card__val">16</div>
+                </div>
+                <div class="power-card">
+                    <div class="power-card__exp">2⁵</div>
+                    <div class="power-card__val">32</div>
+                </div>
+                <div class="power-card">
+                    <div class="power-card__exp">2⁶</div>
+                    <div class="power-card__val">64</div>
+                </div>
+                <div class="power-card">
+                    <div class="power-card__exp">2⁷</div>
+                    <div class="power-card__val">128</div>
+                </div>
+            </div>
+            <p class="text-gray-500 text-xs mt-3 text-center">💡 「1→2→4→8→16→32→64→128」と2倍ずつ増えていく！</p>
+        </section>
+
+        <!-- 理解度チェック -->
+        <div class="bg-gradient-to-br from-teal-900/30 to-navy-800 border border-teal-700/30 rounded-2xl p-6 mb-8">
+            <div class="text-teal-400 font-bold mb-2">✅ 理解度チェック</div>
+            <p class="text-gray-300 text-sm mb-1">次の問題を暗算で解いてみよう</p>
+            <p class="font-mono text-white text-lg mb-4"><span class="text-orange-400">1100</span><sub
+                    class="text-gray-500">(2)</sub> = ?</p>
+            <details class="text-sm">
+                <summary class="text-teal-400 cursor-pointer hover:underline">答えを見る</summary>
+                <div class="mt-3 font-mono text-green-400 text-lg">
+                    8+4+0+0 = <strong>12</strong><sub class="text-gray-500 text-sm">(10)</sub>
+                </div>
+            </details>
+        </div>
+    </main>
+
+    <!-- 固定CTA -->
+    <div class="fixed-cta">
+        <a href="../index.html" class="text-gray-500 text-sm hover:text-gray-300">← 単元一覧</a>
+        <a href="../practice/binary-to-decimal.html"
+            class="inline-flex items-center gap-2 bg-gradient-to-r from-orange-500 to-orange-400 hover:from-orange-400 hover:to-orange-300 text-white font-bold px-8 py-3.5 rounded-xl shadow-lg hover:shadow-orange-500/30 transition-all hover:-translate-y-0.5 text-base">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+            </svg>
+            練習問題を解く →
+        </a>
+        <a href="decimal-to-binary.html" class="text-gray-500 text-sm hover:text-gray-300">次の単元 →</a>
+    </div>
+
+    <style>
+        .ex-bit {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            min-width: 60px;
+        }
+
+        .ex-bit__val {
+            width: 52px;
+            height: 52px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .ex-bit__weight {
+            font-size: 0.7rem;
+            text-align: center;
+        }
+
+        .ex-bit--1 .ex-bit__val {
+            background: rgba(45, 212, 191, 0.15);
+            border: 2px solid rgba(45, 212, 191, 0.6);
+            color: #2DD4BF;
+        }
+
+        .ex-bit--0 .ex-bit__val {
+            background: rgba(255, 255, 255, 0.03);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            color: #374151;
+        }
+
+        .power-card {
+            background: rgba(17, 29, 56, 0.8);
+            border: 1px solid rgba(45, 212, 191, 0.15);
+            border-radius: 10px;
+            padding: 10px 6px;
+            text-align: center;
+            transition: all 0.2s;
+        }
+
+        .power-card:hover {
+            border-color: rgba(45, 212, 191, 0.5);
+            background: rgba(45, 212, 191, 0.08);
+        }
+
+        .power-card__exp {
+            font-size: 0.7rem;
+            color: #6B7280;
+            margin-bottom: 4px;
+        }
+
+        .power-card__val {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            color: #FB923C;
+            font-size: 1rem;
+        }
+    </style>
+</body>
+
+</html>

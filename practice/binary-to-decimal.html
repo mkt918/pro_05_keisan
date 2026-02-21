@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>練習問題：二進数→十進数 | IT基礎学習</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: { 950: '#060B18', 900: '#0D1426', 800: '#111D38', 700: '#1A2A4A', 600: '#243558' },
+                        teal: { 400: '#2DD4BF', 500: '#14B8A6', 600: '#0D9488' },
+                        orange: { 400: '#FB923C', 500: '#F97316' },
+                    },
+                    fontFamily: { sans: ['"Noto Sans JP"', 'sans-serif'], mono: ['"JetBrains Mono"', 'monospace'] },
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-navy-950 text-gray-100 font-sans min-h-screen">
+
+    <!-- ヘッダー -->
+    <header class="sticky top-0 z-50 bg-navy-900/90 backdrop-blur-md border-b border-navy-700">
+        <div class="max-w-3xl mx-auto px-4 py-4 flex items-center justify-between">
+            <a href="../index.html" class="flex items-center gap-3">
+                <div
+                    class="w-9 h-9 rounded-lg bg-gradient-to-br from-teal-400 to-teal-600 flex items-center justify-center text-navy-950 font-mono font-bold text-sm">
+                    IT</div>
+                <span class="font-bold text-white">IT基礎学習</span>
+            </a>
+            <a href="../lessons/binary-to-decimal.html"
+                class="text-sm text-teal-400 hover:underline flex items-center gap-1">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13" />
+                </svg>
+                解説を見る
+            </a>
+        </div>
+    </header>
+
+    <main class="max-w-3xl mx-auto px-4 py-8">
+        <!-- パンくず -->
+        <nav class="breadcrumb">
+            <a href="../index.html">ホーム</a>
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+            <a href="../lessons/binary-to-decimal.html">二進数→十進数 解説</a>
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+            <span class="text-gray-300">練習問題</span>
+        </nav>
+
+        <div class="flex items-center gap-3 mb-2">
+            <span
+                class="px-3 py-1 bg-teal-900/50 text-teal-400 text-xs font-medium rounded-full border border-teal-800">Unit
+                01</span>
+            <h1 class="text-2xl font-black text-white">二進数 → 十進数 練習問題</h1>
+        </div>
+        <p class="text-gray-400 text-sm mb-8">二進数を十進数に変換してね。10問連続で挑戦しよう！</p>
+
+        <!-- 進捗 -->
+        <div class="mb-8">
+            <div class="flex justify-between text-sm text-gray-400 mb-2">
+                <span>問題 <span id="current-num" class="text-white font-bold">1</span> / 10</span>
+                <span>正解数 <span id="correct-count" class="text-teal-400 font-bold">0</span></span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-bar__fill" id="progress-fill" style="width: 0%"></div>
+            </div>
+        </div>
+
+        <!-- クイズエリア -->
+        <div id="quiz-area">
+            <div class="quiz-card animate-fade-in" id="question-card">
+                <!-- 問題 -->
+                <div class="text-center mb-8">
+                    <div class="text-gray-400 text-sm mb-3">次の二進数を十進数に変換せよ</div>
+                    <div class="text-5xl md:text-7xl font-mono font-black text-teal-400 mb-2 tracking-widest"
+                        id="question-display">
+                        ----
+                    </div>
+                    <div class="text-gray-500 text-sm">(2)</div>
+                </div>
+
+                <!-- ビット解説 -->
+                <div class="flex justify-center gap-2 mb-8" id="bit-helper"></div>
+
+                <!-- 入力エリア -->
+                <div class="flex flex-col items-center gap-4">
+                    <div class="flex items-center gap-3">
+                        <input type="number" id="answer-input" class="answer-input" placeholder="?" min="0" max="999"
+                            autocomplete="off" id="answer-input">
+                        <span class="text-gray-500 font-mono">(10)</span>
+                    </div>
+
+                    <!-- フィードバック -->
+                    <div id="feedback" class="min-h-[40px] flex items-center justify-center"></div>
+
+                    <!-- 解説（不正解時表示） -->
+                    <div id="explanation"
+                        class="hidden w-full bg-navy-800/60 border border-navy-600 rounded-xl p-4 text-sm font-mono">
+                    </div>
+
+                    <!-- ボタン -->
+                    <div class="flex gap-3 mt-2" id="btn-area">
+                        <button id="submit-btn" onclick="submitAnswer()"
+                            class="px-8 py-3 bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-400 hover:to-teal-500 text-white font-bold rounded-xl shadow-lg hover:shadow-teal-500/30 transition-all">
+                            答える
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 結果エリア（非表示） -->
+        <div id="result-area" class="hidden quiz-card animate-fade-in"></div>
+    </main>
+
+    <script src="../js/quiz.js"></script>
+    <script>
+        let session = new QuizSession(10);
+        let currentQ = null;
+        let answered = false;
+
+        function startQuiz() {
+            session = new QuizSession(10);
+            answered = false;
+            document.getElementById('quiz-area').classList.remove('hidden');
+            document.getElementById('result-area').classList.add('hidden');
+            document.getElementById('correct-count').textContent = '0';
+            setupNextQuestion();
+        }
+
+        function setupNextQuestion() {
+            answered = false;
+            currentQ = generateBinToDecQuestion();
+
+            // 表示更新
+            document.getElementById('current-num').textContent = session.current + 1;
+            document.getElementById('progress-fill').style.width = `${(session.current / session.total) * 100}%`;
+
+            // 問題表示
+            const qDisplay = document.getElementById('question-display');
+            qDisplay.textContent = currentQ.question;
+            qDisplay.classList.remove('text-green-400', 'text-red-400');
+            qDisplay.classList.add('text-teal-400');
+
+            // ビットヘルパー（重み表示）
+            const binaryStr = currentQ.question;
+            const helper = document.getElementById('bit-helper');
+            helper.innerHTML = '';
+            binaryStr.split('').forEach((bit, i) => {
+                const exp = binaryStr.length - 1 - i;
+                const weight = Math.pow(2, exp);
+                const div = document.createElement('div');
+                div.className = 'text-center';
+                div.innerHTML = `
+          <div class="w-10 h-10 rounded-lg flex items-center justify-center font-mono font-bold text-lg mb-1
+            ${bit === '1' ? 'bg-teal-500/15 border border-teal-500/40 text-teal-300' : 'bg-gray-800/50 border border-gray-700 text-gray-600'}">
+            ${bit}
+          </div>
+          <div class="text-xs font-mono ${bit === '1' ? 'text-teal-500' : 'text-gray-600'}">
+            ${bit === '1' ? weight : '×'}
+          </div>`;
+                helper.appendChild(div);
+            });
+
+            // リセット
+            const input = document.getElementById('answer-input');
+            input.value = '';
+            input.className = 'answer-input';
+            input.disabled = false;
+            input.focus();
+
+            document.getElementById('feedback').innerHTML = '';
+            document.getElementById('explanation').classList.add('hidden');
+            document.getElementById('btn-area').innerHTML = `
+        <button id="submit-btn" onclick="submitAnswer()"
+          class="px-8 py-3 bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-400 hover:to-teal-500 text-white font-bold rounded-xl shadow-lg transition-all">
+          答える
+        </button>`;
+
+            // アニメ
+            const card = document.getElementById('question-card');
+            card.classList.remove('animate-fade-in');
+            void card.offsetWidth;
+            card.classList.add('animate-fade-in');
+        }
+
+        function submitAnswer() {
+            if (answered) return;
+            const input = document.getElementById('answer-input');
+            const userVal = input.value.trim();
+            if (userVal === '') { input.focus(); return; }
+
+            const userAnswer = parseInt(userVal, 10);
+            const isCorrect = userAnswer === currentQ.answer;
+            answered = true;
+
+            session.submit(currentQ.question, currentQ.answer, userAnswer, isCorrect);
+
+            // 視覚フィードバック
+            input.disabled = true;
+            const qDisplay = document.getElementById('question-display');
+            if (isCorrect) {
+                input.classList.add('correct');
+                qDisplay.classList.replace('text-teal-400', 'text-green-400');
+                showFeedback(true);
+                document.getElementById('correct-count').textContent = session.correct;
+            } else {
+                input.classList.add('incorrect');
+                qDisplay.classList.replace('text-teal-400', 'text-red-400');
+                showFeedback(false);
+                showExplanation();
+            }
+
+            // 次へボタン
+            setTimeout(() => {
+                document.getElementById('btn-area').innerHTML = session.isComplete
+                    ? `<button onclick="showResult()" class="px-8 py-3 bg-gradient-to-r from-orange-500 to-orange-400 text-white font-bold rounded-xl shadow-lg transition-all">
+              🏆 結果を見る
+             </button>`
+                    : `<button onclick="setupNextQuestion()" class="px-8 py-3 bg-gradient-to-r from-teal-500 to-teal-600 text-white font-bold rounded-xl shadow-lg transition-all">
+              次の問題 →
+             </button>`;
+            }, isCorrect ? 800 : 1500);
+        }
+
+        function showFeedback(isCorrect) {
+            const el = document.getElementById('feedback');
+            el.innerHTML = isCorrect
+                ? `<div class="feedback-badge correct">✅ 正解！ ${currentQ.answer}</div>`
+                : `<div class="feedback-badge incorrect">❌ 不正解 — 正解は ${currentQ.answer}</div>`;
+        }
+
+        function showExplanation() {
+            const binaryStr = currentQ.question;
+            let terms = [];
+            binaryStr.split('').forEach((bit, i) => {
+                if (bit === '1') {
+                    const exp = binaryStr.length - 1 - i;
+                    terms.push(`2<sup>${exp}</sup>(=${Math.pow(2, exp)})`);
+                }
+            });
+            const expEl = document.getElementById('explanation');
+            expEl.classList.remove('hidden');
+            expEl.innerHTML = `
+        <div class="text-gray-400 mb-1">【解き方】</div>
+        <div class="text-teal-300">${terms.join(' + ')} = <strong class="text-orange-400">${currentQ.answer}</strong></div>`;
+        }
+
+        function showResult() {
+            document.getElementById('quiz-area').classList.add('hidden');
+            const resultEl = document.getElementById('result-area');
+            resultEl.classList.remove('hidden');
+            renderResult(session, 'result-area', 'startQuiz',
+                '../lessons/binary-to-decimal.html',
+                'decimal-to-binary.html');
+            document.getElementById('current-num').textContent = '10';
+            document.getElementById('progress-fill').style.width = '100%';
+        }
+
+        // Enterキーで送信
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Enter' && !answered) submitAnswer();
+            else if (e.key === 'Enter' && answered && !session.isComplete) setupNextQuestion();
+        });
+
+        // 初期化
+        startQuiz();
+    </script>
+</body>
+
+</html>

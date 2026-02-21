@@ -1,0 +1,359 @@
+/* ===== カスタム全体スタイル ===== */
+
+html { scroll-behavior: smooth; }
+
+/* グロー効果 */
+.shadow-glow { box-shadow: 0 0 20px rgba(45, 212, 191, 0.4); }
+
+/* ヒーローグリッド背景 */
+.hero-grid {
+  background-image:
+    linear-gradient(rgba(45,212,191,0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(45,212,191,0.08) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* ===== ビットセル ===== */
+.bit-cell {
+  width: 48px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.5rem;
+  font-weight: 700;
+  border-radius: 8px;
+  border: 1px solid rgba(45,212,191,0.2);
+  background: rgba(45,212,191,0.04);
+  color: rgba(45,212,191,0.4);
+  transition: all 0.3s ease;
+}
+
+.bit-cell.lit {
+  background: rgba(45,212,191,0.15);
+  border-color: rgba(45,212,191,0.7);
+  color: #2DD4BF;
+  box-shadow: 0 0 16px rgba(45,212,191,0.4), inset 0 0 8px rgba(45,212,191,0.1);
+}
+
+/* ===== 使い方カード ===== */
+.step-card {
+  background: rgba(17,29,56,0.6);
+  border: 1px solid rgba(45,212,191,0.1);
+  border-radius: 16px;
+  padding: 28px;
+  transition: transform 0.2s, border-color 0.2s;
+}
+.step-card:hover { transform: translateY(-2px); border-color: rgba(45,212,191,0.3); }
+.step-card--active { border-color: rgba(249,115,22,0.3); background: rgba(249,115,22,0.04); }
+
+.step-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: rgba(45,212,191,0.6);
+  letter-spacing: 0.1em;
+  margin-bottom: 12px;
+}
+.step-icon { font-size: 2rem; margin-bottom: 12px; }
+
+/* ===== 単元カード ===== */
+.unit-card {
+  background: rgba(17,29,56,0.8);
+  border: 1px solid rgba(45,212,191,0.12);
+  border-radius: 20px;
+  overflow: hidden;
+  transition: transform 0.25s ease, border-color 0.25s, box-shadow 0.25s;
+  display: flex;
+  flex-direction: column;
+}
+.unit-card:hover,
+.unit-card.hovered {
+  transform: translateY(-4px);
+  border-color: rgba(45,212,191,0.4);
+  box-shadow: 0 12px 40px rgba(45,212,191,0.12);
+}
+
+.unit-card__body { padding: 28px 28px 0; flex: 1; }
+.unit-card__footer {
+  padding: 20px 28px 24px;
+  display: flex;
+  gap: 10px;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  margin-top: 24px;
+}
+
+.unit-icon {
+  width: 64px;
+  height: 56px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* 難易度ドット */
+.difficulty-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+/* タグ */
+.tag {
+  display: inline-block;
+  padding: 3px 10px;
+  background: rgba(45,212,191,0.08);
+  border: 1px solid rgba(45,212,191,0.2);
+  border-radius: 100px;
+  font-size: 0.7rem;
+  color: rgba(45,212,191,0.8);
+}
+
+/* ボタン: 解説 */
+.btn-lesson {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  flex: 1;
+  padding: 10px 16px;
+  background: rgba(45,212,191,0.1);
+  border: 1px solid rgba(45,212,191,0.3);
+  color: #2DD4BF;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+.btn-lesson:hover {
+  background: rgba(45,212,191,0.2);
+  border-color: rgba(45,212,191,0.6);
+  transform: translateY(-1px);
+}
+
+/* ボタン: 練習問題 */
+.btn-practice {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  flex: 1;
+  padding: 10px 16px;
+  background: linear-gradient(135deg, #F97316, #FB923C);
+  color: #fff;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.2s;
+  box-shadow: 0 4px 12px rgba(249,115,22,0.3);
+}
+.btn-practice:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(249,115,22,0.4);
+  filter: brightness(1.1);
+}
+
+/* 準備中カード */
+.coming-soon-card {
+  background: rgba(17,29,56,0.4);
+  border: 1px dashed rgba(255,255,255,0.08);
+  border-radius: 16px;
+  padding: 24px;
+  text-align: center;
+  opacity: 0.6;
+}
+
+/* ===== 解説ページ共通 ===== */
+
+/* パンくず */
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  color: #6B7280;
+  margin-bottom: 32px;
+}
+.breadcrumb a { color: rgba(45,212,191,0.7); text-decoration: none; }
+.breadcrumb a:hover { color: #2DD4BF; }
+
+/* 解説ステップカード */
+.lesson-step {
+  background: rgba(17,29,56,0.8);
+  border: 1px solid rgba(45,212,191,0.1);
+  border-radius: 16px;
+  padding: 28px;
+  margin-bottom: 20px;
+  position: relative;
+}
+.lesson-step__num {
+  position: absolute;
+  top: -14px;
+  left: 24px;
+  background: linear-gradient(135deg, #14B8A6, #0D9488);
+  color: #060B18;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 100px;
+}
+
+/* 計算テーブル */
+.calc-table {
+  font-family: 'JetBrains Mono', monospace;
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+.calc-table th {
+  background: rgba(45,212,191,0.1);
+  color: #2DD4BF;
+  padding: 10px 16px;
+  text-align: center;
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+}
+.calc-table td {
+  padding: 12px 16px;
+  text-align: center;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  color: #E5E7EB;
+}
+.calc-table tr:hover td { background: rgba(45,212,191,0.04); }
+.highlight-val { color: #FB923C; font-weight: 700; }
+
+/* 公式ボックス */
+.formula-box {
+  background: rgba(45,212,191,0.06);
+  border: 1px solid rgba(45,212,191,0.25);
+  border-radius: 12px;
+  padding: 20px 24px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1rem;
+  color: #2DD4BF;
+  text-align: center;
+  margin: 16px 0;
+}
+
+/* 固定CTA */
+.fixed-cta {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(6,11,24,0.95);
+  backdrop-filter: blur(12px);
+  border-top: 1px solid rgba(45,212,191,0.2);
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  gap: 16px;
+}
+
+/* ===== 練習問題ページ共通 ===== */
+
+/* 問題エリア */
+.quiz-card {
+  background: rgba(17,29,56,0.9);
+  border: 1px solid rgba(45,212,191,0.15);
+  border-radius: 20px;
+  padding: 36px;
+}
+
+/* 回答入力 */
+.answer-input {
+  background: rgba(6,11,24,0.8);
+  border: 2px solid rgba(45,212,191,0.3);
+  border-radius: 12px;
+  padding: 14px 20px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #fff;
+  text-align: center;
+  outline: none;
+  width: 200px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.answer-input:focus {
+  border-color: #2DD4BF;
+  box-shadow: 0 0 0 3px rgba(45,212,191,0.15);
+}
+.answer-input.correct {
+  border-color: #4ADE80;
+  background: rgba(74,222,128,0.08);
+  color: #4ADE80;
+}
+.answer-input.incorrect {
+  border-color: #F87171;
+  background: rgba(248,113,113,0.08);
+  color: #F87171;
+}
+
+/* フィードバックバッジ */
+.feedback-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 20px;
+  border-radius: 100px;
+  font-weight: 700;
+  font-size: 1rem;
+  animation: fadeInUp 0.3s ease;
+}
+.feedback-badge.correct { background: rgba(74,222,128,0.15); color: #4ADE80; border: 1px solid rgba(74,222,128,0.4); }
+.feedback-badge.incorrect { background: rgba(248,113,113,0.15); color: #F87171; border: 1px solid rgba(248,113,113,0.4); }
+
+/* 進捗バー */
+.progress-bar {
+  height: 6px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 100px;
+  overflow: hidden;
+}
+.progress-bar__fill {
+  height: 100%;
+  background: linear-gradient(90deg, #14B8A6, #2DD4BF);
+  border-radius: 100px;
+  transition: width 0.4s ease;
+}
+
+/* スコア円グラフ */
+.score-ring {
+  width: 120px;
+  height: 120px;
+  position: relative;
+  margin: 0 auto;
+}
+
+/* ===== アニメーション ===== */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 12px rgba(45,212,191,0.2); }
+  50%       { box-shadow: 0 0 24px rgba(45,212,191,0.5); }
+}
+
+.animate-fade-in { animation: fadeInUp 0.4s ease; }
+.animate-pulse-glow { animation: pulse-glow 2s ease infinite; }
+
+/* ページ読み込みフェード */
+body { animation: fadeInUp 0.3s ease; }
+
+/* レスポンシブ調整 */
+@media (max-width: 640px) {
+  .unit-card__footer { flex-direction: column; }
+  .bit-cell { width: 36px; height: 44px; font-size: 1.1rem; }
+  .quiz-card { padding: 20px; }
+}
