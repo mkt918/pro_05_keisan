@@ -133,17 +133,18 @@
     <script>
         class AvailabilityQuestionGenerator {
             generate() {
-                const types = ['basic_calc', 'unit_conversion'];
+                const types = ['basic_calc', 'unit_conversion', 'sample_conversion'];
                 const type = types[Math.floor(Math.random() * types.length)];
 
                 if (type === 'basic_calc') return this.generateBasicCalc();
-                return this.generateUnitConversion();
+                if (type === 'unit_conversion') return this.generateUnitConversion();
+                return this.generateSampleConversion();
             }
 
-            // MTBF, MTTR から稼働率を直接計算（一部は平均時間の計算から）
+            // MTBF, MTTR から稼働率を直接計算
             generateBasicCalc() {
-                const mtbfBase = [800, 900, 1000, 1500, 1900][Math.floor(Math.random() * 5)];
-                const mttrBase = [10, 20, 50, 100][Math.floor(Math.random() * 4)];
+                const mtbfBase = [195, 800, 900, 1000][Math.floor(Math.random() * 4)];
+                const mttrBase = [5, 10, 20, 50][Math.floor(Math.random() * 4)];
 
                 const availability = parseFloat((mtbfBase / (mtbfBase + mttrBase)).toFixed(3));
 
@@ -154,43 +155,64 @@
                     explanation: `
                         <div class="space-y-3">
                             <p class="font-bold text-teal-600">公式に当てはめる</p>
-                            <p class="font-mono text-sm">稼働率 = MTBF ÷ (MTBF + MTTR)</p>
-                            <p class="font-mono text-sm">稼働率 = ${mtbfBase} ÷ (${mtbfBase} + ${mttrBase})</p>
-                            <p class="font-mono text-sm">稼働率 = ${mtbfBase} ÷ ${mtbfBase + mttrBase}</p>
+                            <p class="font-mono text-sm leading-relaxed">稼働率 = MTBF ÷ (MTBF + MTTR)</p>
+                            <p class="font-mono text-sm leading-relaxed">稼働率 = ${mtbfBase} ÷ (${mtbfBase} + ${mttrBase})</p>
+                            <p class="font-mono text-sm leading-relaxed">稼働率 = ${mtbfBase} ÷ ${mtbfBase + mttrBase}</p>
                             <p class="font-mono text-lg font-black text-orange-600">≒ ${availability}</p>
                         </div>
                     `
                 };
             }
 
-            // 単位変換が必要な問題（日と時間）
+            // サンプルに基づいた単位変換パターンの拡充
+            generateSampleConversion() {
+                const mtbfDay = [10, 12, 15, 20][Math.floor(Math.random() * 4)];
+                const mttrHour = [10, 12, 18, 24][Math.floor(Math.random() * 4)];
+
+                // 日を時間に変換
+                const mtbfHour = mtbfDay * 24;
+                const availability = parseFloat((mtbfHour / (mtbfHour + mttrHour)).toFixed(3));
+
+                return {
+                    question: `平均故障間隔 (MTBF) が ${mtbfDay} 日間、平均修復時間 (MTTR) が ${mttrHour} 時間のシステムの稼働率を求めなさい。ただし、このシステムは毎日 24 時間稼働しているものとする。`,
+                    answer: availability.toString(),
+                    unit: '',
+                    explanation: `
+                        <div class="space-y-3">
+                            <p class="font-bold text-teal-600">① 単位を「時間」に統一</p>
+                            <p class="font-mono text-sm leading-relaxed">${mtbfDay} 日 × 24 時間 = ${mtbfHour} 時間</p>
+                            <p class="font-bold text-teal-600">② 稼働率を計算</p>
+                            <p class="font-mono text-sm leading-relaxed">${mtbfHour} ÷ (${mtbfHour} + ${mttrHour}) = ${availability}</p>
+                            <p class="font-mono text-lg font-black text-orange-600">≒ ${availability}</p>
+                        </div>
+                    `
+                };
+            }
+
+            // 稼働合計と修復合計からの算出
             generateUnitConversion() {
-                const day = [10, 20, 30, 40, 50][Math.floor(Math.random() * 5)];
-                const hour = [2, 4, 8, 12][Math.floor(Math.random() * 4)];
+                const day = [10, 20, 30][Math.floor(Math.random() * 3)];
+                const hour = [4, 8, 12][Math.floor(Math.random() * 3)];
                 const failureCount = [1, 2][Math.floor(Math.random() * 2)];
 
-                const totalUptimeDays = day;
-                const totalRepairHours = hour;
-
-                const mtbfHours = (totalUptimeDays * 24) / failureCount;
-                const mttrHours = totalRepairHours / failureCount;
+                const mtbfHours = (day * 24) / failureCount;
+                const mttrHours = hour / failureCount;
 
                 const availability = parseFloat((mtbfHours / (mtbfHours + mttrHours)).toFixed(3));
 
                 return {
-                    question: `あるシステムが ${day} 日稼働し、その間に故障が ${failureCount} 回発生した。その修復に合計で ${hour} 時間かかったとき、このシステムの稼働率を求めなさい。 (1日=24時間とする)`,
+                    question: `あるシステムが ${day} 日稼働し、その間に故障が ${failureCount} 回発生した。その修復に合計で ${hour} 時間かかったとき、このシステムの稼働率を求めなさい。(1日=24時間とする)`,
                     answer: availability.toString(),
                     unit: '',
                     explanation: `
                         <div class="space-y-3">
                             <p class="font-bold text-teal-600">① 稼働時間を「時間」に統一</p>
-                            <p class="font-mono text-sm">${day} 日 × 24 = ${day * 24} 時間</p>
-                            <p class="font-bold text-teal-600">② MTBF と MTTR を計算</p>
-                            <p class="font-mono text-sm">MTBF = ${day * 24} ÷ ${failureCount} = ${mtbfHours} 時間</p>
-                            <p class="font-mono text-sm">MTTR = ${hour} ÷ ${failureCount} = ${mttrHours} 時間</p>
+                            <p class="font-mono text-sm leading-relaxed">${day} 日 × 24 = ${day * 24} 時間</p>
+                            <p class="font-bold text-teal-600">② MTBF と MTTR を算出</p>
+                            <p class="font-mono text-sm leading-relaxed">MTBF = ${day * 24} ÷ ${failureCount} = ${mtbfHours} 時間</p>
+                            <p class="font-mono text-sm leading-relaxed">MTTR = ${hour} ÷ ${failureCount} = ${mttrHours} 時間</p>
                             <p class="font-bold text-teal-600">③ 稼働率を計算</p>
-                            <p class="font-mono text-sm">${mtbfHours} ÷ (${mtbfHours} + ${mttrHours}) = ${availability}</p>
-                            <p class="font-mono text-lg font-black text-orange-600">${availability}</p>
+                            <p class="font-mono text-sm leading-relaxed">${mtbfHours} ÷ (${mtbfHours} + ${mttrHours}) = <strong class="text-orange-600 text-lg">${availability}</strong></p>
                         </div>
                     `
                 };
