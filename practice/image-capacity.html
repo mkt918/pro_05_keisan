@@ -273,7 +273,7 @@
                 return;
             }
 
-            const isCorrect = parseFloat(userVal) === parseFloat(currentQ.answer);
+            const isCorrect = Math.abs(parseFloat(userVal) - parseFloat(currentQ.answer)) < 0.001;
             answered = true;
 
             session.submit(currentQ.question.substring(0, 30) + '...', currentQ.answer + currentQ.unit, userVal + currentQ.unit, isCorrect);

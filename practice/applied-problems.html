@@ -68,19 +68,17 @@
         </div>
     </main>
 
-    <!-- 結果モーダル（共通のスタイルを使用可） -->
-    <div id="result-modal"
-        class="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/60 backdrop-blur-sm hidden px-4">
-        <div class="bg-white rounded-3xl shadow-2xl max-w-md w-full p-8 animate-fade-in">
-            <div id="modal-content" class="text-center">
-                <!-- 内容はJSで動的に書き換え -->
+
+    <!-- 全問完了バナー（JS で表示） -->
+    <div id="complete-banner" class="hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-50" style="min-width:320px">
+        <div class="bg-green-600 text-white px-8 py-4 rounded-2xl shadow-2xl flex items-center gap-4 animate-fade-in">
+            <span class="text-3xl">🎉</span>
+            <div>
+                <div class="font-black text-lg">全問正解！</div>
+                <div class="text-green-100 text-sm">おめでとうございます！</div>
             </div>
-            <div class="mt-8 flex flex-col gap-3">
-                <button onclick="closeModal()"
-                    class="w-full py-4 bg-slate-100 hover:bg-slate-200 text-slate-700 font-black rounded-2xl transition-all">閉じる</button>
-                <a href="../index.html"
-                    class="w-full py-4 bg-teal-600 hover:bg-teal-700 text-white font-black rounded-2xl transition-all text-center">ホームに戻る</a>
-            </div>
+            <a href="../index.html"
+                class="ml-auto bg-white/20 hover:bg-white/30 text-white font-bold px-4 py-2 rounded-xl transition-all">ホームへ</a>
         </div>
     </div>
 
@@ -285,7 +283,14 @@
                 status.innerHTML = `<span class="text-green-600 flex items-center gap-1">✅ 正解です！</span>`;
                 status.classList.remove('hidden');
 
-                // モーダル表示（全部正解した時などの演出用にも使えるが、今回はシンプルに）
+                // 全問正解チェック
+                const allCorrect = problems.every(p => {
+                    const inp = document.getElementById(`input-${p.id}`);
+                    return inp && inp.classList.contains('border-green-500');
+                });
+                if (allCorrect) {
+                    document.getElementById('complete-banner').classList.remove('hidden');
+                }
             } else {
                 input.classList.add('border-red-500', 'bg-red-50');
                 input.classList.remove('border-green-500', 'bg-green-50');
@@ -297,10 +302,6 @@
         function toggleExplanation(id) {
             const el = document.getElementById(`explanation-${id}`);
             el.classList.toggle('hidden');
-        }
-
-        function closeModal() {
-            document.getElementById('result-modal').classList.add('hidden');
         }
 
         init();
