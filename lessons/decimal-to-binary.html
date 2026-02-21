@@ -16,9 +16,9 @@
             theme: {
                 extend: {
                     colors: {
-                        navy: { 950: '#060B18', 900: '#0D1426', 800: '#111D38', 700: '#1A2A4A', 600: '#243558' },
-                        teal: { 400: '#2DD4BF', 500: '#14B8A6', 600: '#0D9488' },
-                        orange: { 400: '#FB923C', 500: '#F97316' },
+                        slate: { 50: '#F8FAFC', 100: '#F1F5F9', 200: '#E2E8F0', 300: '#CBD5E1', 400: '#94A3B8', 500: '#64748B', 600: '#475569', 800: '#1E293B', 900: '#0F172A', 950: '#020617' },
+                        teal: { 50: '#F0FDFA', 100: '#CCFBF1', 200: '#99F6E4', 500: '#14B8A6', 600: '#0D9488' },
+                        orange: { 50: '#FFF7ED', 100: '#FFEDD5', 200: '#FED7AA', 400: '#FB923C', 500: '#F97316', 600: '#EA580C' },
                     },
                     fontFamily: { sans: ['"Noto Sans JP"', 'sans-serif'], mono: ['"JetBrains Mono"', 'monospace'] },
                 }
@@ -27,18 +27,18 @@
     </script>
 </head>
 
-<body class="bg-navy-950 text-gray-100 font-sans min-h-screen pb-28">
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen pb-28">
 
     <!-- ヘッダー -->
-    <header class="sticky top-0 z-50 bg-navy-900/90 backdrop-blur-md border-b border-navy-700">
+    <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
         <div class="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
             <a href="../index.html" class="flex items-center gap-3 group">
                 <div
-                    class="w-9 h-9 rounded-lg bg-gradient-to-br from-teal-400 to-teal-600 flex items-center justify-center text-navy-950 font-mono font-bold text-sm shadow-glow group-hover:scale-110 transition-transform">
+                    class="w-9 h-9 rounded-lg bg-gradient-to-br from-teal-500 to-teal-600 flex items-center justify-center text-white font-mono font-bold text-sm shadow-sm group-hover:scale-110 transition-transform">
                     IT</div>
-                <span class="font-bold text-white">IT基礎学習</span>
+                <span class="font-bold text-slate-900">IT基礎学習</span>
             </a>
-            <span class="hidden md:flex items-center gap-2 text-sm text-orange-400">
+            <span class="hidden md:flex items-center gap-2 text-sm text-orange-600 font-bold">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
@@ -59,32 +59,32 @@
             <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
             </svg>
-            <span class="text-gray-300">十進数 → 二進数</span>
+            <span class="text-slate-400">十進数 → 二進数</span>
         </nav>
 
         <!-- タイトル -->
         <div class="mb-10">
             <div class="flex items-center gap-3 mb-4">
                 <span
-                    class="px-3 py-1 bg-orange-900/50 text-orange-400 text-xs font-medium rounded-full border border-orange-800">Unit
+                    class="px-3 py-1 bg-orange-100 text-orange-600 text-xs font-medium rounded-full border border-orange-200">Unit
                     02</span>
-                <span class="text-gray-500 text-sm">⏱ 約15分</span>
+                <span class="text-slate-400 text-sm">⏱ 約15分</span>
             </div>
-            <h1 class="text-3xl md:text-4xl font-black text-white mb-3">
-                十進数 <span class="text-orange-400">→</span> 二進数 の変換
+            <h1 class="text-3xl md:text-4xl font-black text-slate-950 mb-3">
+                十進数 <span class="text-orange-600">→</span> 二進数 の変換
             </h1>
-            <p class="text-gray-400 text-lg">「2で割り続けて余りを下から読む」方法をマスターしよう</p>
+            <p class="text-slate-600 text-lg font-medium">「2で割り続けて余りを下から読む」方法をマスターしよう</p>
         </div>
 
         <!-- 目次 -->
-        <div class="bg-navy-800/50 border border-navy-600 rounded-xl p-5 mb-10">
-            <div class="text-sm font-medium text-gray-400 mb-3">📋 このページの内容</div>
+        <div class="bg-white border border-slate-200 shadow-sm rounded-xl p-5 mb-10">
+            <div class="text-sm font-medium text-slate-400 mb-3">📋 このページの内容</div>
             <ol class="space-y-1">
-                <li><a href="#the-rule" class="text-orange-400 text-sm hover:underline">01. 変換のルール：繰り返し除算法</a></li>
-                <li><a href="#step-by-step" class="text-orange-400 text-sm hover:underline">02. 手順の解説（5ステップ）</a></li>
-                <li><a href="#example1" class="text-orange-400 text-sm hover:underline">03. 例題①：13(10) を変換</a></li>
-                <li><a href="#example2" class="text-orange-400 text-sm hover:underline">04. 例題②：180(10) を変換</a></li>
-                <li><a href="#check" class="text-orange-400 text-sm hover:underline">05. 答え合わせの方法</a></li>
+                <li><a href="#the-rule" class="text-orange-600 text-sm hover:underline">01. 変換のルール：繰り返し除算法</a></li>
+                <li><a href="#step-by-step" class="text-orange-600 text-sm hover:underline">02. 手順の解説（5ステップ）</a></li>
+                <li><a href="#example1" class="text-orange-600 text-sm hover:underline">03. 例題①：13(10) を変換</a></li>
+                <li><a href="#example2" class="text-orange-600 text-sm hover:underline">04. 例題②：180(10) を変換</a></li>
+                <li><a href="#check" class="text-orange-600 text-sm hover:underline">05. 答え合わせの方法</a></li>
             </ol>
         </div>
 
@@ -92,15 +92,25 @@
         <section id="the-rule" class="lesson-step mb-8">
             <div class="lesson-step__num" style="background: linear-gradient(135deg,#F97316,#FB923C); color: #fff;">01
                 変換のルール</div>
-            <h2 class="text-xl font-bold text-white mb-4 mt-2">「繰り返し除算法」を使う</h2>
-            <p class="text-gray-300 leading-relaxed mb-4">
-                十進数を二進数に変換するには、<strong class="text-orange-400">「2で割り続けて、余りを下から読む」</strong> 方法が定番です。
+            <h2 class="text-xl font-bold text-slate-900 mb-4 mt-2">「繰り返し除算法」を使う</h2>
+            <p class="text-slate-600 leading-relaxed mb-4">
+                十進数を二進数に変換するには、<strong class="text-orange-600">「2で割り続けて、余りを下から読む」</strong> 方法が定番です。
             </p>
-            <div class="formula-box border-orange-500/30 text-orange-400"
-                style="background: rgba(249,115,22,0.06); border-color: rgba(249,115,22,0.3);">
-                十進数 ÷ 2 = 商 … 余り（0 か 1）<br>
-                商をまた ÷ 2… を商が 0 になるまで繰り返す<br>
-                余りを <strong>下から上へ</strong> 読んだものが二進数
+            <div class="formula-box text-orange-700 font-bold"
+                style="background: #FFF7ED; border: 1px solid #FED7AA; border-radius: 12px; padding: 1.5rem;">
+                <div class="flex items-center gap-2 mb-3">
+                    <span class="w-1.5 h-1.5 rounded-full bg-orange-500"></span>
+                    <span>十進数 ÷ 2 = 商 … 余り（0 か 1）</span>
+                </div>
+                <div class="flex items-center gap-2 mb-3">
+                    <span class="w-1.5 h-1.5 rounded-full bg-orange-500"></span>
+                    <span>商をまた ÷ 2… を商が 0 になるまで繰り返す</span>
+                </div>
+                <div class="flex items-center gap-2 text-orange-800">
+                    <span class="w-1.5 h-1.5 rounded-full bg-orange-500"></span>
+                    <span>余りを <strong class="text-orange-600 underline underline-offset-4">下から上へ</strong>
+                        読んだものが二進数</span>
+                </div>
             </div>
         </section>
 
@@ -108,51 +118,52 @@
         <section id="step-by-step" class="lesson-step mb-8">
             <div class="lesson-step__num" style="background: linear-gradient(135deg,#F97316,#FB923C); color:#fff;">02
                 手順の解説</div>
-            <h2 class="text-xl font-bold text-white mb-5 mt-2">5ステップで変換</h2>
+            <h2 class="text-xl font-bold text-slate-900 mb-5 mt-2">5ステップで変換</h2>
             <div class="space-y-3">
                 <div class="flex gap-4 items-start">
                     <div
-                        class="w-8 h-8 rounded-full bg-orange-500/20 border border-orange-500/40 flex items-center justify-center text-orange-400 font-mono font-bold text-sm flex-shrink-0 mt-0.5">
+                        class="w-8 h-8 rounded-full bg-orange-50 border border-orange-200 flex items-center justify-center text-orange-600 font-mono font-bold text-sm flex-shrink-0 mt-0.5 shadow-sm">
                         1</div>
                     <div>
-                        <div class="font-bold text-white mb-1">変換したい十進数を 2 で割る</div>
-                        <p class="text-gray-400 text-sm">余りは必ず 0 か 1 になります</p>
+                        <div class="font-bold text-slate-900 mb-1">変換したい十進数を 2 で割る</div>
+                        <p class="text-slate-500 text-sm">余りは必ず 0 か 1 になります</p>
                     </div>
                 </div>
                 <div class="flex gap-4 items-start">
                     <div
-                        class="w-8 h-8 rounded-full bg-orange-500/20 border border-orange-500/40 flex items-center justify-center text-orange-400 font-mono font-bold text-sm flex-shrink-0 mt-0.5">
+                        class="w-8 h-8 rounded-full bg-orange-50 border border-orange-200 flex items-center justify-center text-orange-600 font-mono font-bold text-sm flex-shrink-0 mt-0.5 shadow-sm">
                         2</div>
                     <div>
-                        <div class="font-bold text-white mb-1">余りを書き留める</div>
-                        <p class="text-gray-400 text-sm">この余り（0 or 1）がビットになります</p>
+                        <div class="font-bold text-slate-900 mb-1">余りを書き留める</div>
+                        <p class="text-slate-500 text-sm">この余り（0 or 1）がビットになります</p>
                     </div>
                 </div>
                 <div class="flex gap-4 items-start">
                     <div
-                        class="w-8 h-8 rounded-full bg-orange-500/20 border border-orange-500/40 flex items-center justify-center text-orange-400 font-mono font-bold text-sm flex-shrink-0 mt-0.5">
+                        class="w-8 h-8 rounded-full bg-orange-50 border border-orange-200 flex items-center justify-center text-orange-600 font-mono font-bold text-sm flex-shrink-0 mt-0.5 shadow-sm">
                         3</div>
                     <div>
-                        <div class="font-bold text-white mb-1">商をまた 2 で割る</div>
-                        <p class="text-gray-400 text-sm">商を次の「割られる数」として繰り返す</p>
+                        <div class="font-bold text-slate-900 mb-1">商をまた 2 で割る</div>
+                        <p class="text-slate-500 text-sm">商を次の「割られる数」として繰り返す</p>
                     </div>
                 </div>
                 <div class="flex gap-4 items-start">
                     <div
-                        class="w-8 h-8 rounded-full bg-orange-500/20 border border-orange-500/40 flex items-center justify-center text-orange-400 font-mono font-bold text-sm flex-shrink-0 mt-0.5">
+                        class="w-8 h-8 rounded-full bg-orange-50 border border-orange-200 flex items-center justify-center text-orange-600 font-mono font-bold text-sm flex-shrink-0 mt-0.5 shadow-sm">
                         4</div>
                     <div>
-                        <div class="font-bold text-white mb-1">商が 0 になったら終了</div>
-                        <p class="text-gray-400 text-sm">これ以上割れなくなったらストップ</p>
+                        <div class="font-bold text-slate-900 mb-1">商が 0 になったら終了</div>
+                        <p class="text-slate-500 text-sm">これ以上割れなくなったらストップ</p>
                     </div>
                 </div>
                 <div class="flex gap-4 items-start">
                     <div
-                        class="w-8 h-8 rounded-full bg-green-500/20 border border-green-500/40 flex items-center justify-center text-green-400 font-mono font-bold text-sm flex-shrink-0 mt-0.5">
+                        class="w-8 h-8 rounded-full bg-teal-50 border border-teal-200 flex items-center justify-center text-teal-600 font-mono font-bold text-sm flex-shrink-0 mt-0.5 shadow-sm">
                         5</div>
                     <div>
-                        <div class="font-bold text-white mb-1">余りを<strong class="text-orange-400">下から上へ</strong>読む</div>
-                        <p class="text-gray-400 text-sm">これが答えの二進数になります</p>
+                        <div class="font-bold text-slate-900 mb-1">余りを<strong
+                                class="text-orange-600 underline underline-offset-4">下から上へ</strong>読む</div>
+                        <p class="text-slate-500 text-sm">これが答えの二進数になります</p>
                     </div>
                 </div>
             </div>
@@ -162,73 +173,80 @@
         <section id="example1" class="lesson-step mb-8">
             <div class="lesson-step__num" style="background: linear-gradient(135deg,#F97316,#FB923C); color:#fff;">03
                 例題① 13(10) を変換</div>
-            <h2 class="text-xl font-bold text-white mb-6 mt-2">
-                <span class="font-mono text-teal-400">13</span><span
-                    class="text-gray-500 text-base align-middle ml-1">(10)</span>
-                <span class="text-gray-400 mx-3">→</span>
-                <span class="text-gray-400">?</span><span class="text-gray-500 text-base align-middle ml-1">(2)</span>
+            <h2 class="text-xl font-bold text-slate-900 mb-6 mt-2">
+                <span class="font-mono text-teal-600 font-black">13</span><span
+                    class="text-slate-400 text-base align-middle ml-1">(10)</span>
+                <span class="text-slate-300 mx-3">→</span>
+                <span
+                    class="text-slate-400 underline underline-offset-8 decoration-dotted decoration-slate-300 font-mono">?</span><span
+                    class="text-slate-400 text-base align-middle ml-1">(2)</span>
             </h2>
 
             <!-- 計算過程アニメ -->
-            <div class="bg-navy-800/60 rounded-xl p-6 mb-6 font-mono">
+            <div class="bg-white border border-slate-100 shadow-sm rounded-xl p-6 mb-6 font-mono">
                 <div class="space-y-3">
                     <div class="div-row flex items-center gap-3">
-                        <span class="text-gray-300 w-20 text-right">13 ÷ 2</span>
-                        <span class="text-gray-500">=</span>
-                        <span class="text-teal-400 w-10">6</span>
-                        <span class="text-gray-500">余り</span>
+                        <span class="text-slate-500 w-20 text-right">13 ÷ 2</span>
+                        <span class="text-slate-300">=</span>
+                        <span class="text-teal-600 font-bold w-10">6</span>
+                        <span class="text-slate-400 text-xs">余り</span>
                         <span class="remainder-badge">1</span>
-                        <span class="text-gray-600 text-xs ml-2">← 最下位ビット（右端）</span>
+                        <span class="text-slate-300 text-xs ml-2">← 最下位ビット（右端）</span>
                     </div>
                     <div class="div-row flex items-center gap-3">
-                        <span class="text-gray-300 w-20 text-right">6 ÷ 2</span>
-                        <span class="text-gray-500">=</span>
-                        <span class="text-teal-400 w-10">3</span>
-                        <span class="text-gray-500">余り</span>
+                        <span class="text-slate-500 w-20 text-right">6 ÷ 2</span>
+                        <span class="text-slate-300">=</span>
+                        <span class="text-teal-600 font-bold w-10">3</span>
+                        <span class="text-slate-400 text-xs">余り</span>
                         <span class="remainder-badge">0</span>
                     </div>
                     <div class="div-row flex items-center gap-3">
-                        <span class="text-gray-300 w-20 text-right">3 ÷ 2</span>
-                        <span class="text-gray-500">=</span>
-                        <span class="text-teal-400 w-10">1</span>
-                        <span class="text-gray-500">余り</span>
+                        <span class="text-slate-500 w-20 text-right">3 ÷ 2</span>
+                        <span class="text-slate-300">=</span>
+                        <span class="text-teal-600 font-bold w-10">1</span>
+                        <span class="text-slate-400 text-xs">余り</span>
                         <span class="remainder-badge">1</span>
                     </div>
                     <div class="div-row flex items-center gap-3">
-                        <span class="text-gray-300 w-20 text-right">1 ÷ 2</span>
-                        <span class="text-gray-500">=</span>
-                        <span class="text-teal-400 w-10">0</span>
-                        <span class="text-gray-500">余り</span>
+                        <span class="text-slate-500 w-20 text-right">1 ÷ 2</span>
+                        <span class="text-slate-300">=</span>
+                        <span class="text-teal-600 font-bold w-10">0</span>
+                        <span class="text-slate-400 text-xs">余り</span>
                         <span class="remainder-badge">1</span>
-                        <span class="text-gray-600 text-xs ml-2">← 最上位ビット（左端）</span>
+                        <span class="text-slate-300 text-xs ml-2">← 最上位ビット（左端）</span>
                     </div>
-                    <div class="border-t border-navy-600 pt-3 mt-3">
-                        <span class="text-gray-500 text-sm">余りを下から読む → </span>
-                        <span class="text-orange-400 font-bold text-xl tracking-widest">1101</span>
+                    <div class="border-t border-slate-100 pt-4 mt-4 flex items-center gap-2">
+                        <span class="text-slate-400 text-sm">余りを下から読む → </span>
+                        <span
+                            class="text-orange-600 font-black text-2xl tracking-widest bg-orange-50 px-3 py-1 rounded-lg">1101</span>
                     </div>
                 </div>
             </div>
 
             <!-- 矢印で視覚的に -->
-            <div class="flex items-center justify-center gap-2 mb-5 text-sm text-gray-400">
-                <span>余り:</span>
+            <div
+                class="flex items-center justify-center gap-2 mb-8 text-sm text-slate-400 bg-slate-50 py-4 rounded-xl border border-slate-100">
+                <span class="font-bold text-slate-500">余り:</span>
                 <span class="remainder-badge">1</span>
                 <span class="remainder-badge">0</span>
                 <span class="remainder-badge">1</span>
                 <span class="remainder-badge">1</span>
-                <svg class="w-5 h-5 text-orange-400 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                <svg class="w-6 h-6 text-orange-500 ml-2 animate-pulse" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
                         d="M7 16l-4-4m0 0l4-4m-4 4h18" />
                 </svg>
-                <span class="text-orange-400 font-bold font-mono text-lg ml-1">1101</span>
-                <span class="text-xs text-gray-500">（下から上へ読む）</span>
+                <span class="text-orange-600 font-black font-mono text-2xl ml-1">1101</span>
+                <span class="text-xs text-slate-300">（下から上へ）</span>
             </div>
 
-            <div class="bg-green-900/20 border border-green-700/40 rounded-xl p-4 text-center">
-                <div class="text-lg font-bold">
-                    <span class="font-mono text-teal-400">13</span><sub class="text-gray-500">(10)</sub>
-                    <span class="text-gray-400 mx-3">=</span>
-                    <span class="font-mono text-orange-400 text-2xl">1101</span><sub class="text-gray-500">(2)</sub>
+            <div class="bg-green-50 border border-green-200 rounded-xl p-5 text-center shadow-sm">
+                <div class="text-lg font-bold text-slate-700">
+                    <span class="font-mono text-teal-600 text-xl">13</span><sub
+                        class="text-slate-400 font-normal">(10)</sub>
+                    <span class="text-slate-300 mx-3">=</span>
+                    <span class="font-mono text-orange-600 text-3xl font-black">1101</span><sub
+                        class="text-slate-400 font-normal">(2)</sub>
                 </div>
             </div>
         </section>
@@ -237,13 +255,15 @@
         <section id="example2" class="lesson-step mb-8">
             <div class="lesson-step__num" style="background: linear-gradient(135deg,#F97316,#FB923C); color:#fff;">04
                 例題② 180(10) を変換</div>
-            <h2 class="text-xl font-bold text-white mb-6 mt-2">
-                <span class="font-mono text-teal-400">180</span><span
-                    class="text-gray-500 text-base align-middle ml-1">(10)</span>
-                <span class="text-gray-400 mx-3">→</span>
-                <span class="text-gray-400">?</span><span class="text-gray-500 text-base align-middle ml-1">(2)</span>
+            <h2 class="text-xl font-bold text-slate-900 mb-6 mt-2">
+                <span class="font-mono text-teal-600 font-black">180</span><span
+                    class="text-slate-400 text-base align-middle ml-1">(10)</span>
+                <span class="text-slate-300 mx-3">→</span>
+                <span
+                    class="text-slate-400 underline underline-offset-8 decoration-dotted decoration-slate-300 font-mono">?</span><span
+                    class="text-slate-400 text-base align-middle ml-1">(2)</span>
             </h2>
-            <div class="overflow-x-auto mb-5">
+            <div class="overflow-x-auto mb-6 shadow-sm border border-slate-100 rounded-xl overflow-hidden">
                 <table class="calc-table">
                     <thead>
                         <tr>
@@ -255,65 +275,68 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>180 ÷ 2</td>
+                            <td class="bg-slate-50/50">180 ÷ 2</td>
                             <td>90</td>
-                            <td class="text-orange-400 font-bold">0</td>
-                            <td class="text-gray-500 text-xs">最下位 (右端)</td>
+                            <td class="text-orange-600 font-black text-lg">0</td>
+                            <td class="text-slate-300 text-xs">最下位 (右端)</td>
                         </tr>
                         <tr>
-                            <td>90 ÷ 2</td>
+                            <td class="bg-slate-50/50">90 ÷ 2</td>
                             <td>45</td>
-                            <td class="text-orange-400 font-bold">0</td>
+                            <td class="text-orange-600 font-black text-lg">0</td>
                             <td></td>
                         </tr>
                         <tr>
-                            <td>45 ÷ 2</td>
+                            <td class="bg-slate-50/50">45 ÷ 2</td>
                             <td>22</td>
-                            <td class="text-orange-400 font-bold">1</td>
+                            <td class="text-orange-600 font-black text-lg">1</td>
                             <td></td>
                         </tr>
                         <tr>
-                            <td>22 ÷ 2</td>
+                            <td class="bg-slate-50/50">22 ÷ 2</td>
                             <td>11</td>
-                            <td class="text-orange-400 font-bold">0</td>
+                            <td class="text-orange-600 font-black text-lg">0</td>
                             <td></td>
                         </tr>
                         <tr>
-                            <td>11 ÷ 2</td>
+                            <td class="bg-slate-50/50">11 ÷ 2</td>
                             <td>5</td>
-                            <td class="text-orange-400 font-bold">1</td>
+                            <td class="text-orange-600 font-black text-lg">1</td>
                             <td></td>
                         </tr>
                         <tr>
-                            <td>5 ÷ 2</td>
+                            <td class="bg-slate-50/50">5 ÷ 2</td>
                             <td>2</td>
-                            <td class="text-orange-400 font-bold">1</td>
+                            <td class="text-orange-600 font-black text-lg">1</td>
                             <td></td>
                         </tr>
                         <tr>
-                            <td>2 ÷ 2</td>
+                            <td class="bg-slate-50/50">2 ÷ 2</td>
                             <td>1</td>
-                            <td class="text-orange-400 font-bold">0</td>
+                            <td class="text-orange-600 font-black text-lg">0</td>
                             <td></td>
                         </tr>
                         <tr>
-                            <td>1 ÷ 2</td>
+                            <td class="bg-slate-50/50">1 ÷ 2</td>
                             <td>0</td>
-                            <td class="text-orange-400 font-bold">1</td>
-                            <td class="text-gray-500 text-xs">最上位 (左端)</td>
+                            <td class="text-orange-600 font-black text-lg">1</td>
+                            <td class="text-slate-300 text-xs">最上位 (左端)</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-            <div class="formula-box border-orange-500/30 text-orange-400"
-                style="background: rgba(249,115,22,0.06); border-color: rgba(249,115,22,0.3);">
-                余りを下から読む → <span class="font-bold text-xl tracking-widest">10110100</span>
+            <div class="formula-box text-orange-700 font-bold"
+                style="background: #FFF7ED; border: 1px solid #FED7AA; border-radius: 12px; padding: 1.25rem;">
+                余りを下から読む → <span
+                    class="font-black text-2xl tracking-widest text-orange-600 bg-white/50 px-3 py-1 rounded-lg ml-2">10110100</span>
             </div>
-            <div class="bg-green-900/20 border border-green-700/40 rounded-xl p-4 text-center mt-4">
-                <div class="text-lg font-bold">
-                    <span class="font-mono text-teal-400">180</span><sub class="text-gray-500">(10)</sub>
-                    <span class="text-gray-400 mx-3">=</span>
-                    <span class="font-mono text-orange-400 text-2xl">10110100</span><sub class="text-gray-500">(2)</sub>
+            <div class="bg-green-50 border border-green-200 rounded-xl p-5 text-center mt-5 shadow-sm">
+                <div class="text-lg font-bold text-slate-700">
+                    <span class="font-mono text-teal-600 text-xl">180</span><sub
+                        class="text-slate-400 font-normal">(10)</sub>
+                    <span class="text-slate-300 mx-3">=</span>
+                    <span class="font-mono text-orange-600 text-3xl font-black">10110100</span><sub
+                        class="text-slate-400 font-normal">(2)</sub>
                 </div>
             </div>
         </section>
@@ -322,31 +345,39 @@
         <section id="check" class="lesson-step mb-8">
             <div class="lesson-step__num" style="background: linear-gradient(135deg,#F97316,#FB923C); color:#fff;">05
                 答え合わせの方法</div>
-            <h2 class="text-xl font-bold text-white mb-4 mt-2">逆変換で確認しよう</h2>
-            <p class="text-gray-300 leading-relaxed mb-4 text-sm">
+            <h2 class="text-xl font-bold text-slate-900 mb-4 mt-2">逆変換で確認しよう</h2>
+            <p class="text-slate-600 leading-relaxed mb-4 text-sm font-medium">
                 求めた二進数を、Unit 01（二進数→十進数）の方法で十進数に戻してみましょう。<br>
                 元の数と一致すれば正解です！
             </p>
-            <div class="bg-navy-800/60 rounded-xl p-5 font-mono text-sm">
-                <div class="text-gray-400 mb-2">【確認例】<span class="text-orange-400">10110100</span><sub
-                        class="text-gray-600">(2)</sub> を元に戻す</div>
-                <div class="text-gray-300">128 + 0 + 32 + 16 + 0 + 4 + 0 + 0 = <span
-                        class="text-green-400 font-bold">180</span> ✓</div>
+            <div class="bg-white border border-slate-100 shadow-sm rounded-xl p-5 font-mono text-sm">
+                <div class="text-slate-400 mb-2 font-bold tracking-tight">【確認例】<span
+                        class="text-orange-600">10110100</span><sub class="text-slate-300">(2)</sub> を元に戻す</div>
+                <div
+                    class="text-slate-600 bg-slate-50 p-3 rounded-lg border border-slate-50 flex items-center justify-between">
+                    <span>128 + 0 + 32 + 16 + 0 + 4 + 0 + 0 =</span>
+                    <span class="text-green-600 font-black text-lg">180 ✓</span>
+                </div>
             </div>
         </section>
 
         <!-- 理解度チェック -->
-        <div class="bg-gradient-to-br from-orange-900/20 to-navy-800 border border-orange-700/30 rounded-2xl p-6 mb-8">
-            <div class="text-orange-400 font-bold mb-2">✅ 理解度チェック</div>
-            <p class="text-gray-300 text-sm mb-1">次の問題を計算してみよう</p>
-            <p class="font-mono text-white text-lg mb-4"><span class="text-teal-400">25</span><sub
-                    class="text-gray-500">(10)</sub> = ?<sub class="text-gray-500">(2)</sub></p>
-            <details class="text-sm">
-                <summary class="text-orange-400 cursor-pointer hover:underline">答えを見る</summary>
-                <div class="mt-3 font-mono text-sm text-gray-300">
+        <div class="bg-white border border-slate-200 shadow-sm rounded-2xl p-6 mb-8">
+            <div class="text-orange-600 font-black mb-2 flex items-center gap-2">
+                <span
+                    class="p-1 px-2 border border-orange-200 bg-orange-50 rounded text-xs uppercase font-mono">Check</span>
+                理解度チェック
+            </div>
+            <p class="text-slate-600 text-sm mb-1">次の問題を計算してみよう</p>
+            <p class="font-mono text-slate-900 text-xl font-black mb-4"><span class="text-teal-600">25</span><sub
+                    class="text-slate-400 font-normal">(10)</sub> = ?<sub class="text-slate-400 font-normal">(2)</sub>
+            </p>
+            <details class="text-sm bg-slate-50 border border-slate-100 p-3 rounded-lg">
+                <summary class="text-orange-600 cursor-pointer hover:font-bold transition-all">答えを見る</summary>
+                <div class="mt-3 font-mono text-sm text-slate-500 border-t border-slate-200 pt-3 leading-relaxed">
                     25→12余1 → 12→6余0 → 6→3余0 → 3→1余1 → 1→0余1<br>
-                    下から読む → <span class="text-orange-400 font-bold text-lg">11001</span><sub
-                        class="text-gray-500">(2)</sub>
+                    下から読む → <span class="text-orange-600 font-black text-xl ml-2 tracking-wide">11001</span><sub
+                        class="text-slate-400 font-normal">(2)</sub>
                 </div>
             </details>
         </div>
@@ -354,16 +385,16 @@
 
     <!-- 固定CTA -->
     <div class="fixed-cta">
-        <a href="binary-to-decimal.html" class="text-gray-500 text-sm hover:text-gray-300">← 前の単元</a>
+        <a href="binary-to-decimal.html" class="text-slate-400 text-sm hover:text-teal-600 font-bold">← 前の単元</a>
         <a href="../practice/decimal-to-binary.html"
-            class="inline-flex items-center gap-2 bg-gradient-to-r from-orange-500 to-orange-400 hover:from-orange-400 hover:to-orange-300 text-white font-bold px-8 py-3.5 rounded-xl shadow-lg hover:shadow-orange-500/30 transition-all hover:-translate-y-0.5 text-base">
+            class="inline-flex items-center gap-2 bg-gradient-to-r from-teal-600 to-teal-700 hover:from-teal-500 hover:to-teal-600 text-white font-bold px-8 py-3.5 rounded-xl shadow-lg hover:shadow-teal-600/20 transition-all hover:-translate-y-0.5 text-base">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                     d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
             </svg>
             練習問題を解く →
         </a>
-        <a href="../index.html" class="text-gray-500 text-sm hover:text-gray-300">単元一覧 →</a>
+        <a href="../index.html" class="text-slate-400 text-sm hover:text-teal-600 font-bold">単元一覧 →</a>
     </div>
 
     <style>
@@ -371,17 +402,21 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 28px;
-            height: 28px;
-            border-radius: 6px;
-            background: rgba(249, 115, 22, 0.15);
-            border: 1px solid rgba(249, 115, 22, 0.4);
-            color: #FB923C;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: #FFF7ED;
+            border: 2px solid #FED7AA;
+            color: #EA580C;
             font-family: 'JetBrains Mono', monospace;
-            font-weight: 700;
-            font-size: 0.9rem;
+            font-weight: 800;
+            font-size: 1rem;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
         }
     </style>
+</body>
+
+</html>
 </body>
 
 </html>

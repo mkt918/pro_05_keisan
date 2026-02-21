@@ -15,9 +15,9 @@
             theme: {
                 extend: {
                     colors: {
-                        navy: { 950: '#060B18', 900: '#0D1426', 800: '#111D38', 700: '#1A2A4A', 600: '#243558' },
-                        teal: { 400: '#2DD4BF', 500: '#14B8A6', 600: '#0D9488' },
-                        orange: { 400: '#FB923C', 500: '#F97316' },
+                        slate: { 50: '#F8FAFC', 100: '#F1F5F9', 200: '#E2E8F0', 300: '#CBD5E1', 400: '#94A3B8', 500: '#64748B', 600: '#475569', 800: '#1E293B', 900: '#0F172A', 950: '#020617' },
+                        teal: { 50: '#F0FDFA', 100: '#CCFBF1', 200: '#99F6E4', 500: '#14B8A6', 600: '#0D9488' },
+                        orange: { 50: '#FFF7ED', 200: '#FED7AA', 400: '#FB923C', 500: '#F97316', 600: '#EA580C' },
                     },
                     fontFamily: { sans: ['"Noto Sans JP"', 'sans-serif'], mono: ['"JetBrains Mono"', 'monospace'] },
                 }
@@ -26,19 +26,19 @@
     </script>
 </head>
 
-<body class="bg-navy-950 text-gray-100 font-sans min-h-screen">
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen">
 
     <!-- ヘッダー -->
-    <header class="sticky top-0 z-50 bg-navy-900/90 backdrop-blur-md border-b border-navy-700">
+    <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
         <div class="max-w-3xl mx-auto px-4 py-4 flex items-center justify-between">
-            <a href="../index.html" class="flex items-center gap-3">
+            <a href="../index.html" class="flex items-center gap-3 group">
                 <div
-                    class="w-9 h-9 rounded-lg bg-gradient-to-br from-teal-400 to-teal-600 flex items-center justify-center text-navy-950 font-mono font-bold text-sm">
+                    class="w-9 h-9 rounded-lg bg-gradient-to-br from-teal-500 to-teal-600 flex items-center justify-center text-white font-mono font-bold text-sm shadow-sm group-hover:scale-110 transition-transform">
                     IT</div>
-                <span class="font-bold text-white">IT基礎学習</span>
+                <span class="font-bold text-slate-900 font-bold">IT基礎学習</span>
             </a>
             <a href="../lessons/binary-to-decimal.html"
-                class="text-sm text-teal-400 hover:underline flex items-center gap-1">
+                class="text-sm text-teal-600 hover:font-bold flex items-center gap-1 transition-all">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13" />
@@ -59,22 +59,22 @@
             <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
             </svg>
-            <span class="text-gray-300">練習問題</span>
+            <span class="text-slate-400">練習問題</span>
         </nav>
 
-        <div class="flex items-center gap-3 mb-2">
+        <div class="flex items-center gap-3 mb-2 pt-4">
             <span
-                class="px-3 py-1 bg-teal-900/50 text-teal-400 text-xs font-medium rounded-full border border-teal-800">Unit
+                class="px-3 py-1 bg-teal-50 text-teal-600 text-xs font-medium rounded-full border border-teal-100">Unit
                 01</span>
-            <h1 class="text-2xl font-black text-white">二進数 → 十進数 練習問題</h1>
+            <h1 class="text-2xl font-black text-slate-950">二進数 → 十進数 練習問題</h1>
         </div>
-        <p class="text-gray-400 text-sm mb-8">二進数を十進数に変換してね。10問連続で挑戦しよう！</p>
+        <p class="text-slate-500 text-sm mb-8 font-medium">二進数を十進数に変換してね。10問連続で挑戦しよう！</p>
 
         <!-- 進捗 -->
         <div class="mb-8">
-            <div class="flex justify-between text-sm text-gray-400 mb-2">
-                <span>問題 <span id="current-num" class="text-white font-bold">1</span> / 10</span>
-                <span>正解数 <span id="correct-count" class="text-teal-400 font-bold">0</span></span>
+            <div class="flex justify-between text-sm text-slate-400 mb-2 font-medium">
+                <span>問題 <span id="current-num" class="text-slate-900 font-black">1</span> / 10</span>
+                <span>正解数 <span id="correct-count" class="text-teal-600 font-black">0</span></span>
             </div>
             <div class="progress-bar">
                 <div class="progress-bar__fill" id="progress-fill" style="width: 0%"></div>
@@ -83,26 +83,26 @@
 
         <!-- クイズエリア -->
         <div id="quiz-area">
-            <div class="quiz-card animate-fade-in" id="question-card">
+            <div class="quiz-card animate-fade-in shadow-sm border-slate-100" id="question-card">
                 <!-- 問題 -->
                 <div class="text-center mb-8">
-                    <div class="text-gray-400 text-sm mb-3">次の二進数を十進数に変換せよ</div>
-                    <div class="text-5xl md:text-7xl font-mono font-black text-teal-400 mb-2 tracking-widest"
+                    <div class="text-slate-400 text-sm mb-3 font-bold uppercase tracking-widest">次の二進数を十進数に変換せよ</div>
+                    <div class="text-5xl md:text-7xl font-mono font-black text-teal-600 mb-2 tracking-widest"
                         id="question-display">
                         ----
                     </div>
-                    <div class="text-gray-500 text-sm">(2)</div>
+                    <div class="text-slate-300 font-bold">(2)</div>
                 </div>
 
-                <!-- ビット解説 -->
-                <div class="flex justify-center gap-2 mb-8" id="bit-helper"></div>
+                <!-- ビットヘルパー（重み表示） -->
+                <div class="flex justify-center flex-wrap gap-2 mb-8" id="bit-helper"></div>
 
                 <!-- 入力エリア -->
                 <div class="flex flex-col items-center gap-4">
-                    <div class="flex items-center gap-3">
+                    <div class="flex items-center gap-4">
                         <input type="number" id="answer-input" class="answer-input" placeholder="?" min="0" max="999"
-                            autocomplete="off" id="answer-input">
-                        <span class="text-gray-500 font-mono">(10)</span>
+                            autocomplete="off">
+                        <span class="text-slate-300 font-mono font-bold text-xl">(10)</span>
                     </div>
 
                     <!-- フィードバック -->
@@ -110,13 +110,13 @@
 
                     <!-- 解説（不正解時表示） -->
                     <div id="explanation"
-                        class="hidden w-full bg-navy-800/60 border border-navy-600 rounded-xl p-4 text-sm font-mono">
+                        class="hidden w-full bg-slate-50 border border-slate-200 rounded-xl p-6 shadow-inner">
                     </div>
 
                     <!-- ボタン -->
-                    <div class="flex gap-3 mt-2" id="btn-area">
+                    <div class="flex gap-3 mt-4" id="btn-area">
                         <button id="submit-btn" onclick="submitAnswer()"
-                            class="px-8 py-3 bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-400 hover:to-teal-500 text-white font-bold rounded-xl shadow-lg hover:shadow-teal-500/30 transition-all">
+                            class="px-12 py-4 bg-gradient-to-r from-teal-600 to-teal-700 hover:from-teal-500 hover:to-teal-600 text-white font-black rounded-xl shadow-lg hover:shadow-teal-600/20 transition-all hover:-translate-y-0.5 text-lg">
                             答える
                         </button>
                     </div>
@@ -125,7 +125,7 @@
         </div>
 
         <!-- 結果エリア（非表示） -->
-        <div id="result-area" class="hidden quiz-card animate-fade-in"></div>
+        <div id="result-area" class="hidden quiz-card animate-fade-in shadow-xl"></div>
     </main>
 
     <script src="../js/quiz.js"></script>
@@ -154,8 +154,8 @@
             // 問題表示
             const qDisplay = document.getElementById('question-display');
             qDisplay.textContent = currentQ.question;
-            qDisplay.classList.remove('text-green-400', 'text-red-400');
-            qDisplay.classList.add('text-teal-400');
+            qDisplay.classList.remove('text-green-600', 'text-red-600');
+            qDisplay.classList.add('text-teal-600');
 
             // ビットヘルパー（重み表示）
             const binaryStr = currentQ.question;
@@ -167,11 +167,11 @@
                 const div = document.createElement('div');
                 div.className = 'text-center';
                 div.innerHTML = `
-          <div class="w-10 h-10 rounded-lg flex items-center justify-center font-mono font-bold text-lg mb-1
-            ${bit === '1' ? 'bg-teal-500/15 border border-teal-500/40 text-teal-300' : 'bg-gray-800/50 border border-gray-700 text-gray-600'}">
+          <div class="w-12 h-12 rounded-xl flex items-center justify-center font-mono font-black text-xl mb-1 shadow-sm transition-all
+            ${bit === '1' ? 'bg-teal-50 border-2 border-teal-500 text-teal-600' : 'bg-white border-2 border-slate-100 text-slate-200'}">
             ${bit}
           </div>
-          <div class="text-xs font-mono ${bit === '1' ? 'text-teal-500' : 'text-gray-600'}">
+          <div class="text-xs font-mono font-bold ${bit === '1' ? 'text-teal-600' : 'text-slate-300'}">
             ${bit === '1' ? weight : '×'}
           </div>`;
                 helper.appendChild(div);
@@ -188,7 +188,7 @@
             document.getElementById('explanation').classList.add('hidden');
             document.getElementById('btn-area').innerHTML = `
         <button id="submit-btn" onclick="submitAnswer()"
-          class="px-8 py-3 bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-400 hover:to-teal-500 text-white font-bold rounded-xl shadow-lg transition-all">
+          class="px-12 py-4 bg-gradient-to-r from-teal-600 to-teal-700 hover:from-teal-500 hover:to-teal-600 text-white font-black rounded-xl shadow-lg hover:shadow-teal-600/20 transition-all hover:-translate-y-0.5 text-lg">
           答える
         </button>`;
 
@@ -216,12 +216,12 @@
             const qDisplay = document.getElementById('question-display');
             if (isCorrect) {
                 input.classList.add('correct');
-                qDisplay.classList.replace('text-teal-400', 'text-green-400');
+                qDisplay.classList.replace('text-teal-600', 'text-green-600');
                 showFeedback(true);
                 document.getElementById('correct-count').textContent = session.correct;
             } else {
                 input.classList.add('incorrect');
-                qDisplay.classList.replace('text-teal-400', 'text-red-400');
+                qDisplay.classList.replace('text-teal-600', 'text-red-400');
                 showFeedback(false);
                 showExplanation();
             }
@@ -229,10 +229,10 @@
             // 次へボタン
             setTimeout(() => {
                 document.getElementById('btn-area').innerHTML = session.isComplete
-                    ? `<button onclick="showResult()" class="px-8 py-3 bg-gradient-to-r from-orange-500 to-orange-400 text-white font-bold rounded-xl shadow-lg transition-all">
+                    ? `<button onclick="showResult()" class="px-12 py-4 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-black rounded-xl shadow-lg hover:shadow-orange-500/20 transition-all hover:-translate-y-0.5 text-lg">
               🏆 結果を見る
              </button>`
-                    : `<button onclick="setupNextQuestion()" class="px-8 py-3 bg-gradient-to-r from-teal-500 to-teal-600 text-white font-bold rounded-xl shadow-lg transition-all">
+                    : `<button onclick="setupNextQuestion()" class="px-12 py-4 bg-gradient-to-r from-teal-600 to-teal-700 text-white font-black rounded-xl shadow-lg hover:shadow-teal-600/20 transition-all hover:-translate-y-0.5 text-lg">
               次の問題 →
              </button>`;
             }, isCorrect ? 800 : 1500);
@@ -241,8 +241,8 @@
         function showFeedback(isCorrect) {
             const el = document.getElementById('feedback');
             el.innerHTML = isCorrect
-                ? `<div class="feedback-badge correct">✅ 正解！ ${currentQ.answer}</div>`
-                : `<div class="feedback-badge incorrect">❌ 不正解 — 正解は ${currentQ.answer}</div>`;
+                ? `<div class="feedback-badge correct font-black">✅ 正解！ ${currentQ.answer}</div>`
+                : `<div class="feedback-badge incorrect font-black">❌ 不正解 — 正解は ${currentQ.answer}</div>`;
         }
 
         function showExplanation() {
@@ -257,8 +257,14 @@
             const expEl = document.getElementById('explanation');
             expEl.classList.remove('hidden');
             expEl.innerHTML = `
-        <div class="text-gray-400 mb-1">【解き方】</div>
-        <div class="text-teal-300">${terms.join(' + ')} = <strong class="text-orange-400">${currentQ.answer}</strong></div>`;
+        <div class="text-slate-400 font-bold mb-3 flex items-center gap-2">
+            <span class="w-1.5 h-1.5 rounded-full bg-slate-300"></span>
+            【解説】
+        </div>
+        <div class="text-slate-700 font-mono text-lg font-bold bg-white p-4 rounded-lg border border-slate-100 shadow-sm leading-relaxed">
+            ${terms.join(' + ')} <br>
+            = <strong class="text-orange-600 text-2xl font-black">${currentQ.answer}</strong>
+        </div>`;
         }
 
         function showResult() {
@@ -272,13 +278,11 @@
             document.getElementById('progress-fill').style.width = '100%';
         }
 
-        // Enterキーで送信
         document.addEventListener('keydown', e => {
             if (e.key === 'Enter' && !answered) submitAnswer();
             else if (e.key === 'Enter' && answered && !session.isComplete) setupNextQuestion();
         });
 
-        // 初期化
         startQuiz();
     </script>
 </body>

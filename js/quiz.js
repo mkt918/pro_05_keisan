@@ -41,10 +41,10 @@ class QuizSession {
 
   getRank() {
     const pct = this.correct / this.total;
-    if (pct >= 0.9) return { label: 'エキスパート', emoji: '🏆', color: 'text-yellow-400' };
-    if (pct >= 0.7) return { label: 'よくできました', emoji: '🌟', color: 'text-teal-400' };
-    if (pct >= 0.5) return { label: 'もう少し！', emoji: '💪', color: 'text-orange-400' };
-    return { label: '要復習', emoji: '📖', color: 'text-red-400' };
+    if (pct >= 0.9) return { label: 'エキスパート', emoji: '🏆', color: 'text-yellow-600' };
+    if (pct >= 0.7) return { label: 'よくできました', emoji: '🌟', color: 'text-teal-600' };
+    if (pct >= 0.5) return { label: 'もう少し！', emoji: '💪', color: 'text-orange-600' };
+    return { label: '要復習', emoji: '📖', color: 'text-red-500' };
   }
 }
 
@@ -71,38 +71,41 @@ function renderResult(session, containerId, restartCallback, lessonUrl, nextUrl)
   const pct = Math.round((session.correct / session.total) * 100);
 
   container.innerHTML = `
-    <div class="text-center mb-8 animate-fade-in">
-      <div class="text-5xl mb-3">${rank.emoji}</div>
-      <div class="text-3xl font-black text-white mb-1">${session.correct} / ${session.total} 問正解</div>
-      <div class="text-xl ${rank.color} font-bold mb-2">${rank.label}</div>
-      <div class="text-gray-400 text-sm">正答率 ${pct}%</div>
+    <div class="text-center mb-10 animate-fade-in">
+      <div class="text-6xl mb-4 transform hover:scale-110 transition-transform cursor-default">${rank.emoji}</div>
+      <div class="text-4xl font-black text-slate-900 mb-2">${session.correct} / ${session.total} 問正解</div>
+      <div class="text-2xl ${rank.color} font-black mb-3">${rank.label}</div>
+      <div class="text-slate-400 font-bold tracking-wider">正答率 ${pct}%</div>
     </div>
 
     <!-- スコアバー -->
-    <div class="progress-bar mb-8">
-      <div class="progress-bar__fill" style="width: ${pct}%"></div>
+    <div class="progress-bar mb-10 h-3 bg-slate-100 rounded-full overflow-hidden shadow-inner">
+      <div class="progress-bar__fill h-full bg-gradient-to-r from-teal-500 to-teal-600 rounded-full shadow-lg" style="width: ${pct}%"></div>
     </div>
 
     <!-- 問題履歴 -->
-    <div class="mb-8">
-      <div class="text-sm text-gray-400 mb-4 font-medium">📋 問題の振り返り</div>
-      <div class="space-y-2" id="history-list"></div>
+    <div class="mb-10">
+      <div class="text-sm text-slate-400 mb-6 font-bold flex items-center gap-2">
+        <span class="w-1.5 h-1.5 rounded-full bg-slate-200"></span>
+        📋 問題の振り返り
+      </div>
+      <div class="space-y-3" id="history-list"></div>
     </div>
 
     <!-- ボタン -->
-    <div class="flex flex-col sm:flex-row gap-3 justify-center">
+    <div class="flex flex-col sm:flex-row gap-4 justify-center">
       <button onclick="${restartCallback}()" 
-        class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-navy-700 border border-navy-600 text-white rounded-xl font-bold hover:bg-navy-600 transition-all">
+        class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white border border-slate-200 text-slate-700 rounded-xl font-black hover:bg-slate-50 hover:border-slate-300 transition-all shadow-sm active:scale-95">
         🔄 もう一度挑戦
       </button>
       ${lessonUrl ? `
       <a href="${lessonUrl}"
-        class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-teal-900/40 border border-teal-700/50 text-teal-400 rounded-xl font-bold hover:bg-teal-900/60 transition-all">
+        class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-teal-50 border border-teal-100 text-teal-700 rounded-xl font-black hover:bg-teal-100 hover:border-teal-200 transition-all shadow-sm active:scale-95">
         📖 解説を見直す
       </a>` : ''}
       ${nextUrl ? `
       <a href="${nextUrl}"
-        class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-orange-500 to-orange-400 text-white rounded-xl font-bold hover:brightness-110 transition-all shadow-lg">
+        class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-xl font-black hover:from-orange-400 hover:to-orange-500 transition-all shadow-lg active:scale-95 hover:-translate-y-0.5">
         次の単元へ →
       </a>` : ''}
     </div>
@@ -112,13 +115,19 @@ function renderResult(session, containerId, restartCallback, lessonUrl, nextUrl)
   const historyList = document.getElementById('history-list');
   session.history.forEach((item, i) => {
     const div = document.createElement('div');
-    div.className = `flex items-center gap-3 p-3 rounded-lg ${item.isCorrect ? 'bg-green-900/15 border border-green-800/30' : 'bg-red-900/15 border border-red-800/30'}`;
+    div.className = `flex items-center gap-4 p-4 rounded-xl shadow-sm transition-all hover:translate-x-1 ${item.isCorrect ? 'bg-green-50 border border-green-100' : 'bg-red-50 border border-red-100'}`;
     div.innerHTML = `
-      <span class="text-lg">${item.isCorrect ? '✅' : '❌'}</span>
-      <span class="text-gray-400 text-sm w-4">${i+1}</span>
-      <span class="font-mono text-white text-sm flex-1">問: <span class="${item.isCorrect ? 'text-teal-400' : 'text-red-400'}">${item.question}</span></span>
-      <span class="font-mono text-xs text-gray-500">正解: <span class="text-green-400">${item.answer}</span></span>
-      ${!item.isCorrect ? `<span class="font-mono text-xs text-gray-500">あなた: <span class="text-red-400">${item.userAnswer || '未回答'}</span></span>` : ''}
+      <span class="text-2xl">${item.isCorrect ? '✅' : '❌'}</span>
+      <div class="flex-1 min-w-0">
+        <div class="flex items-center gap-3 flex-wrap">
+          <span class="text-slate-400 font-bold text-xs">NO.${i + 1}</span>
+          <span class="font-mono text-slate-800 font-black text-lg">問: ${item.question}</span>
+        </div>
+        <div class="flex items-center gap-4 mt-1">
+          <span class="font-mono text-xs text-slate-500">正解: <span class="text-green-600 font-bold">${item.answer}</span></span>
+          ${!item.isCorrect ? `<span class="font-mono text-xs text-slate-500">解答: <span class="text-red-500 font-bold">${item.userAnswer || '未回答'}</span></span>` : ''}
+        </div>
+      </div>
     `;
     historyList.appendChild(div);
   });
