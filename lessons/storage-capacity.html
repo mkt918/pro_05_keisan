@@ -98,32 +98,45 @@
                 </div>
             </div>
 
-            <!-- 図解 -->
-            <div class="bg-slate-900 p-8 rounded-3xl mb-12 shadow-inner overflow-x-auto">
-                <div class="text-[10px] text-slate-400 font-bold mb-4 uppercase tracking-widest text-center">Conceptual
-                    Diagram</div>
-                <div class="mermaid text-center">
-                    graph TD
-                    subgraph HDD["ハードディスク全体"]
-                    C1["シリンダ 1 (中心側の重なり)"]
-                    C2["シリンダ 2"]
-                    C3["シリンダ n (外側の重なり)"]
-                    end
-                    subgraph Cylinder["1つのシリンダの中"]
-                    T1["トラック 1 (1枚目の円盤)"]
-                    T2["トラック 2 (2枚目の円盤)"]
-                    T3["トラック m (m枚目の円盤)"]
-                    end
-                    subgraph Track["1つのトラックの中"]
-                    S1["セクタ 1 (部屋1)"]
-                    S2["セクタ 2"]
-                    S3["セクタ x"]
-                    end
-                    C1 --- Cylinder
-                    T1 --- Track
+            <!-- 図解 (CSSベースで崩れないように修正) -->
+            <div class="bg-slate-900 p-8 rounded-3xl mb-12 shadow-inner overflow-hidden">
+                <div class="text-[10px] text-slate-400 font-bold mb-6 uppercase tracking-widest text-center">Structure
+                    Visualization</div>
+
+                <div class="flex flex-col gap-4 max-w-sm mx-auto text-white font-bold leading-none">
+                    <!-- シリンダ -->
+                    <div class="relative p-6 border-2 border-slate-700 rounded-2xl bg-slate-800/50">
+                        <div class="absolute -top-3 left-4 px-2 bg-slate-900 text-[10px] text-amber-500">🏢 シリンダ (縦の重なり)
+                        </div>
+
+                        <!-- トラック -->
+                        <div class="relative p-6 mt-2 border-2 border-slate-600 rounded-xl bg-slate-700/50">
+                            <div class="absolute -top-3 left-4 px-2 bg-slate-800 text-[10px] text-teal-400">🛣️ トラック
+                                (1周の廊下)</div>
+
+                            <!-- セクタ -->
+                            <div class="flex gap-2 mt-2 overflow-x-auto pb-2 scrollbar-hide">
+                                <div
+                                    class="shrink-0 w-20 py-3 bg-amber-500 text-slate-950 rounded-lg text-center text-[10px]">
+                                    🏠 セクタ1</div>
+                                <div
+                                    class="shrink-0 w-20 py-3 bg-slate-600 text-slate-300 rounded-lg text-center text-[10px]">
+                                    セクタ2</div>
+                                <div
+                                    class="shrink-0 w-20 py-3 bg-slate-600 text-slate-300 rounded-lg text-center text-[10px]">
+                                    セクタ3</div>
+                                <div
+                                    class="shrink-0 w-20 py-3 bg-slate-600 text-slate-300 rounded-lg text-center text-[10px]">
+                                    ...</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <p class="text-center text-slate-400 text-xs mt-6">
-                    「小部屋(セクタ) が並んで 廊下(トラック) になり、廊下 が縦に重なって シリンダ になる」というイメージ！
+
+                <p class="text-center text-slate-400 text-xs mt-8 leading-relaxed px-4">
+                    「小部屋(<span class="text-amber-500">セクタ</span>) が並んで 廊下(<span class="text-teal-400">トラック</span>)
+                    になり、<br class="sm:hidden">
+                    廊下 が縦に重なって <span class="text-white underline decoration-slate-500">シリンダ</span> になる」というイメージ！
                 </p>
             </div>
         </section>
