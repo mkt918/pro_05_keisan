@@ -63,48 +63,6 @@
             <p class="text-slate-600 text-lg">「桁の重み」と「2の累乗」を使って十進数に変換しよう</p>
         </div>
 
-        <!-- PowerPoint 閲覧セクション (先頭) -->
-        <section id="pptx-viewer" class="mb-20 scroll-mt-24">
-            <div class="flex items-center justify-between mb-8">
-                <div class="flex items-center gap-3">
-                    <span
-                        class="w-12 h-8 rounded-lg bg-orange-600 text-white flex items-center justify-center font-mono font-bold text-xs">PPTX</span>
-                    <h2 class="text-2xl font-black text-slate-900">スライド資料で学習</h2>
-                </div>
-                <div class="flex gap-2">
-                    <button id="btn-fullscreen"
-                        class="inline-flex items-center gap-2 px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-lg transition-all active:scale-95 shadow-sm">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4M20 4l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
-                        </svg>
-                        全画面表示
-                    </button>
-                    <a href="pdf/Calculating_Image_Capacity.pptx" download
-                        class="inline-flex items-center gap-2 px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-lg transition-all active:scale-95 shadow-sm">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                        </svg>
-                        ダウンロード
-                    </a>
-                </div>
-            </div>
-
-            <div id="pptx-container"
-                class="relative w-full aspect-[16/9] rounded-3xl border border-slate-200 overflow-hidden shadow-xl bg-slate-100 group">
-                <iframe
-                    src="https://view.officeapps.live.com/op/embed.aspx?src=https://mkt918.github.io/pro_05_keisan/lessons/pdf/Calculating_Image_Capacity.pptx"
-                    class="absolute inset-0 w-full h-full border-none" allowfullscreen="true">
-                </iframe>
-                <!-- ローカル確認用メッセージ（Office Online は URL が公開されている必要があります） -->
-                <div
-                    class="absolute inset-x-0 bottom-0 p-4 bg-slate-900/80 backdrop-blur text-white text-[10px] text-center pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity">
-                    ※スライドの表示にはインターネット接続と GitHub へのプッシュが必要です。表示されない場合はダウンロードしてご確認ください。
-                </div>
-            </div>
-        </section>
-
         <!-- 目次 -->
         <div class="bg-white border border-slate-200 shadow-sm rounded-xl p-5 mb-10">
             <div class="text-sm font-medium text-slate-400 mb-3">📋 このページの内容</div>
@@ -489,25 +447,6 @@
             font-size: 1.1rem;
         }
     </style>
-</body>
-
-</html>
-<script>
-    // 全画面表示ボタンの制御
-    const btnFullscreen = document.getElementById('btn-fullscreen');
-    if (btnFullscreen) {
-        btnFullscreen.addEventListener('click', () => {
-            const container = document.getElementById('pptx-container');
-            if (container.requestFullscreen) {
-                container.requestFullscreen();
-            } else if (container.webkitRequestFullscreen) { /* Safari */
-                container.webkitRequestFullscreen();
-            } else if (container.msRequestFullscreen) { /* IE11 */
-                container.msRequestFullscreen();
-            }
-        });
-    }
-</script>
 </body>
 
 </html>
