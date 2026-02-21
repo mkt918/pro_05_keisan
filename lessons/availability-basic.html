@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>コンピュータの稼働率（基本） | IT基礎学習</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        slate: { 50: '#F8FAFC', 100: '#F1F5F9', 200: '#E2E8F0', 300: '#CBD5E1', 400: '#94A3B8', 500: '#64748B', 600: '#475569', 800: '#1E293B', 900: '#0F172A', 950: '#020617' },
+                        teal: { 50: '#F0FDFA', 100: '#CCFBF1', 200: '#99F6E4', 500: '#14B8A6', 600: '#0D9488' },
+                        orange: { 50: '#FFF7ED', 200: '#FED7AA', 400: '#FB923C', 500: '#F97316', 600: '#EA580C' },
+                    },
+                    fontFamily: { sans: ['"Noto Sans JP"', 'sans-serif'], mono: ['"JetBrains Mono"', 'monospace'] },
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen pb-20">
+
+    <!-- ヘッダー -->
+    <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
+        <div class="max-w-3xl mx-auto px-4 py-4 flex items-center justify-between">
+            <a href="../index.html" class="flex items-center gap-3 group">
+                <div
+                    class="w-9 h-9 rounded-lg bg-gradient-to-br from-slate-700 to-slate-800 flex items-center justify-center text-white font-mono font-bold text-sm shadow-sm group-hover:scale-110 transition-transform">
+                    IT</div>
+                <span class="font-bold text-slate-900">IT基礎学習</span>
+            </a>
+            <div class="flex items-center gap-4 text-sm font-medium text-slate-500">
+                <a href="#basic" class="hover:text-teal-600">定義</a>
+                <a href="#mtbf-mttr" class="hover:text-teal-600">MTBF/MTTR</a>
+                <a href="#formula" class="hover:text-teal-600">公式</a>
+                <a href="#example" class="hover:text-teal-600">例題</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-3xl mx-auto px-4 py-12">
+        <!-- パンくず -->
+        <nav class="breadcrumb mb-8">
+            <a href="../index.html">ホーム</a>
+            <svg class="w-3 h-3 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+            <span class="text-slate-400 font-medium">コンピュータの稼働率（基本）</span>
+        </nav>
+
+        <!-- タイトル -->
+        <div class="mb-16">
+            <div
+                class="inline-block px-4 py-1 bg-slate-100 text-slate-600 text-xs font-black rounded-full border border-slate-200 mb-4 uppercase tracking-widest">
+                Unit 04</div>
+            <h1 class="text-4xl font-black text-slate-950 mb-6 tracking-tight">コンピュータの稼働率（基本）</h1>
+            <p class="text-lg text-slate-600 leading-relaxed font-medium">
+                システムが安定して動いているかを示す指標「稼働率」と、故障や修理時間を表す「MTBF・MTTR」について学びましょう。
+            </p>
+        </div>
+
+        <!-- セクション1: 基本定義 -->
+        <section id="basic" class="mb-20 scroll-mt-24">
+            <div class="flex items-center gap-3 mb-8">
+                <span
+                    class="w-8 h-8 rounded-lg bg-slate-900 text-white flex items-center justify-center font-mono font-bold text-sm">01</span>
+                <h2 class="text-2xl font-black text-slate-900">稼働率と故障率</h2>
+            </div>
+
+            <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm space-y-6">
+                <p class="text-slate-600 leading-relaxed">
+                    <strong
+                        class="text-slate-950 underline decoration-teal-500 decoration-2 underline-offset-4">稼働率</strong>とは、コンピュータシステムが正常に動いている割合のことです。<br>
+                    全く故障がなく動いている状態を「1」として表します。
+                </p>
+
+                <div class="grid gap-4">
+                    <div class="p-4 bg-slate-50 rounded-2xl border border-slate-100 font-mono text-center">
+                        <span class="font-bold text-slate-900">稼働率 + 故障率 = 1</span>
+                    </div>
+                    <div class="p-4 bg-teal-50 rounded-2xl border border-teal-100 font-mono text-center">
+                        <span class="font-bold text-teal-600">稼働率 = 1 － 故障率</span>
+                    </div>
+                </div>
+
+                <p class="text-sm text-slate-500 italic">
+                    稼働率が高いほど、システムの**可用性 (Availability)** が高く、安定していることを意味します。
+                </p>
+            </div>
+        </section>
+
+        <!-- セクション2: MTBF と MTTR -->
+        <section id="mtbf-mttr" class="mb-20 scroll-mt-24">
+            <div class="flex items-center gap-3 mb-8">
+                <span
+                    class="w-8 h-8 rounded-lg bg-slate-900 text-white flex items-center justify-center font-mono font-bold text-sm">02</span>
+                <h2 class="text-2xl font-black text-slate-900">MTBF と MTTR</h2>
+            </div>
+
+            <div class="grid gap-8">
+                <!-- MTBF -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
+                        <svg class="w-16 h-16 text-teal-600" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zm4.24 16L11 13.09V7h1.5v5.41l4.55 4.47-1.06 1.12z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-2 flex items-center gap-2">
+                        MTBF (Mean Time Between Failure)
+                    </h3>
+                    <p class="text-xs text-teal-600 font-bold mb-4 uppercase tracking-widest leading-none">平均故障間隔</p>
+                    <p class="text-slate-600 text-sm leading-relaxed mb-4">
+                        システムが故障してから、次に故障するまでの<strong
+                            class="text-slate-950 underline decoration-teal-500">正常に動いている平均時間</strong>のことです。値が大きいほど、**信頼性
+                        (Reliability)** が高いと言えます。
+                    </p>
+                    <div class="p-4 bg-slate-50 rounded-xl font-mono text-xs border border-slate-100">
+                        MTBF = 稼働時間の合計 ÷ 故障回数
+                    </div>
+                </div>
+
+                <!-- MTTR -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm relative overflow-hidden group">
+                    <div
+                        class="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity text-orange-600">
+                        <svg class="w-16 h-16" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.5 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-2 flex items-center gap-2">
+                        MTTR (Mean Time To Repair)
+                    </h3>
+                    <p class="text-xs text-orange-600 font-bold mb-4 uppercase tracking-widest leading-none">平均修復時間</p>
+                    <p class="text-slate-600 text-sm leading-relaxed mb-4">
+                        故障してからシステムを<strong
+                            class="text-slate-950 underline decoration-orange-500">正常な状態に戻すまでにかかる平均時間</strong>のことです。値が小さいほど、**保守性
+                        (Maintainability)** が高いと言えます。
+                    </p>
+                    <div class="p-4 bg-slate-50 rounded-xl font-mono text-xs border border-slate-100">
+                        MTTR = 修理時間の合計 ÷ 故障回数
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- セクション3: 稼働率の公式 -->
+        <section id="formula" class="mb-20 scroll-mt-24">
+            <div class="flex items-center gap-3 mb-8">
+                <span
+                    class="w-8 h-8 rounded-lg bg-slate-900 text-white flex items-center justify-center font-mono font-bold text-sm">03</span>
+                <h2 class="text-2xl font-black text-slate-900">稼働率の公式</h2>
+            </div>
+
+            <div class="bg-slate-950 p-10 rounded-3xl text-white shadow-xl relative overflow-hidden">
+                <div class="absolute inset-0 bg-gradient-to-br from-teal-500/20 to-transparent"></div>
+                <div class="relative text-center">
+                    <div class="text-xs text-slate-400 font-black uppercase tracking-widest mb-6">稼働率の公式</div>
+                    <!-- 分数形式の数式 -->
+                    <div class="inline-flex flex-col items-center">
+                        <div class="flex items-center gap-4 text-2xl font-black">
+                            <span class="text-slate-400">稼働率 =</span>
+                            <div class="flex flex-col items-center">
+                                <span class="pb-1 border-b border-white px-4">MTBF</span>
+                                <span class="pt-1 px-4">MTBF + MTTR</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p class="mt-8 text-slate-500 text-sm italic text-center">
+                ※ 正常に動いている時間を、全体の時間（稼働時間 + 修理時間）で割る、という非常にシンプルな考え方です。
+            </p>
+        </section>
+
+        <!-- セクション4: 例題 -->
+        <section id="example" class="mb-20 scroll-mt-24">
+            <div class="flex items-center gap-3 mb-8">
+                <span
+                    class="w-8 h-8 rounded-lg bg-orange-600 text-white flex items-center justify-center font-mono font-bold text-sm">04</span>
+                <h2 class="text-2xl font-black text-slate-900">実践：稼働率の計算</h2>
+            </div>
+
+            <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm">
+                <div class="mb-8 p-6 bg-slate-50 rounded-xl border border-slate-100 font-medium leading-relaxed">
+                    <p class="text-slate-600 mb-4">下記のシステムの稼働率を求めなさい。</p>
+                    <div class="flex flex-wrap items-center gap-2 font-mono text-sm">
+                        <span class="px-3 py-1 bg-teal-100 text-teal-700 rounded-lg">稼働中 40日</span>
+                        <svg class="w-4 h-4 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path d="M9 5l7 7-7 7" />
+                        </svg>
+                        <span class="px-3 py-1 bg-orange-100 text-orange-700 rounded-lg">修理中 2時間</span>
+                        <svg class="w-4 h-4 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path d="M9 5l7 7-7 7" />
+                        </svg>
+                        <span class="px-3 py-1 bg-teal-100 text-teal-700 rounded-lg">稼働中 90日</span>
+                        <svg class="w-4 h-4 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path d="M9 5l7 7-7 7" />
+                        </svg>
+                        <span class="px-3 py-1 bg-orange-100 text-orange-700 rounded-lg">修理中 9時間</span>
+                        <svg class="w-4 h-4 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path d="M9 5l7 7-7 7" />
+                        </svg>
+                        <span class="px-3 py-1 bg-teal-100 text-teal-700 rounded-lg">稼働中 80日</span>
+                        <svg class="w-4 h-4 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path d="M9 5l7 7-7 7" />
+                        </svg>
+                        <span class="px-3 py-1 bg-orange-100 text-orange-700 rounded-lg">修理中 4時間</span>
+                    </div>
+                </div>
+
+                <div class="space-y-6">
+                    <div class="flex items-start gap-4">
+                        <div
+                            class="w-8 h-8 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center font-black flex-shrink-0 mt-1">
+                            1</div>
+                        <div>
+                            <p class="font-bold text-slate-900 mb-2">MTBF（平均故障間隔）を出す</p>
+                            <p class="font-mono text-slate-600">平均稼働日数 = (40 + 90 + 80) ÷ 3 = <strong
+                                    class="text-teal-600">70 日</strong></p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-4">
+                        <div
+                            class="w-8 h-8 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center font-black flex-shrink-0 mt-1">
+                            2</div>
+                        <div>
+                            <p class="font-bold text-slate-900 mb-2">MTTR（平均修復時間）を出す</p>
+                            <p class="font-mono text-slate-600">平均修理時間 = (2 + 9 + 4) ÷ 3 = <strong
+                                    class="text-orange-600">5 時間</strong></p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-4 p-4 bg-orange-50 rounded-2xl border border-orange-100">
+                        <span class="text-xl">⚠️</span>
+                        <div>
+                            <p class="font-black text-orange-700 mb-1">単位を「時間」に合わせる</p>
+                            <p class="text-sm text-orange-600 font-medium leading-relaxed">
+                                日と時間が混在しているため、MTBFを時間に直します。 (1日 = 24時間)<br>
+                                <span class="font-mono font-bold">70 日 × 24 = 1680 時間</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-4 p-6 bg-teal-50 rounded-2xl border border-teal-100">
+                        <div
+                            class="w-8 h-8 rounded-full bg-teal-600 text-white flex items-center justify-center font-black flex-shrink-0 mt-1">
+                            3</div>
+                        <div>
+                            <p class="font-black text-teal-900 mb-2 underline decoration-teal-600 decoration-offset-2">
+                                公式に当てはめて計算</p>
+                            <div class="font-mono text-teal-700 space-y-1">
+                                <p>稼働率 = 1680 ÷ (1680 + 5)</p>
+                                <p>稼働率 = 1680 ÷ 1685</p>
+                                <p class="text-3xl font-black text-teal-600 mt-2">≈ 0.997</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- まとめ -->
+        <div class="bg-slate-900 rounded-3xl p-10 text-center text-white relative overflow-hidden">
+            <div
+                class="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_30%_50%,rgba(20,184,166,0.1),transparent)]">
+            </div>
+            <h3 class="text-2xl font-black mb-4 relative">稼働率の計算はマスターできましたか？</h3>
+            <p class="text-slate-400 mb-10 max-w-lg mx-auto font-medium relative">稼働率の基本が分かったら、次は実際に練習問題を解いて力をつけましょう！
+            </p>
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 relative">
+                <a href="../practice/availability-basic.html"
+                    class="w-full sm:w-auto px-10 py-5 bg-gradient-to-r from-teal-500 to-teal-600 text-white font-black rounded-2xl shadow-xl shadow-teal-500/20 hover:-translate-y-1 transition-all active:scale-95 text-lg">
+                    練習問題を解く
+                </a>
+                <a href="../index.html" class="text-slate-400 hover:text-white font-bold transition-colors">ホームへ戻る</a>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- 固定フッターCTA -->
+    <div class="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 w-[calc(100%-2rem)] max-w-lg">
+        <a href="../practice/availability-basic.html"
+            class="flex items-center justify-between bg-white/90 backdrop-blur-xl border border-slate-200 p-2 pl-6 rounded-2xl shadow-[0_20px_50px_-12px_rgba(0,0,0,0.15)] group transition-all hover:border-teal-200">
+            <div>
+                <div class="text-[10px] text-slate-400 font-black uppercase tracking-widest">Next Phase</div>
+                <div class="font-black text-slate-900">練習問題へ進む</div>
+            </div>
+            <div
+                class="w-12 h-12 rounded-xl bg-teal-600 group-hover:bg-teal-700 flex items-center justify-center text-white transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
+                        d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                </svg>
+            </div>
+        </a>
+    </div>
+
+    <script>
+        // スムーススクロール
+        document.querySelectorAll('header nav a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const target = document.querySelector(targetId);
+                if (target) {
+                    window.scrollTo({
+                        top: target.offsetTop - 100,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>

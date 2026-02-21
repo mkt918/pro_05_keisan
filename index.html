@@ -127,7 +127,7 @@
           <div class="text-teal-600 text-sm font-medium mb-1 tracking-widest uppercase">学習単元</div>
           <h2 class="text-3xl font-black text-slate-900">単元一覧</h2>
         </div>
-        <div class="text-slate-500 text-sm">全 <span class="text-slate-900 font-bold">3</span> 単元（随時追加予定）</div>
+        <div class="text-slate-500 text-sm">全 <span class="text-slate-900 font-bold">5</span> 単元（随時追加予定）</div>
       </div>
 
       <!-- カテゴリ: 基数変換 -->
@@ -340,11 +340,94 @@
         </div>
       </div>
 
+      <!-- カテゴリ: システムの稼働率 -->
+      <div class="mb-10">
+        <div class="flex items-center gap-3 mb-5">
+          <div class="w-1 h-6 bg-indigo-500 rounded-full"></div>
+          <h3 class="text-lg font-bold text-slate-700">第3章：システムの稼働率</h3>
+          <span
+            class="px-2 py-0.5 bg-indigo-50 text-indigo-600 text-xs rounded-full border border-indigo-100">公開中</span>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-5">
+          <!-- 単元: 稼働率の基本 -->
+          <div class="unit-card group" id="unit-availability-basic">
+            <div class="unit-card__body">
+              <div class="flex items-start gap-4 mb-5">
+                <div class="unit-icon bg-indigo-50 border border-indigo-100">
+                  <span class="font-mono font-bold text-indigo-600 text-lg">⚙️</span>
+                </div>
+                <div>
+                  <div class="text-xs text-slate-400 mb-1">Unit 04</div>
+                  <h4 class="font-bold text-slate-900 text-xl leading-tight">コンピュータの稼働率（基本）</h4>
+                  <p class="text-slate-500 text-sm mt-1">MTBF・MTTRの定義と基本的な稼働率の計算方法</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-4 text-xs text-slate-500 mb-5">
+                <span class="flex items-center gap-1">
+                  <span class="difficulty-dot bg-teal-500"></span>
+                  <span class="difficulty-dot bg-teal-500"></span>
+                  <span class="difficulty-dot bg-slate-300"></span>
+                  <span class="difficulty-dot bg-slate-300"></span>
+                  <span class="difficulty-dot bg-slate-300"></span>
+                  難易度：やさしい
+                </span>
+                <span>⏱ 約10分</span>
+              </div>
+              <div class="flex flex-wrap gap-2 mb-6">
+                <span class="tag">MTBF</span>
+                <span class="tag">MTTR</span>
+                <span class="tag">単位換算</span>
+              </div>
+            </div>
+            <div class="unit-card__footer">
+              <a href="lessons/availability-basic.html" class="btn-lesson">解説を読む</a>
+              <a href="practice/availability-basic.html" class="btn-practice">練習問題へ</a>
+            </div>
+          </div>
+
+          <!-- 単元: 直列・並列システムの稼働率 -->
+          <div class="unit-card group" id="unit-availability-systems">
+            <div class="unit-card__body">
+              <div class="flex items-start gap-4 mb-5">
+                <div class="unit-icon bg-indigo-50 border border-indigo-100">
+                  <span class="font-mono font-bold text-indigo-600 text-lg">🔗</span>
+                </div>
+                <div>
+                  <div class="text-xs text-slate-400 mb-1">Unit 05</div>
+                  <h4 class="font-bold text-slate-900 text-xl leading-tight">直列・並列システムの稼働率</h4>
+                  <p class="text-slate-500 text-sm mt-1">構成による稼働率の変化と複合的な計算パターン</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-4 text-xs text-slate-500 mb-5">
+                <span class="flex items-center gap-1">
+                  <span class="difficulty-dot bg-yellow-500"></span>
+                  <span class="difficulty-dot bg-yellow-500"></span>
+                  <span class="difficulty-dot bg-yellow-500"></span>
+                  <span class="difficulty-dot bg-slate-300"></span>
+                  <span class="difficulty-dot bg-slate-300"></span>
+                  難易度：ふつう
+                </span>
+                <span>⏱ 約15分</span>
+              </div>
+              <div class="flex flex-wrap gap-2 mb-6">
+                <span class="tag">直列システム</span>
+                <span class="tag">並列システム</span>
+              </div>
+            </div>
+            <div class="unit-card__footer">
+              <a href="lessons/availability-systems.html" class="btn-lesson">解説を読む</a>
+              <a href="practice/availability-systems.html" class="btn-practice">練習問題へ</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- カテゴリ: 近日公開予定 -->
       <div>
         <div class="flex items-center gap-3 mb-5">
           <div class="w-1 h-6 bg-slate-300 rounded-full"></div>
-          <h3 class="text-lg font-bold text-slate-500">第3章以降（準備中）</h3>
+          <h3 class="text-lg font-bold text-slate-500">第4章以降（準備中）</h3>
           <span class="px-2 py-0.5 bg-slate-100 text-slate-500 text-xs rounded-full border border-slate-200">近日公開</span>
         </div>
         <div class="grid md:grid-cols-3 gap-4">
@@ -359,7 +442,7 @@
             <div class="text-xs text-slate-400 mt-1">2進数↔16進数</div>
           </div>
           <div class="coming-soon-card">
-            <div class="text-2xl mb-2">⚙️</div>
+            <div class="text-2xl mb-2">💎</div>
             <div class="font-medium text-slate-600">論理演算</div>
             <div class="text-xs text-slate-400 mt-1">AND/OR/NOT</div>
           </div>

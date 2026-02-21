@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>練習問題：稼働率の基本 | IT基礎学習</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        slate: { 50: '#F8FAFC', 100: '#F1F5F9', 200: '#E2E8F0', 300: '#CBD5E1', 400: '#94A3B8', 500: '#64748B', 600: '#475569', 800: '#1E293B', 900: '#0F172A', 950: '#020617' },
+                        teal: { 50: '#F0FDFA', 100: '#CCFBF1', 200: '#99F6E4', 500: '#14B8A6', 600: '#0D9488' },
+                        orange: { 50: '#FFF7ED', 200: '#FED7AA', 400: '#FB923C', 500: '#F97316', 600: '#EA580C' },
+                    },
+                    fontFamily: { sans: ['"Noto Sans JP"', 'sans-serif'], mono: ['"JetBrains Mono"', 'monospace'] },
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen">
+
+    <!-- ヘッダー -->
+    <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
+        <div class="max-w-3xl mx-auto px-4 py-4 flex items-center justify-between">
+            <a href="../index.html" class="flex items-center gap-3 group">
+                <div
+                    class="w-9 h-9 rounded-lg bg-gradient-to-br from-slate-700 to-slate-800 flex items-center justify-center text-white font-mono font-bold text-sm shadow-sm group-hover:scale-110 transition-transform">
+                    IT</div>
+                <span class="font-bold text-slate-900">IT基礎学習</span>
+            </a>
+            <a href="../lessons/availability-basic.html"
+                class="text-sm text-teal-600 hover:font-bold flex items-center gap-1 transition-all">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13" />
+                </svg>
+                解説を見る
+            </a>
+        </div>
+    </header>
+
+    <main class="max-w-3xl mx-auto px-4 py-8">
+        <!-- パンくず -->
+        <nav class="breadcrumb">
+            <a href="../index.html">ホーム</a>
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+            <a href="../lessons/availability-basic.html">稼働率の基本 解説</a>
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+            <span class="text-slate-400">練習問題</span>
+        </nav>
+
+        <div class="flex items-center gap-3 mb-2 pt-4">
+            <span
+                class="px-3 py-1 bg-slate-100 text-slate-600 text-xs font-medium rounded-full border border-slate-200 uppercase font-black">Unit
+                04</span>
+            <h1 class="text-2xl font-black text-slate-950">稼働率の計算（基本） 練習問題</h1>
+        </div>
+        <p class="text-slate-500 text-sm mb-8 font-medium">MTBF, MTTR, 稼働率の関係をマスターしよう！全10問。</p>
+
+        <!-- 進捗 -->
+        <div class="mb-8">
+            <div class="flex justify-between text-sm text-slate-400 mb-2 font-medium">
+                <span>問題 <span id="current-num" class="text-slate-900 font-black">1</span> / 10</span>
+                <span>正解数 <span id="correct-count" class="text-teal-600 font-black">0</span></span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-bar__fill" id="progress-fill"
+                    style="width: 0%; background: linear-gradient(90deg,#14B8A6,#5EEAD4);"></div>
+            </div>
+        </div>
+
+        <!-- クイズエリア -->
+        <div id="quiz-area">
+            <div class="quiz-card animate-fade-in shadow-sm border-slate-100" id="question-card">
+                <!-- 問題 -->
+                <div class="mb-8 p-6 bg-slate-50 rounded-2xl border border-slate-100">
+                    <div class="text-slate-400 text-xs mb-3 font-bold tracking-widest uppercase text-center">PROBLEM
+                        STATEMENT</div>
+                    <div class="text-slate-800 font-bold leading-relaxed text-lg" id="question-text">
+                        --
+                    </div>
+                </div>
+
+                <!-- 入力エリア -->
+                <div class="flex flex-col items-center gap-6">
+                    <div class="flex items-center gap-4">
+                        <input type="text" id="answer-input" class="answer-input w-48 text-center" placeholder="例: 0.95"
+                            autocomplete="off">
+                        <span id="unit-label" class="text-slate-400 font-black text-xl"></span>
+                    </div>
+
+                    <div id="condition-hint" class="text-xs text-slate-400 font-medium">
+                        ※ 小数点第4位を四捨五入して、小数点第3位までで答えてください（例: 0.997）。
+                    </div>
+
+                    <!-- フィードバック -->
+                    <div id="feedback" class="min-h-[40px] flex items-center justify-center"></div>
+
+                    <!-- 解説（不正解時） -->
+                    <div id="explanation"
+                        class="hidden w-full bg-slate-50 border border-slate-200 rounded-2xl p-6 shadow-inner animate-fade-in-up">
+                    </div>
+
+                    <!-- ボタン -->
+                    <div class="flex gap-3 mt-4" id="btn-area">
+                        <button id="submit-btn" onclick="submitAnswer()"
+                            class="px-12 py-4 bg-gradient-to-r from-slate-700 to-slate-800 hover:from-slate-600 hover:to-slate-700 text-white font-black rounded-xl shadow-lg hover:shadow-slate-500/10 transition-all hover:-translate-y-0.5 text-lg">
+                            答える
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 結果エリア -->
+        <div id="result-area" class="hidden quiz-card animate-fade-in shadow-xl"></div>
+    </main>
+
+    <script src="../js/quiz.js"></script>
+    <script>
+        class AvailabilityQuestionGenerator {
+            generate() {
+                const types = ['basic_calc', 'unit_conversion'];
+                const type = types[Math.floor(Math.random() * types.length)];
+
+                if (type === 'basic_calc') return this.generateBasicCalc();
+                return this.generateUnitConversion();
+            }
+
+            // MTBF, MTTR から稼働率を直接計算（一部は平均時間の計算から）
+            generateBasicCalc() {
+                const mtbfBase = [800, 900, 1000, 1500, 1900][Math.floor(Math.random() * 5)];
+                const mttrBase = [10, 20, 50, 100][Math.floor(Math.random() * 4)];
+
+                const availability = parseFloat((mtbfBase / (mtbfBase + mttrBase)).toFixed(3));
+
+                return {
+                    question: `あるシステムの平均故障間隔 (MTBF) が ${mtbfBase} 時間、平均修復時間 (MTTR) が ${mttrBase} 時間であるとき、このシステムの稼働率を求めなさい。`,
+                    answer: availability.toString(),
+                    unit: '',
+                    explanation: `
+                        <div class="space-y-3">
+                            <p class="font-bold text-teal-600">公式に当てはめる</p>
+                            <p class="font-mono text-sm">稼働率 = MTBF ÷ (MTBF + MTTR)</p>
+                            <p class="font-mono text-sm">稼働率 = ${mtbfBase} ÷ (${mtbfBase} + ${mttrBase})</p>
+                            <p class="font-mono text-sm">稼働率 = ${mtbfBase} ÷ ${mtbfBase + mttrBase}</p>
+                            <p class="font-mono text-lg font-black text-orange-600">≒ ${availability}</p>
+                        </div>
+                    `
+                };
+            }
+
+            // 単位変換が必要な問題（日と時間）
+            generateUnitConversion() {
+                const day = [10, 20, 30, 40, 50][Math.floor(Math.random() * 5)];
+                const hour = [2, 4, 8, 12][Math.floor(Math.random() * 4)];
+                const failureCount = [1, 2][Math.floor(Math.random() * 2)];
+
+                const totalUptimeDays = day;
+                const totalRepairHours = hour;
+
+                const mtbfHours = (totalUptimeDays * 24) / failureCount;
+                const mttrHours = totalRepairHours / failureCount;
+
+                const availability = parseFloat((mtbfHours / (mtbfHours + mttrHours)).toFixed(3));
+
+                return {
+                    question: `あるシステムが ${day} 日稼働し、その間に故障が ${failureCount} 回発生した。その修復に合計で ${hour} 時間かかったとき、このシステムの稼働率を求めなさい。 (1日=24時間とする)`,
+                    answer: availability.toString(),
+                    unit: '',
+                    explanation: `
+                        <div class="space-y-3">
+                            <p class="font-bold text-teal-600">① 稼働時間を「時間」に統一</p>
+                            <p class="font-mono text-sm">${day} 日 × 24 = ${day * 24} 時間</p>
+                            <p class="font-bold text-teal-600">② MTBF と MTTR を計算</p>
+                            <p class="font-mono text-sm">MTBF = ${day * 24} ÷ ${failureCount} = ${mtbfHours} 時間</p>
+                            <p class="font-mono text-sm">MTTR = ${hour} ÷ ${failureCount} = ${mttrHours} 時間</p>
+                            <p class="font-bold text-teal-600">③ 稼働率を計算</p>
+                            <p class="font-mono text-sm">${mtbfHours} ÷ (${mtbfHours} + ${mttrHours}) = ${availability}</p>
+                            <p class="font-mono text-lg font-black text-orange-600">${availability}</p>
+                        </div>
+                    `
+                };
+            }
+        }
+
+        let session = new QuizSession(10);
+        let generator = new AvailabilityQuestionGenerator();
+        let currentQ = null;
+        let answered = false;
+
+        function startQuiz() {
+            session = new QuizSession(10);
+            answered = false;
+            document.getElementById('quiz-area').classList.remove('hidden');
+            document.getElementById('result-area').classList.add('hidden');
+            document.getElementById('correct-count').textContent = '0';
+            setupNextQuestion();
+        }
+
+        function setupNextQuestion() {
+            answered = false;
+            currentQ = generator.generate();
+
+            document.getElementById('current-num').textContent = session.current + 1;
+            document.getElementById('progress-fill').style.width = `${(session.current / session.total) * 100}%`;
+
+            document.getElementById('question-text').textContent = currentQ.question;
+            document.getElementById('unit-label').textContent = currentQ.unit;
+
+            const input = document.getElementById('answer-input');
+            input.value = '';
+            input.className = 'answer-input w-48 text-center';
+            input.disabled = false;
+            input.focus();
+
+            document.getElementById('feedback').innerHTML = '';
+            document.getElementById('explanation').classList.add('hidden');
+            document.getElementById('btn-area').innerHTML = `
+                <button onclick="submitAnswer()"
+                    class="px-12 py-4 bg-gradient-to-r from-slate-700 to-slate-800 hover:from-slate-600 hover:to-slate-700 text-white font-black rounded-xl shadow-lg hover:shadow-slate-500/10 transition-all hover:-translate-y-0.5 text-lg">
+                    答える
+                </button>`;
+
+            const card = document.getElementById('question-card');
+            card.classList.remove('animate-fade-in');
+            void card.offsetWidth;
+            card.classList.add('animate-fade-in');
+        }
+
+        function submitAnswer() {
+            if (answered) return;
+            const input = document.getElementById('answer-input');
+            let userVal = input.value.trim();
+
+            if (!userVal || isNaN(userVal)) {
+                input.focus();
+                return;
+            }
+
+            // 正誤判定（数値誤差を考慮して差が小さければ正解とするか、文字列一致で見るか）
+            // 問題で第3位までと指定しているので、パースして比較
+            const isCorrect = Math.abs(parseFloat(userVal) - parseFloat(currentQ.answer)) < 0.0019;
+            answered = true;
+
+            session.submit(currentQ.question.substring(0, 40) + '...', currentQ.answer, userVal, isCorrect);
+
+            input.disabled = true;
+            if (isCorrect) {
+                input.classList.add('correct');
+                document.getElementById('correct-count').textContent = session.correct;
+                document.getElementById('feedback').innerHTML =
+                    `<div class="feedback-badge correct font-black">✅ 正解！ ${currentQ.answer}</div>`;
+            } else {
+                input.classList.add('incorrect');
+                document.getElementById('feedback').innerHTML =
+                    `<div class="feedback-badge incorrect font-black">❌ 不正解 — 正解は ${currentQ.answer}</div>`;
+                showExplanation();
+            }
+
+            setTimeout(() => {
+                document.getElementById('btn-area').innerHTML = session.isComplete
+                    ? `<button onclick="showResult()" class="px-12 py-4 bg-gradient-to-r from-teal-600 to-teal-700 text-white font-black rounded-xl shadow-lg transition-all hover:-translate-y-0.5 text-lg">
+                        🏆 結果を見る
+                       </button>`
+                    : `<button onclick="setupNextQuestion()" class="px-12 py-4 bg-gradient-to-r from-slate-700 to-slate-800 text-white font-black rounded-xl shadow-lg transition-all hover:-translate-y-0.5 text-lg">
+                        次の問題 →
+                       </button>`;
+            }, isCorrect ? 800 : 2000);
+        }
+
+        function showExplanation() {
+            const expEl = document.getElementById('explanation');
+            expEl.classList.remove('hidden');
+            expEl.innerHTML = `
+                <div class="text-slate-400 font-bold mb-4 flex items-center gap-2 tracking-widest uppercase text-xs">
+                    <span class="w-1.5 h-1.5 rounded-full bg-slate-300"></span>
+                    Solution
+                </div>
+                ${currentQ.explanation}
+            `;
+        }
+
+        function showResult() {
+            document.getElementById('quiz-area').classList.add('hidden');
+            const resultEl = document.getElementById('result-area');
+            resultEl.classList.remove('hidden');
+            renderResult(session, 'result-area', 'startQuiz',
+                '../lessons/availability-basic.html',
+                'availability-systems.html'); // 次の単元へのリンクがあれば設定
+        }
+
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Enter' && !answered) submitAnswer();
+            else if (e.key === 'Enter' && answered && !session.isComplete) setupNextQuestion();
+        });
+
+        startQuiz();
+    </script>
+
+    <style>
+        .animate-fade-in-up {
+            animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</body>
+
+</html>
