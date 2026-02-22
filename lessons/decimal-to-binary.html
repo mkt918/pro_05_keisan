@@ -348,27 +348,78 @@
             </div>
         </section>
 
-        <!-- 理解度チェック -->
-        <div class="bg-white border border-slate-200 shadow-sm rounded-2xl p-6 mb-8">
-            <div class="text-orange-600 font-black mb-2 flex items-center gap-2">
-                <span
-                    class="p-1 px-2 border border-orange-200 bg-orange-50 rounded text-xs uppercase font-mono">Check</span>
-                理解度チェック
-            </div>
-            <p class="text-slate-600 text-sm mb-1">次の問題を計算してみよう</p>
-            <p class="font-mono text-slate-900 text-xl font-black mb-4"><span class="text-teal-600">25</span><sub
-                    class="text-slate-400 font-normal">(10)</sub> = ?<sub class="text-slate-400 font-normal">(2)</sub>
-            </p>
-            <details class="text-sm bg-slate-50 border border-slate-100 p-3 rounded-lg">
-                <summary class="text-orange-600 cursor-pointer hover:font-bold transition-all">答えを見る</summary>
-                <div class="mt-3 font-mono text-sm text-slate-500 border-t border-slate-200 pt-3 leading-relaxed">
-                    25→12余1 → 12→6余0 → 6→3余0 → 3→1余1 → 1→0余1<br>
-                    下から読む → <span class="text-orange-600 font-black text-xl ml-2 tracking-wide">11001</span><sub
-                        class="text-slate-400 font-normal">(2)</sub>
+        <!-- 理解度チェック（ミニクイズ） -->
+        <section id="mini-quiz" class="lesson-step mb-12">
+            <div class="lesson-step__num" style="background: linear-gradient(135deg,#F97316,#FB923C); color: #fff;">Mini
+                Quiz</div>
+            <h2 class="text-xl font-bold text-slate-900 mb-6 mt-2">理解度チェック！</h2>
+
+            <div class="space-y-8">
+                <!-- 第1問 -->
+                <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm overflow-hidden relative">
+                    <div class="absolute top-0 left-0 w-1 h-full bg-orange-500"></div>
+                    <p class="text-slate-900 font-bold mb-4">Q1. 十進数「8(10)」を二進数に変換するといくつになりますか？</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <button onclick="checkQuiz(1, 0, this)"
+                            class="quiz-option p-3 border-2 border-slate-100 rounded-xl hover:border-orange-200 hover:bg-orange-50 transition-all text-sm font-bold text-slate-600">100</button>
+                        <button onclick="checkQuiz(1, 1, this)"
+                            class="quiz-option p-3 border-2 border-slate-100 rounded-xl hover:border-orange-200 hover:bg-orange-50 transition-all text-sm font-bold text-slate-600">1000</button>
+                        <button onclick="checkQuiz(1, 2, this)"
+                            class="quiz-option p-3 border-2 border-slate-100 rounded-xl hover:border-orange-200 hover:bg-orange-50 transition-all text-sm font-bold text-slate-600">111</button>
+                    </div>
+                    <div id="quiz-ans-1" class="hidden mt-4 p-4 rounded-xl text-sm leading-relaxed"></div>
                 </div>
-            </details>
-        </div>
+
+                <!-- 第2問 -->
+                <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm overflow-hidden relative">
+                    <div class="absolute top-0 left-0 w-1 h-full bg-orange-500"></div>
+                    <p class="text-slate-900 font-bold mb-4">Q2. 十進数を二進数に変換する際、「2で割り続けた余り」をどの順番で並べますか？</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <button onclick="checkQuiz(2, 0, this)"
+                            class="quiz-option p-3 border-2 border-slate-100 rounded-xl hover:border-orange-200 hover:bg-orange-50 transition-all text-sm font-bold text-slate-600">最後に出た余りから（下から）</button>
+                        <button onclick="checkQuiz(2, 1, this)"
+                            class="quiz-option p-3 border-2 border-slate-100 rounded-xl hover:border-orange-200 hover:bg-orange-50 transition-all text-sm font-bold text-slate-600">最初に出た余りから（上から）</button>
+                        <button onclick="checkQuiz(2, 2, this)"
+                            class="quiz-option p-3 border-2 border-slate-100 rounded-xl hover:border-orange-200 hover:bg-orange-50 transition-all text-sm font-bold text-slate-600">大きい数字の余りから</button>
+                    </div>
+                    <div id="quiz-ans-2" class="hidden mt-4 p-4 rounded-xl text-sm leading-relaxed"></div>
+                </div>
+            </div>
+        </section>
     </main>
+
+    <script>
+        const quizData = [
+            {
+                correct: 1,
+                explanation: "正解は 1000 です！ 8÷2=4余0、4÷2=2余0、2÷2=1余0、1÷2=0余1 となり、下から読むと 1000 になります。2³=8 なので、4桁目が1であとは0と考えることもできます。"
+            },
+            {
+                correct: 0,
+                explanation: "正解は「最後に出た余りから（下から）」です！ 最後に割った結果が最も大きい桁（重みが大きい桁）の値を表すため、下から上に向かって並べます。"
+            }
+        ];
+
+        function checkQuiz(qNum, choice, btn) {
+            const quizIndex = qNum - 1;
+            const feedback = document.getElementById(`quiz-ans-${qNum}`);
+            const options = btn.parentElement.querySelectorAll('.quiz-option');
+
+            options.forEach(opt => opt.disabled = true);
+
+            if (choice === quizData[quizIndex].correct) {
+                btn.classList.add('border-green-500', 'bg-green-50', 'text-green-700');
+                feedback.classList.remove('hidden');
+                feedback.classList.add('bg-green-50', 'text-green-800', 'border', 'border-green-100');
+                feedback.innerHTML = `🎉 <strong>正解！</strong><br>${quizData[quizIndex].explanation}`;
+            } else {
+                btn.classList.add('border-red-500', 'bg-red-50', 'text-red-700');
+                feedback.classList.remove('hidden');
+                feedback.classList.add('bg-red-50', 'text-red-800', 'border', 'border-red-100');
+                feedback.innerHTML = `❌ <strong>残念...</strong><br>${quizData[quizIndex].explanation}`;
+            }
+        }
+    </script>
 
     <!-- 固定CTA -->
     <div class="fixed-cta">

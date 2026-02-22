@@ -245,31 +245,104 @@
         </section>
 
 
-        <!-- まとめ -->
-        <div class="bg-slate-900 rounded-2xl p-8 md:p-10 text-center text-white relative overflow-hidden group mb-10">
-            <div class="relative z-10">
-                <h3 class="text-2xl font-black mb-4">Unit 07：まとめ</h3>
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-2xl mx-auto">
-                    <div class="p-3 rounded-xl bg-white/10 backdrop-blur border border-white/20">
-                        <div class="text-xs text-sky-300 font-bold mb-1">bps</div>
-                        <div class="text-[10px] leading-tight text-white/80">1秒間に転送できるビット数</div>
+        <!-- 理解度チェック（ミニクイズ） -->
+        <section id="mini-quiz" class="lesson-step mb-12">
+            <div class="lesson-step__num" style="background: linear-gradient(135deg, #0ea5e9, #0284c7); color: #fff;">
+                Mini Quiz</div>
+            <h2 class="text-xl font-bold text-slate-900 mb-6 mt-2">理解度チェック！</h2>
+
+            <div class="space-y-8">
+                <!-- 第1問 -->
+                <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm overflow-hidden relative">
+                    <div class="absolute top-0 left-0 w-1 h-full bg-sky-500"></div>
+                    <p class="text-slate-900 font-bold mb-4">Q1. 通信速度の単位「bps (bits per second)」で、1秒間に送れるのは何の数ですか？</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <button onclick="checkQuiz(1, 0, this)"
+                            class="quiz-option p-3 border-2 border-slate-100 rounded-xl hover:border-sky-200 hover:bg-sky-50 transition-all text-sm font-bold text-slate-600">バイト
+                            (Byte) 数</button>
+                        <button onclick="checkQuiz(1, 1, this)"
+                            class="quiz-option p-3 border-2 border-slate-100 rounded-xl hover:border-sky-200 hover:bg-sky-50 transition-all text-sm font-bold text-slate-600">ビット
+                            (bit) 数</button>
                     </div>
-                    <div class="p-3 rounded-xl bg-white/10 backdrop-blur border border-white/20">
-                        <div class="text-xs text-sky-300 font-bold mb-1">単位</div>
-                        <div class="text-[10px] leading-tight text-white/80">バイトをビット(8倍)にする</div>
+                    <div id="quiz-ans-1" class="hidden mt-4 p-4 rounded-xl text-sm leading-relaxed"></div>
+                </div>
+
+                <!-- 第2問 -->
+                <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm overflow-hidden relative">
+                    <div class="absolute top-0 left-0 w-1 h-full bg-sky-500"></div>
+                    <p class="text-slate-900 font-bold mb-4">Q2. 通信計算において、80
+                        MB（メガバイト）のデータを転送するとき、まず「何Mb（メガビット）」に変換すべきですか？</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <button onclick="checkQuiz(2, 0, this)"
+                            class="quiz-option p-3 border-2 border-slate-100 rounded-xl hover:border-sky-200 hover:bg-sky-50 transition-all text-sm font-bold text-slate-600">10
+                            Mb (10で割る)</button>
+                        <button onclick="checkQuiz(2, 1, this)"
+                            class="quiz-option p-3 border-2 border-slate-100 rounded-xl hover:border-sky-200 hover:bg-sky-50 transition-all text-sm font-bold text-slate-600">80
+                            Mb (そのまま)</button>
+                        <button onclick="checkQuiz(2, 2, this)"
+                            class="quiz-option p-3 border-2 border-slate-100 rounded-xl hover:border-sky-200 hover:bg-sky-50 transition-all text-sm font-bold text-slate-600">640
+                            Mb (8倍する)</button>
                     </div>
-                    <div class="p-3 rounded-xl bg-white/10 backdrop-blur border border-white/20">
-                        <div class="text-xs text-sky-300 font-bold mb-1">実効速度</div>
-                        <div class="text-[10px] leading-tight text-white/80">理論速度 × 伝送効率</div>
+                    <div id="quiz-ans-2" class="hidden mt-4 p-4 rounded-xl text-sm leading-relaxed"></div>
+                </div>
+
+                <!-- 第3問 -->
+                <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm overflow-hidden relative">
+                    <div class="absolute top-0 left-0 w-1 h-full bg-sky-500"></div>
+                    <p class="text-slate-900 font-bold mb-4">Q3. 「実効速度（実際に送れる速度）」を求めるための正しい計算式はどれですか？</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <button onclick="checkQuiz(3, 0, this)"
+                            class="quiz-option p-3 border-2 border-slate-100 rounded-xl hover:border-sky-200 hover:bg-sky-50 transition-all text-sm font-bold text-slate-600">理論上の速度
+                            × 伝送効率</button>
+                        <button onclick="checkQuiz(3, 1, this)"
+                            class="quiz-option p-3 border-2 border-slate-100 rounded-xl hover:border-sky-200 hover:bg-sky-50 transition-all text-sm font-bold text-slate-600">理論上の速度
+                            ÷ 伝送効率</button>
+                        <button onclick="checkQuiz(3, 2, this)"
+                            class="quiz-option p-3 border-2 border-slate-100 rounded-xl hover:border-sky-200 hover:bg-sky-50 transition-all text-sm font-bold text-slate-600">理論上の速度
+                            ＋ 伝送効率</button>
                     </div>
-                    <div class="p-3 rounded-xl bg-white/10 backdrop-blur border border-white/20">
-                        <div class="text-xs text-sky-300 font-bold mb-1">転送時間</div>
-                        <div class="text-[10px] leading-tight text-white/80">データ量 ÷ 実効速度</div>
-                    </div>
+                    <div id="quiz-ans-3" class="hidden mt-4 p-4 rounded-xl text-sm leading-relaxed"></div>
                 </div>
             </div>
-        </div>
+        </section>
     </main>
+
+    <script>
+        const quizData = [
+            {
+                correct: 1,
+                explanation: "正解は ビット(bit) 数 です。bps は bits per second の略で、1秒間に何個のビットを送れるかを表す単位です。"
+            },
+            {
+                correct: 2,
+                explanation: "正解は 640 Mb です。1バイト = 8ビット なので、データ容量(B)を通信速度の単位(bps)に合わせるには 8倍 する必要があります。"
+            },
+            {
+                correct: 0,
+                explanation: "正解は 理論上の速度 × 伝送効率 です。120Mbps で効率が 80% (0.8) なら、実効速度は 96Mbps になります。"
+            }
+        ];
+
+        function checkQuiz(qNum, choice, btn) {
+            const quizIndex = qNum - 1;
+            const feedback = document.getElementById(`quiz-ans-${qNum}`);
+            const options = btn.parentElement.querySelectorAll('.quiz-option');
+
+            options.forEach(opt => opt.disabled = true);
+
+            if (choice === quizData[quizIndex].correct) {
+                btn.classList.add('border-green-500', 'bg-green-50', 'text-green-700');
+                feedback.classList.remove('hidden');
+                feedback.classList.add('bg-green-50', 'text-green-800', 'border', 'border-green-100');
+                feedback.innerHTML = `🎉 <strong>正解！</strong><br>${quizData[quizIndex].explanation}`;
+            } else {
+                btn.classList.add('border-red-500', 'bg-red-50', 'text-red-700');
+                feedback.classList.remove('hidden');
+                feedback.classList.add('bg-red-50', 'text-red-800', 'border', 'border-red-100');
+                feedback.innerHTML = `❌ <strong>残念...</strong><br>${quizData[quizIndex].explanation}`;
+            }
+        }
+    </script>
 
     <!-- 固定CTA -->
     <div class="fixed-cta">

@@ -293,31 +293,97 @@
             </div>
         </section>
 
-        <!-- まとめ -->
-        <div class="bg-slate-900 rounded-2xl p-8 md:p-10 text-center text-white relative overflow-hidden group mb-10">
-            <div class="relative z-10">
-                <h3 class="text-2xl font-black mb-4">Unit 06：まとめ</h3>
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-2xl mx-auto">
-                    <div class="p-3 rounded-xl bg-white/10 backdrop-blur border border-white/20">
-                        <div class="text-xs text-amber-300 font-bold mb-1">セクタ</div>
-                        <div class="text-[10px] leading-tight text-white/80">データを記録する最小単位</div>
+        <!-- 理解度チェック（ミニクイズ） -->
+        <section id="mini-quiz" class="lesson-step mb-12">
+            <div class="lesson-step__num" style="background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff;">
+                Mini Quiz</div>
+            <h2 class="text-xl font-bold text-slate-900 mb-6 mt-2">理解度チェック！</h2>
+
+            <div class="space-y-8">
+                <!-- 第1問 -->
+                <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm overflow-hidden relative">
+                    <div class="absolute top-0 left-0 w-1 h-full bg-amber-500"></div>
+                    <p class="text-slate-900 font-bold mb-4">Q1. ハードディスクの中で、データを記録する「最小単位」の場所を何と呼びますか？</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <button onclick="checkQuiz(1, 0, this)"
+                            class="quiz-option p-3 border-2 border-slate-100 rounded-xl hover:border-amber-200 hover:bg-amber-50 transition-all text-sm font-bold text-slate-600">セクタ</button>
+                        <button onclick="checkQuiz(1, 1, this)"
+                            class="quiz-option p-3 border-2 border-slate-100 rounded-xl hover:border-amber-200 hover:bg-amber-50 transition-all text-sm font-bold text-slate-600">トラック</button>
+                        <button onclick="checkQuiz(1, 2, this)"
+                            class="quiz-option p-3 border-2 border-slate-100 rounded-xl hover:border-amber-200 hover:bg-amber-50 transition-all text-sm font-bold text-slate-600">シリンダ</button>
                     </div>
-                    <div class="p-3 rounded-xl bg-white/10 backdrop-blur border border-white/20">
-                        <div class="text-xs text-amber-300 font-bold mb-1">トラック</div>
-                        <div class="text-[10px] leading-tight text-white/80">セクタが並んだ円周</div>
+                    <div id="quiz-ans-1" class="hidden mt-4 p-4 rounded-xl text-sm leading-relaxed"></div>
+                </div>
+
+                <!-- 第2問 -->
+                <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm overflow-hidden relative">
+                    <div class="absolute top-0 left-0 w-1 h-full bg-amber-500"></div>
+                    <p class="text-slate-900 font-bold mb-4">Q2. ハードディスクの磁気ディスク面上にある「同心円状の1周の道」を何と呼びますか？</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <button onclick="checkQuiz(2, 0, this)"
+                            class="quiz-option p-3 border-2 border-slate-100 rounded-xl hover:border-amber-200 hover:bg-amber-50 transition-all text-sm font-bold text-slate-600">セクタ</button>
+                        <button onclick="checkQuiz(2, 1, this)"
+                            class="quiz-option p-3 border-2 border-slate-100 rounded-xl hover:border-amber-200 hover:bg-amber-50 transition-all text-sm font-bold text-slate-600">トラック</button>
+                        <button onclick="checkQuiz(2, 2, this)"
+                            class="quiz-option p-3 border-2 border-slate-100 rounded-xl hover:border-amber-200 hover:bg-amber-50 transition-all text-sm font-bold text-slate-600">ヘッド</button>
                     </div>
-                    <div class="p-3 rounded-xl bg-white/10 backdrop-blur border border-white/20">
-                        <div class="text-xs text-amber-300 font-bold mb-1">シリンダ</div>
-                        <div class="text-[10px] leading-tight text-white/80">同半径のトラックの重なり</div>
+                    <div id="quiz-ans-2" class="hidden mt-4 p-4 rounded-xl text-sm leading-relaxed"></div>
+                </div>
+
+                <!-- 第3問 -->
+                <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm overflow-hidden relative">
+                    <div class="absolute top-0 left-0 w-1 h-full bg-amber-500"></div>
+                    <p class="text-slate-900 font-bold mb-4">Q3. 複数のディスク（プラッタ）にまたがる「同じ半径にあるトラックの集まり」を何と呼びますか？</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <button onclick="checkQuiz(3, 0, this)"
+                            class="quiz-option p-3 border-2 border-slate-100 rounded-xl hover:border-amber-200 hover:bg-amber-50 transition-all text-sm font-bold text-slate-600">セクタ</button>
+                        <button onclick="checkQuiz(3, 1, this)"
+                            class="quiz-option p-3 border-2 border-slate-100 rounded-xl hover:border-amber-200 hover:bg-amber-50 transition-all text-sm font-bold text-slate-600">バイト</button>
+                        <button onclick="checkQuiz(3, 2, this)"
+                            class="quiz-option p-3 border-2 border-slate-100 rounded-xl hover:border-amber-200 hover:bg-amber-50 transition-all text-sm font-bold text-slate-600">シリンダ</button>
                     </div>
-                    <div class="p-3 rounded-xl bg-white/10 backdrop-blur border border-white/20">
-                        <div class="text-xs text-amber-300 font-bold mb-1">計算</div>
-                        <div class="text-[10px] leading-tight text-white/80">全要素をかけ合わせる</div>
-                    </div>
+                    <div id="quiz-ans-3" class="hidden mt-4 p-4 rounded-xl text-sm leading-relaxed"></div>
                 </div>
             </div>
-        </div>
+        </section>
     </main>
+
+    <script>
+        const quizData = [
+            {
+                correct: 0,
+                explanation: "正解は セクタ です。マンションの「小部屋」に例えられる、記録の最小単位です。"
+            },
+            {
+                correct: 1,
+                explanation: "正解は トラック です。校庭のトラックのように、ディスク上の1周の記録帯のことを指します。"
+            },
+            {
+                correct: 2,
+                explanation: "正解は シリンダ です。ディスクが重なっているとき、同じ位置にあるトラックを縦に繋げた「円筒状（筒状）」の単位です。"
+            }
+        ];
+
+        function checkQuiz(qNum, choice, btn) {
+            const quizIndex = qNum - 1;
+            const feedback = document.getElementById(`quiz-ans-${qNum}`);
+            const options = btn.parentElement.querySelectorAll('.quiz-option');
+
+            options.forEach(opt => opt.disabled = true);
+
+            if (choice === quizData[quizIndex].correct) {
+                btn.classList.add('border-green-500', 'bg-green-50', 'text-green-700');
+                feedback.classList.remove('hidden');
+                feedback.classList.add('bg-green-50', 'text-green-800', 'border', 'border-green-100');
+                feedback.innerHTML = `🎉 <strong>正解！</strong><br>${quizData[quizIndex].explanation}`;
+            } else {
+                btn.classList.add('border-red-500', 'bg-red-50', 'text-red-700');
+                feedback.classList.remove('hidden');
+                feedback.classList.add('bg-red-50', 'text-red-800', 'border', 'border-red-100');
+                feedback.innerHTML = `❌ <strong>残念...</strong><br>${quizData[quizIndex].explanation}`;
+            }
+        }
+    </script>
 
     <!-- 固定CTA -->
     <div class="fixed-cta">

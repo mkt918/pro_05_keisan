@@ -345,25 +345,79 @@
             <p class="text-slate-500 text-xs mt-3 text-center">💡 「1→2→4→8→16→32→64→128」と2倍ずつ増えていく！</p>
         </section>
 
-        <!-- 理解度チェック -->
-        <div class="bg-white border border-slate-200 shadow-sm rounded-2xl p-6 mb-8">
-            <div class="text-teal-600 font-black mb-2 flex items-center gap-2">
-                <span
-                    class="p-1 px-2 border border-teal-200 bg-teal-50 rounded text-xs uppercase font-mono">Check</span>
-                理解度チェック
-            </div>
-            <p class="text-slate-600 text-sm mb-1">次の問題を暗算で解いてみよう</p>
-            <p class="font-mono text-slate-900 text-xl font-black mb-4"><span class="text-orange-600">1100</span><sub
-                    class="text-slate-400 font-normal">(2)</sub> = ?</p>
-            <details class="text-sm bg-slate-50 border border-slate-100 p-3 rounded-lg">
-                <summary class="text-teal-600 cursor-pointer hover:font-bold transition-all">答えを見る</summary>
-                <div class="mt-3 font-mono text-green-600 text-lg border-t border-slate-100 pt-3">
-                    8+4+0+0 = <strong class="text-xl font-black">12</strong><sub
-                        class="text-slate-400 text-sm">(10)</sub>
+        <!-- 理解度チェック（ミニクイズ） -->
+        <section id="mini-quiz" class="lesson-step mb-12">
+            <div class="lesson-step__num" style="background: linear-gradient(135deg, #0d9488, #0f766e); color: #fff;">
+                Mini Quiz</div>
+            <h2 class="text-xl font-bold text-slate-900 mb-6 mt-2">理解度チェック！</h2>
+
+            <div class="space-y-8">
+                <!-- 第1問 -->
+                <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm overflow-hidden relative">
+                    <div class="absolute top-0 left-0 w-1 h-full bg-teal-500"></div>
+                    <p class="text-slate-900 font-bold mb-4">Q1. 二進数「101(2)」を十進数に変換するといくつになりますか？</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <button onclick="checkQuiz(1, 0, this)"
+                            class="quiz-option p-3 border-2 border-slate-100 rounded-xl hover:border-teal-200 hover:bg-teal-50 transition-all text-sm font-bold text-slate-600">3</button>
+                        <button onclick="checkQuiz(1, 1, this)"
+                            class="quiz-option p-3 border-2 border-slate-100 rounded-xl hover:border-teal-200 hover:bg-teal-50 transition-all text-sm font-bold text-slate-600">5</button>
+                        <button onclick="checkQuiz(1, 2, this)"
+                            class="quiz-option p-3 border-2 border-slate-100 rounded-xl hover:border-teal-200 hover:bg-teal-50 transition-all text-sm font-bold text-slate-600">101</button>
+                    </div>
+                    <div id="quiz-ans-1" class="hidden mt-4 p-4 rounded-xl text-sm leading-relaxed"></div>
                 </div>
-            </details>
-        </div>
+
+                <!-- 第2問 -->
+                <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm overflow-hidden relative">
+                    <div class="absolute top-0 left-0 w-1 h-full bg-teal-500"></div>
+                    <p class="text-slate-900 font-bold mb-4">Q2. 二進数で右から3番目の桁（2²の位）の「重み」は十進数でいくつですか？</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <button onclick="checkQuiz(2, 0, this)"
+                            class="quiz-option p-3 border-2 border-slate-100 rounded-xl hover:border-teal-200 hover:bg-teal-50 transition-all text-sm font-bold text-slate-600">2</button>
+                        <button onclick="checkQuiz(2, 1, this)"
+                            class="quiz-option p-3 border-2 border-slate-100 rounded-xl hover:border-teal-200 hover:bg-teal-50 transition-all text-sm font-bold text-slate-600">4</button>
+                        <button onclick="checkQuiz(2, 2, this)"
+                            class="quiz-option p-3 border-2 border-slate-100 rounded-xl hover:border-teal-200 hover:bg-teal-50 transition-all text-sm font-bold text-slate-600">8</button>
+                    </div>
+                    <div id="quiz-ans-2" class="hidden mt-4 p-4 rounded-xl text-sm leading-relaxed"></div>
+                </div>
+            </div>
+        </section>
     </main>
+
+    <script>
+        const quizData = [
+            {
+                correct: 1,
+                explanation: "正解は 5 です！ 2²×1 (4) + 2¹×0 (0) + 2⁰×1 (1) = 4 + 0 + 1 = 5 と計算します。"
+            },
+            {
+                correct: 1,
+                explanation: "正解は 4 です！ 右から 1番目が 1(2⁰)、2番目が 2(2¹)、3番目が 4(2²) と重みが倍になっていきます。"
+            }
+        ];
+
+        function checkQuiz(qNum, choice, btn) {
+            const quizIndex = qNum - 1;
+            const feedback = document.getElementById(`quiz-ans-${qNum}`);
+            const options = btn.parentElement.querySelectorAll('.quiz-option');
+
+            // すべてのボタンを無効化
+            options.forEach(opt => opt.disabled = true);
+
+            if (choice === quizData[quizIndex].correct) {
+                btn.classList.add('border-green-500', 'bg-green-50', 'text-green-700');
+                feedback.classList.remove('hidden');
+                feedback.classList.add('bg-green-50', 'text-green-800', 'border', 'border-green-100');
+                feedback.innerHTML = `🎉 <strong>正解！</strong><br>${quizData[quizIndex].explanation}`;
+            } else {
+                btn.classList.add('border-red-500', 'bg-red-50', 'text-red-700');
+                feedback.classList.remove('hidden');
+                feedback.classList.add('bg-red-50', 'text-red-800', 'border', 'border-red-100');
+                feedback.innerHTML = `❌ <strong>残念...</strong><br>${quizData[quizIndex].explanation}`;
+            }
+        }
+    </script>
 
     <!-- 固定CTA -->
     <div class="fixed-cta">
