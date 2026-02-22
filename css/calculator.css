@@ -9,7 +9,7 @@
     color: white;
     border-radius: 1rem;
     display: flex;
-    items-center: center;
+    align-items: center;
     justify-content: center;
     box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
     cursor: pointer;
@@ -69,7 +69,7 @@
     color: white;
     display: flex;
     justify-content: space-between;
-    items-center: center;
+    align-items: center;
 }
 
 .calc-header h4 {

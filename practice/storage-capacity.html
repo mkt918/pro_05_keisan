@@ -90,8 +90,9 @@
                 <!-- 入力エリア -->
                 <div class="flex flex-col items-center gap-6">
                     <div class="flex items-center gap-4">
+                        <label for="answer-input" class="sr-only">答えを入力</label>
                         <input type="text" id="answer-input" class="answer-input w-48 text-center" placeholder="数値"
-                            autocomplete="off">
+                            autocomplete="off" aria-label="記憶容量の答え">
                         <span id="unit-label" class="text-slate-500 font-black text-xl"></span>
                     </div>
 
@@ -152,7 +153,7 @@
                 const { sectorSize, sectorsPerTrack, tracksPerCylinder, cylinders } = p;
 
                 const totalBytes = sectorSize * sectorsPerTrack * tracksPerCylinder * cylinders;
-                const totalGB = parseFloat((totalBytes / 1000000000).toFixed(4));
+                const totalGB = Math.round(totalBytes / 1000000000 * 10000) / 10000;
 
                 let diag = `
                     <div class="overflow-hidden rounded-xl border border-slate-200 shadow-sm">

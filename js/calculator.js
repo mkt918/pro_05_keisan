@@ -152,7 +152,7 @@ class QuizCalculator {
             this.firstOperand = inputValue;
         } else if (this.operator) {
             const result = this.calculate(this.firstOperand, inputValue, this.operator);
-            this.displayValue = String(parseFloat(result.toFixed(10)));
+            this.displayValue = result.toFixed(10).replace(/\.?0+$/, '');
             this.firstOperand = result;
         }
 

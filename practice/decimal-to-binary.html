@@ -105,9 +105,10 @@
                 <!-- 入力エリア -->
                 <div class="flex flex-col items-center gap-4">
                     <div class="flex items-center gap-4">
+                        <label for="answer-input" class="sr-only">二進数で答えを入力</label>
                         <input type="text" id="answer-input" class="answer-input w-56 text-center"
                             placeholder="01010101" maxlength="10" autocomplete="off" pattern="[01]*"
-                            inputmode="numeric">
+                            inputmode="numeric" aria-label="二進数での答え">
                         <span class="text-slate-300 font-mono font-bold text-2xl">(2)</span>
                     </div>
                     <div class="text-slate-400 text-sm font-medium">0と1だけで入力してください</div>

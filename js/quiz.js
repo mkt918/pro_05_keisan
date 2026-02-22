@@ -56,10 +56,21 @@ function renderBinaryDisplay(binaryStr, containerId) {
   binaryStr.split('').forEach((bit, i) => {
     const cell = document.createElement('div');
     cell.className = `bit-display-cell ${bit === '1' ? 'bit-on' : 'bit-off'}`;
-    cell.innerHTML = `
-      <div class="bit-val">${bit}</div>
-      <div class="bit-pos">2<sup>${binaryStr.length - 1 - i}</sup></div>
-    `;
+
+    // 安全な要素作成（innerHTML を避ける）
+    const bitVal = document.createElement('div');
+    bitVal.className = 'bit-val';
+    bitVal.textContent = bit;
+
+    const bitPos = document.createElement('div');
+    bitPos.className = 'bit-pos';
+    bitPos.textContent = '2';
+    const sup = document.createElement('sup');
+    sup.textContent = String(binaryStr.length - 1 - i);
+    bitPos.appendChild(sup);
+
+    cell.appendChild(bitVal);
+    cell.appendChild(bitPos);
     container.appendChild(cell);
   });
 }
@@ -111,24 +122,60 @@ function renderResult(session, containerId, restartCallback, lessonUrl, nextUrl)
     </div>
   `;
 
-  // 履歴リスト
+  // 履歴リスト（安全な要素作成）
   const historyList = document.getElementById('history-list');
   session.history.forEach((item, i) => {
     const div = document.createElement('div');
     div.className = `flex items-center gap-4 p-4 rounded-xl shadow-sm transition-all hover:translate-x-1 ${item.isCorrect ? 'bg-green-50 border border-green-100' : 'bg-red-50 border border-red-100'}`;
-    div.innerHTML = `
-      <span class="text-2xl">${item.isCorrect ? '✅' : '❌'}</span>
-      <div class="flex-1 min-w-0">
-        <div class="flex items-center gap-3 flex-wrap">
-          <span class="text-slate-400 font-bold text-xs">NO.${i + 1}</span>
-          <span class="font-mono text-slate-800 font-black text-lg">問: ${item.question}</span>
-        </div>
-        <div class="flex items-center gap-4 mt-1">
-          <span class="font-mono text-xs text-slate-500">正解: <span class="text-green-600 font-bold">${item.answer}</span></span>
-          ${!item.isCorrect ? `<span class="font-mono text-xs text-slate-500">解答: <span class="text-red-500 font-bold">${item.userAnswer || '未回答'}</span></span>` : ''}
-        </div>
-      </div>
-    `;
+
+    const icon = document.createElement('span');
+    icon.className = 'text-2xl';
+    icon.textContent = item.isCorrect ? '✅' : '❌';
+
+    const content = document.createElement('div');
+    content.className = 'flex-1 min-w-0';
+
+    const questionRow = document.createElement('div');
+    questionRow.className = 'flex items-center gap-3 flex-wrap';
+
+    const noLabel = document.createElement('span');
+    noLabel.className = 'text-slate-400 font-bold text-xs';
+    noLabel.textContent = `NO.${i + 1}`;
+
+    const questionLabel = document.createElement('span');
+    questionLabel.className = 'font-mono text-slate-800 font-black text-lg';
+    questionLabel.textContent = `問: ${item.question}`;
+
+    questionRow.appendChild(noLabel);
+    questionRow.appendChild(questionLabel);
+
+    const answerRow = document.createElement('div');
+    answerRow.className = 'flex items-center gap-4 mt-1';
+
+    const correctLabel = document.createElement('span');
+    correctLabel.className = 'font-mono text-xs text-slate-500';
+    correctLabel.textContent = '正解: ';
+    const correctValue = document.createElement('span');
+    correctValue.className = 'text-green-600 font-bold';
+    correctValue.textContent = String(item.answer);
+    correctLabel.appendChild(correctValue);
+    answerRow.appendChild(correctLabel);
+
+    if (!item.isCorrect) {
+      const userLabel = document.createElement('span');
+      userLabel.className = 'font-mono text-xs text-slate-500';
+      userLabel.textContent = '解答: ';
+      const userValue = document.createElement('span');
+      userValue.className = 'text-red-500 font-bold';
+      userValue.textContent = item.userAnswer || '未回答';
+      userLabel.appendChild(userValue);
+      answerRow.appendChild(userLabel);
+    }
+
+    content.appendChild(questionRow);
+    content.appendChild(answerRow);
+    div.appendChild(icon);
+    div.appendChild(content);
     historyList.appendChild(div);
   });
 }

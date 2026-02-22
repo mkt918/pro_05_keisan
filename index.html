@@ -577,9 +577,10 @@
   </footer>
 
   <script>
-    // ビット点灯アニメーション
+    // ビット点灯アニメーション（メモリリーク対策）
     const bits = document.querySelectorAll('.bit-cell');
     const values = [1, 0, 1, 1, 0, 1, 0, 0];
+    let animationInterval;
 
     function animateBits() {
       bits.forEach((bit, i) => {
@@ -591,7 +592,12 @@
     }
 
     animateBits();
-    setInterval(animateBits, 3000);
+    animationInterval = setInterval(animateBits, 3000);
+
+    // ページ離脱時にクリーンアップ
+    window.addEventListener('beforeunload', () => {
+      if (animationInterval) clearInterval(animationInterval);
+    });
 
     // カード hover アニメ
     document.querySelectorAll('.unit-card').forEach(card => {
