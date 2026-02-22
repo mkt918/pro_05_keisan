@@ -17,42 +17,50 @@
 
     <!-- ヘッダー -->
     <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
-        <div class="max-w-3xl mx-auto px-4 py-4 flex items-center justify-between">
+        <div class="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
             <a href="../index.html" class="flex items-center gap-3 group">
                 <div
                     class="w-9 h-9 rounded-lg bg-gradient-to-br from-teal-500 to-teal-600 flex items-center justify-center text-white font-mono font-bold text-sm shadow-sm group-hover:scale-110 transition-transform">
                     IT</div>
                 <span class="font-bold text-slate-900">IT基礎学習</span>
             </a>
-            <div class="flex items-center gap-4">
-                <nav class="hidden md:flex items-center gap-4 text-sm font-medium text-slate-500">
-                    <a href="#intro" class="hover:text-teal-600">用語</a>
-                    <a href="#resolution" class="hover:text-teal-600">解像度</a>
-                    <a href="#color" class="hover:text-teal-600">色の情報量</a>
-                    <a href="#calculation" class="hover:text-teal-600">計算</a>
-                </nav>
-            </div>
+            <span class="hidden md:flex items-center gap-2 text-sm text-teal-600 font-bold">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                </svg>
+                解説ページ
+            </span>
         </div>
     </header>
 
-    <main class="max-w-3xl mx-auto px-4 py-12">
+    <main class="max-w-5xl mx-auto px-4 py-10">
         <!-- パンくず -->
-        <nav class="breadcrumb mb-8">
+        <nav class="breadcrumb">
             <a href="../index.html">ホーム</a>
-            <svg class="w-3 h-3 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
             </svg>
-            <span class="text-slate-400 font-medium">画像容量の計算</span>
+            <span>第2章：情報の表現と記憶容量</span>
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+            <span class="text-slate-400">画像容量の計算</span>
         </nav>
 
         <!-- タイトル -->
-        <div class="mb-16">
-            <div
-                class="inline-block px-4 py-1 bg-teal-50 text-teal-600 text-xs font-black rounded-full border border-teal-100 mb-4 uppercase tracking-widest">
-                Unit 03</div>
-            <h1 class="text-4xl font-black text-slate-950 mb-6 tracking-tight">画像容量の計算</h1>
-            <p class="text-lg text-slate-600 leading-relaxed font-medium">
-                デジタル画像がどのように構成され、どれくらいのデータ量（ファイルサイズ）になるのかを学びましょう。
+        <div class="mb-10">
+            <div class="flex items-center gap-3 mb-4">
+                <span
+                    class="px-3 py-1 bg-teal-50 text-teal-600 text-xs font-medium rounded-full border border-teal-100">Unit
+                    03</span>
+                <span class="text-slate-400 text-sm">⏱ 約15分</span>
+            </div>
+            <h1 class="text-3xl md:text-4xl font-black text-slate-950 mb-3 tracking-tight">
+                画像容量の計算
+            </h1>
+            <p class="text-slate-600 text-lg">
+                デジタル画像がどのように構成され、どれくらいのデータ量になるのかを学びましょう。
             </p>
         </div>
 
@@ -91,12 +99,9 @@
         </section>
 
         <!-- セクション1: ドットとピクセル -->
-        <section id="intro" class="mb-20 scroll-mt-24">
-            <div class="flex items-center gap-3 mb-8">
-                <span
-                    class="w-8 h-8 rounded-lg bg-slate-900 text-white flex items-center justify-center font-mono font-bold text-sm">01</span>
-                <h2 class="text-2xl font-black text-slate-900">ドットとピクセル</h2>
-            </div>
+        <section id="intro" class="lesson-step mb-12">
+            <div class="lesson-step__num">01 ドットとピクセル</div>
+            <h2 class="text-xl font-bold text-slate-900 mb-4 mt-2">画像の正体は「小さな点の集まり」</h2>
 
             <div class="grid gap-6">
                 <!-- ドット -->
@@ -138,12 +143,9 @@
         </section>
 
         <!-- セクション2: 解像度 -->
-        <section id="resolution" class="mb-20 scroll-mt-24">
-            <div class="flex items-center gap-3 mb-8">
-                <span
-                    class="w-8 h-8 rounded-lg bg-slate-900 text-white flex items-center justify-center font-mono font-bold text-sm">02</span>
-                <h2 class="text-2xl font-black text-slate-900">解像度 (Resolution)</h2>
-            </div>
+        <section id="resolution" class="lesson-step mb-12">
+            <div class="lesson-step__num">02 解像度 (dpi)</div>
+            <h2 class="text-xl font-bold text-slate-900 mb-4 mt-2">密度が高ければ「きれい」に見える</h2>
 
             <p class="text-slate-600 leading-relaxed mb-8">
                 ディスプレイの表示能力やプリンタの印刷能力、写真などのディジタル画像の画質の滑らかさや、きめ細やかさを表す尺度です。
@@ -175,12 +177,9 @@
         </section>
 
         <!-- セクション3: 色の情報量 -->
-        <section id="color" class="mb-20 scroll-mt-24">
-            <div class="flex items-center gap-3 mb-8">
-                <span
-                    class="w-8 h-8 rounded-lg bg-slate-900 text-white flex items-center justify-center font-mono font-bold text-sm">03</span>
-                <h2 class="text-2xl font-black text-slate-900">色の情報量</h2>
-            </div>
+        <section id="color" class="lesson-step mb-12">
+            <div class="lesson-step__num">03 色の情報量</div>
+            <h2 class="text-xl font-bold text-slate-900 mb-4 mt-2">いくつ色を使えるかで容量が変わる</h2>
 
             <p class="text-slate-600 leading-relaxed mb-8">
                 1ピクセル（画素）が、画像を白黒やカラーで表現するために必要とする色の情報量（ビット数）は、次のとおりです。
@@ -222,13 +221,10 @@
             </div>
         </section>
 
-        <!-- セクション4: 画像容量の計算 -->
-        <section id="calculation" class="mb-20 scroll-mt-24">
-            <div class="flex items-center gap-3 mb-8">
-                <span
-                    class="w-8 h-8 rounded-lg bg-slate-900 text-white flex items-center justify-center font-mono font-bold text-sm">04</span>
-                <h2 class="text-2xl font-black text-slate-900">画像容量の求め方</h2>
-            </div>
+        <!-- セクション4: 計算 -->
+        <section id="calculation" class="lesson-step mb-12">
+            <div class="lesson-step__num">04 計算してみよう</div>
+            <h2 class="text-xl font-bold text-slate-900 mb-4 mt-2">縦 × 横 × 色のビット数</h2>
 
             <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm mb-12">
                 <p class="text-slate-600 leading-relaxed mb-6">
@@ -374,40 +370,43 @@
 
 
         <!-- まとめ -->
-        <div class="bg-slate-950 rounded-3xl p-8 md:p-12 text-center text-white relative overflow-hidden group">
-            <div
-                class="absolute inset-0 bg-gradient-to-br from-teal-600/20 to-orange-600/20 opacity-0 group-hover:opacity-100 transition-opacity">
-            </div>
-            <div class="relative">
-                <h3 class="text-2xl font-black mb-4">解き方は分かりましたか？</h3>
-                <p class="text-slate-400 mb-8 max-w-lg mx-auto font-medium">次は実際の練習問題に挑戦して、知識を定着させましょう！</p>
-                <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-                    <a href="../practice/image-capacity.html"
-                        class="w-full sm:w-auto px-10 py-5 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-black rounded-2xl shadow-xl shadow-orange-500/20 hover:-translate-y-1 transition-all active:scale-95 text-lg">
-                        練習問題に挑戦する
-                    </a>
-                    <a href="../index.html" class="text-slate-400 hover:text-white font-bold transition-colors">戻る</a>
+        <div class="bg-slate-900 rounded-2xl p-8 md:p-10 text-center text-white relative overflow-hidden group mb-10">
+            <div class="relative z-10">
+                <h3 class="text-2xl font-black mb-4">Unit 03：まとめ</h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-2xl mx-auto">
+                    <div class="p-3 rounded-xl bg-white/10 backdrop-blur border border-white/20">
+                        <div class="text-xs text-teal-300 font-bold mb-1">点</div>
+                        <div class="text-[10px] leading-tight text-white/80">画像はピクセルの集まり</div>
+                    </div>
+                    <div class="p-3 rounded-xl bg-white/10 backdrop-blur border border-white/20">
+                        <div class="text-xs text-teal-300 font-bold mb-1">解像度</div>
+                        <div class="text-[10px] leading-tight text-white/80">1インチあたりのドット数</div>
+                    </div>
+                    <div class="p-3 rounded-xl bg-white/10 backdrop-blur border border-white/20">
+                        <div class="text-xs text-teal-300 font-bold mb-1">ビット</div>
+                        <div class="text-[10px] leading-tight text-white/80">色の表現範囲が決まる</div>
+                    </div>
+                    <div class="p-3 rounded-xl bg-white/10 backdrop-blur border border-white/20">
+                        <div class="text-xs text-teal-300 font-bold mb-1">単位</div>
+                        <div class="text-[10px] leading-tight text-white/80">bits → Bytes → KB...</div>
+                    </div>
                 </div>
             </div>
         </div>
     </main>
 
-    <!-- 固定フッターCTA -->
-    <div class="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 w-[calc(100%-2rem)] max-w-lg">
+    <!-- 固定CTA -->
+    <div class="fixed-cta">
+        <a href="../index.html" class="text-slate-400 text-sm hover:text-teal-600 font-bold">← 単元一覧</a>
         <a href="../practice/image-capacity.html"
-            class="flex items-center justify-between bg-white/90 backdrop-blur-xl border border-slate-200 p-2 pl-6 rounded-2xl shadow-[0_20px_50px_-12px_rgba(0,0,0,0.15)] group transition-all hover:border-orange-200">
-            <div>
-                <div class="text-[10px] text-slate-400 font-black uppercase tracking-widest">Next Step</div>
-                <div class="font-black text-slate-900">練習問題へ進む</div>
-            </div>
-            <div
-                class="w-12 h-12 rounded-xl bg-orange-500 group-hover:bg-orange-600 flex items-center justify-center text-white transition-colors">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
-                        d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                </svg>
-            </div>
+            class="inline-flex items-center gap-2 bg-gradient-to-r from-teal-600 to-teal-700 hover:from-teal-500 hover:to-teal-600 text-white font-bold px-8 py-3.5 rounded-xl shadow-lg hover:shadow-teal-600/20 transition-all hover:-translate-y-0.5 text-base text-center">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+            </svg>
+            練習問題を解く →
         </a>
+        <a href="storage-capacity.html" class="text-slate-400 text-sm hover:text-teal-600 font-bold">次の単元 →</a>
     </div>
 
     <script>
@@ -426,17 +425,21 @@
         });
 
         // 全画面表示ボタンの制御
-        document.getElementById('btn-fullscreen').addEventListener('click', () => {
-            const container = document.getElementById('pdf-container');
-            if (container.requestFullscreen) {
-                container.requestFullscreen();
-            } else if (container.webkitRequestFullscreen) { /* Safari */
-                container.webkitRequestFullscreen();
-            } else if (container.msRequestFullscreen) { /* IE11 */
-                container.msRequestFullscreen();
-            }
-        });
+        const btnFullscreen = document.getElementById('btn-fullscreen');
+        if (btnFullscreen) {
+            btnFullscreen.addEventListener('click', () => {
+                const container = document.getElementById('pdf-container');
+                if (container.requestFullscreen) {
+                    container.requestFullscreen();
+                } else if (container.webkitRequestFullscreen) { /* Safari */
+                    container.webkitRequestFullscreen();
+                } else if (container.msRequestFullscreen) { /* IE11 */
+                    container.msRequestFullscreen();
+                }
+            });
+        }
     </script>
 </body>
 
 </html>
+```

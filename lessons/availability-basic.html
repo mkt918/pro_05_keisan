@@ -17,50 +17,58 @@
 
     <!-- ヘッダー -->
     <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
-        <div class="max-w-3xl mx-auto px-4 py-4 flex items-center justify-between">
+        <div class="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
             <a href="../index.html" class="flex items-center gap-3 group">
                 <div
-                    class="w-9 h-9 rounded-lg bg-gradient-to-br from-slate-700 to-slate-800 flex items-center justify-center text-white font-mono font-bold text-sm shadow-sm group-hover:scale-110 transition-transform">
+                    class="w-9 h-9 rounded-lg bg-gradient-to-br from-indigo-500 to-indigo-600 flex items-center justify-center text-white font-mono font-bold text-sm shadow-sm group-hover:scale-110 transition-transform">
                     IT</div>
                 <span class="font-bold text-slate-900">IT基礎学習</span>
             </a>
-            <div class="flex items-center gap-4 text-sm font-medium text-slate-500">
-                <a href="#basic" class="hover:text-teal-600">定義</a>
-                <a href="#mtbf-mttr" class="hover:text-teal-600">MTBF/MTTR</a>
-                <a href="#formula" class="hover:text-teal-600">公式</a>
-                <a href="#example" class="hover:text-teal-600">例題</a>
-            </div>
+            <span class="hidden md:flex items-center gap-2 text-sm text-indigo-600 font-bold">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                </svg>
+                解説ページ
+            </span>
         </div>
     </header>
 
-    <main class="max-w-3xl mx-auto px-4 py-12">
+    <main class="max-w-4xl mx-auto px-4 py-10">
         <!-- パンくず -->
-        <nav class="breadcrumb mb-8">
+        <nav class="breadcrumb">
             <a href="../index.html">ホーム</a>
-            <svg class="w-3 h-3 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
             </svg>
-            <span class="text-slate-400 font-medium">コンピュータの稼働率（基本）</span>
+            <span>第3章：システムの稼働率</span>
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+            <span class="text-slate-400">コンピュータの稼働率（基本）</span>
         </nav>
 
         <!-- タイトル -->
-        <div class="mb-16">
-            <div
-                class="inline-block px-4 py-1 bg-slate-100 text-slate-600 text-xs font-black rounded-full border border-slate-200 mb-4 uppercase tracking-widest">
-                Unit 04</div>
-            <h1 class="text-4xl font-black text-slate-950 mb-6 tracking-tight">コンピュータの稼働率（基本）</h1>
-            <p class="text-lg text-slate-600 leading-relaxed font-medium">
-                システムが安定して動いているかを示す指標「稼働率」と、故障や修理時間を表す「MTBF・MTTR」について学びましょう。
+        <div class="mb-10">
+            <div class="flex items-center gap-3 mb-4">
+                <span
+                    class="px-3 py-1 bg-indigo-50 text-indigo-600 text-xs font-medium rounded-full border border-indigo-100">Unit
+                    04</span>
+                <span class="text-slate-400 text-sm">⏱ 約10分</span>
+            </div>
+            <h1 class="text-3xl md:text-4xl font-black text-slate-950 mb-3 tracking-tight">
+                コンピュータの稼働率 <span class="text-indigo-600">（基本）</span>
+            </h1>
+            <p class="text-slate-600 text-lg">
+                システムが安定して動いているかを示す「稼働率」と「MTBF・MTTR」を学ぼう
             </p>
         </div>
 
         <!-- セクション1: 基本定義 -->
-        <section id="basic" class="mb-20 scroll-mt-24">
-            <div class="flex items-center gap-3 mb-8">
-                <span
-                    class="w-8 h-8 rounded-lg bg-slate-900 text-white flex items-center justify-center font-mono font-bold text-sm">01</span>
-                <h2 class="text-2xl font-black text-slate-900">稼働率と故障率</h2>
-            </div>
+        <section id="basic" class="lesson-step mb-12">
+            <div class="lesson-step__num" style="background: linear-gradient(135deg, #6366f1, #4f46e5); color: #fff;">01
+                稼働率と故障率</div>
+            <h2 class="text-xl font-bold text-slate-900 mb-4 mt-2">正常に動いている割合</h2>
 
             <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm space-y-6">
                 <p class="text-slate-600 leading-relaxed">
@@ -85,12 +93,10 @@
         </section>
 
         <!-- セクション2: MTBF と MTTR -->
-        <section id="mtbf-mttr" class="mb-20 scroll-mt-24">
-            <div class="flex items-center gap-3 mb-8">
-                <span
-                    class="w-8 h-8 rounded-lg bg-slate-900 text-white flex items-center justify-center font-mono font-bold text-sm">02</span>
-                <h2 class="text-2xl font-black text-slate-900">MTBF と MTTR</h2>
-            </div>
+        <section id="mtbf-mttr" class="lesson-step mb-12">
+            <div class="lesson-step__num" style="background: linear-gradient(135deg, #6366f1, #4f46e5); color: #fff;">02
+                MTBF と MTTR</div>
+            <h2 class="text-xl font-bold text-slate-900 mb-4 mt-2">故障の間隔と修理の時間</h2>
 
             <div class="grid gap-8">
                 <!-- MTBF -->
@@ -141,12 +147,10 @@
         </section>
 
         <!-- セクション3: 稼働率の公式 -->
-        <section id="formula" class="mb-20 scroll-mt-24">
-            <div class="flex items-center gap-3 mb-8">
-                <span
-                    class="w-8 h-8 rounded-lg bg-slate-900 text-white flex items-center justify-center font-mono font-bold text-sm">03</span>
-                <h2 class="text-2xl font-black text-slate-900">稼働率の公式</h2>
-            </div>
+        <section id="formula" class="lesson-step mb-12">
+            <div class="lesson-step__num" style="background: linear-gradient(135deg, #6366f1, #4f46e5); color: #fff;">03
+                稼働率の公式</div>
+            <h2 class="text-xl font-bold text-slate-900 mb-4 mt-2">MTBF を全体で割る</h2>
 
             <div class="bg-slate-950 p-10 rounded-3xl text-white shadow-xl relative overflow-hidden">
                 <div class="absolute inset-0 bg-gradient-to-br from-teal-500/20 to-transparent"></div>
@@ -170,12 +174,10 @@
         </section>
 
         <!-- セクション4: 例題 -->
-        <section id="example" class="mb-20 scroll-mt-24">
-            <div class="flex items-center gap-3 mb-8">
-                <span
-                    class="w-8 h-8 rounded-lg bg-orange-600 text-white flex items-center justify-center font-mono font-bold text-sm">04</span>
-                <h2 class="text-2xl font-black text-slate-900">実践：稼働率の計算</h2>
-            </div>
+        <section id="example" class="lesson-step mb-12">
+            <div class="lesson-step__num" style="background: linear-gradient(135deg, #6366f1, #4f46e5); color: #fff;">04
+                実践：稼働率の計算</div>
+            <h2 class="text-xl font-bold text-slate-900 mb-4 mt-2">実際に計算してみよう</h2>
 
             <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm">
                 <div class="mb-8 p-6 bg-slate-50 rounded-xl border border-slate-100 font-medium leading-relaxed">
@@ -255,58 +257,44 @@
         </section>
 
         <!-- まとめ -->
-        <div class="bg-slate-900 rounded-3xl p-10 text-center text-white relative overflow-hidden">
-            <div
-                class="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_30%_50%,rgba(20,184,166,0.1),transparent)]">
-            </div>
-            <h3 class="text-2xl font-black mb-4 relative">稼働率の計算はマスターできましたか？</h3>
-            <p class="text-slate-400 mb-10 max-w-lg mx-auto font-medium relative">稼働率の基本が分かったら、次は実際に練習問題を解いて力をつけましょう！
-            </p>
-            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 relative">
-                <a href="../practice/availability-basic.html"
-                    class="w-full sm:w-auto px-10 py-5 bg-gradient-to-r from-teal-500 to-teal-600 text-white font-black rounded-2xl shadow-xl shadow-teal-500/20 hover:-translate-y-1 transition-all active:scale-95 text-lg">
-                    練習問題を解く
-                </a>
-                <a href="../index.html" class="text-slate-400 hover:text-white font-bold transition-colors">ホームへ戻る</a>
+        <div class="bg-slate-900 rounded-2xl p-8 md:p-10 text-center text-white relative overflow-hidden group mb-10">
+            <div class="relative z-10">
+                <h3 class="text-2xl font-black mb-4">Unit 04：まとめ</h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-2xl mx-auto">
+                    <div class="p-3 rounded-xl bg-white/10 backdrop-blur border border-white/20">
+                        <div class="text-xs text-indigo-300 font-bold mb-1">稼働率</div>
+                        <div class="text-[10px] leading-tight text-white/80">正常に動いている割合</div>
+                    </div>
+                    <div class="p-3 rounded-xl bg-white/10 backdrop-blur border border-white/20">
+                        <div class="text-xs text-indigo-300 font-bold mb-1">MTBF</div>
+                        <div class="text-[10px] leading-tight text-white/80">故障から次の故障まで</div>
+                    </div>
+                    <div class="p-3 rounded-xl bg-white/10 backdrop-blur border border-white/20">
+                        <div class="text-xs text-indigo-300 font-bold mb-1">MTTR</div>
+                        <div class="text-[10px] leading-tight text-white/80">修理にかかる時間</div>
+                    </div>
+                    <div class="p-3 rounded-xl bg-white/10 backdrop-blur border border-white/20">
+                        <div class="text-xs text-indigo-300 font-bold mb-1">公式</div>
+                        <div class="text-[10px] leading-tight text-white/80">MTBF / (MTBF + MTTR)</div>
+                    </div>
+                </div>
             </div>
         </div>
-
     </main>
 
-    <!-- 固定フッターCTA -->
-    <div class="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 w-[calc(100%-2rem)] max-w-lg">
+    <!-- 固定CTA -->
+    <div class="fixed-cta">
+        <a href="image-capacity.html" class="text-slate-400 text-sm hover:text-indigo-600 font-bold">← 前の単元</a>
         <a href="../practice/availability-basic.html"
-            class="flex items-center justify-between bg-white/90 backdrop-blur-xl border border-slate-200 p-2 pl-6 rounded-2xl shadow-[0_20px_50px_-12px_rgba(0,0,0,0.15)] group transition-all hover:border-teal-200">
-            <div>
-                <div class="text-[10px] text-slate-400 font-black uppercase tracking-widest">Next Phase</div>
-                <div class="font-black text-slate-900">練習問題へ進む</div>
-            </div>
-            <div
-                class="w-12 h-12 rounded-xl bg-teal-600 group-hover:bg-teal-700 flex items-center justify-center text-white transition-colors">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
-                        d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                </svg>
-            </div>
+            class="inline-flex items-center gap-2 bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-500 hover:to-indigo-600 text-white font-bold px-8 py-3.5 rounded-xl shadow-lg hover:shadow-indigo-600/20 transition-all hover:-translate-y-0.5 text-base text-center">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+            </svg>
+            練習問題を解く →
         </a>
+        <a href="availability-systems.html" class="text-slate-400 text-sm hover:text-indigo-600 font-bold">次の単元 →</a>
     </div>
-
-    <script>
-        // スムーススクロール
-        document.querySelectorAll('header nav a').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const targetId = this.getAttribute('href');
-                const target = document.querySelector(targetId);
-                if (target) {
-                    window.scrollTo({
-                        top: target.offsetTop - 100,
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
-    </script>
 
 </body>
 
