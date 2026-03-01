@@ -64,6 +64,45 @@
             </p>
         </div>
 
+        <!-- スライド 閲覧セクション (先頭) -->
+        <section id="slide-viewer" class="mb-20 scroll-mt-24">
+            <div class="flex items-center justify-between mb-8">
+                <div class="flex items-center gap-3">
+                    <span
+                        class="w-8 h-8 rounded-lg bg-orange-500 text-white flex items-center justify-center font-mono font-bold text-sm">PPT</span>
+                    <h2 class="text-2xl font-black text-slate-900">資料で学習のポイントを確認</h2>
+                </div>
+                <div class="flex gap-2">
+                    <button id="btn-fullscreen"
+                        class="inline-flex items-center gap-2 px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-lg transition-all active:scale-95 shadow-sm">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4M20 4l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+                        </svg>
+                        全画面表示
+                    </button>
+                    <a href="pdf/デジタル画像とスキャン変換.pptx" target="_blank"
+                        class="inline-flex items-center gap-2 px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-lg transition-all active:scale-95 shadow-sm">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                        </svg>
+                        ダウンロード
+                    </a>
+                </div>
+            </div>
+
+            <div id="pdf-container"
+                class="relative w-full aspect-[16/9] rounded-3xl border border-slate-200 overflow-hidden shadow-xl bg-slate-100 group">
+                <!-- Office Web Viewer を使って GitHub Pages 経由で表示 (ローカル環境・認証環境ではプレビュー不可) -->
+                <iframe
+                    src="https://view.officeapps.live.com/op/embed.aspx?src=https://mkt918.github.io/pro_05_keisan/lessons/pdf/%E3%83%87%E3%82%B8%E3%82%BF%E3%83%AB%E7%94%BB%E5%83%8F%E3%81%A8%E3%82%B9%E3%82%AD%E3%83%A3%E3%83%B3%E5%A4%89%E6%8F%9B.pptx"
+                    class="absolute inset-0 w-full h-full border-none"></iframe>
+            </div>
+            <p class="text-xs text-slate-400 mt-3 text-center">※ プレビューは GitHub Pages
+                上に公開されている必要があります。表示されない場合はダウンロードしてご覧ください。</p>
+        </section>
+
         <!-- セクション1: ピクセルと色 -->
         <section id="pixels" class="lesson-step mb-12">
             <div class="lesson-step__num" style="background: linear-gradient(135deg, #6366f1, #4f46e5); color: #fff;">01
